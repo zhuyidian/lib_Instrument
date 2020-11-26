@@ -29,3 +29,11 @@ url：上传服务器地址
 value：从T--->File(转变成需要上传的文件)
 url：不变
 ```
+## 项目引用
+```groovy
+root build.gradle中
+classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
+module build.gradle中
+apply plugin: 'android-aspectjx'
+implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
+```
