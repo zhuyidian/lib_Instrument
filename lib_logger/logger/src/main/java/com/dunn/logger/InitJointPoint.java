@@ -14,4 +14,5 @@ import java.lang.annotation.Target;
 public @interface InitJointPoint {
     String mFilePath() default "";
     String mFileName() default "";
+    boolean isDebug() default false;
 }

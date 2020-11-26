@@ -80,29 +80,25 @@ public class LogAspect {
         //获取注解类
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         InitJointPoint initJointPoint = methodSignature.getMethod().getAnnotation(InitJointPoint.class);
-        Log.v("logger[", "LogAspect ----init before----methodName="+methodName+"\n" +
-                ", simpleClassName="+simpleClassName+"\n"+
-                ", className="+className+"\n"+
-                ", modifiers="+modifiers+"\n"+
-                ", 注解类属性1="+initJointPoint.mFilePath()+"\n"+
-                ", 注解类属性2="+initJointPoint.mFileName());
+        LogConfig.DEBUG = initJointPoint.isDebug();
+        if (LogConfig.DEBUG) {
+            Log.v("logger[", "LogAspect ----init before----methodName=" + methodName + "\n" +
+                    ", simpleClassName=" + simpleClassName + "\n" +
+                    ", className=" + className + "\n" +
+                    ", modifiers=" + modifiers + "\n" +
+                    ", 注解属性mFilePath=" + initJointPoint.mFilePath() + "\n" +
+                    ", 注解属性mFileName=" + initJointPoint.mFileName() + "\n" +
+                    ", 注解属性isDebug=" + initJointPoint.isDebug());
+        }
 
         String mPath = initJointPoint.mFilePath();
         String mName = initJointPoint.mFileName();
-        LoggerManager.L().init(Environment.getExternalStorageDirectory().getAbsolutePath()+mPath,mName);
-
-//        //切入的目标方法参数
-//        Object args[] = joinPoint.getArgs();
-//        if(args!=null){
-//            for (int i=0;i<args.length;i++) {
-//                Log.v("logger[", "aroundLogMethod ----0--第"+i+"个参数为："+args[i]);
-//            }
-//        }
+        LoggerManager.L().init(Environment.getExternalStorageDirectory().getAbsolutePath() + mPath, mName);
 
         //继续执行切入的原方法
         Object object = joinPoint.proceed();
         //在切入的方法之后执行
-        Log.v("logger[", "LogAspect ----init after----");
+        if (LogConfig.DEBUG) Log.v("logger[", "LogAspect ----init after----");
         return object;
     }
 
@@ -122,23 +118,18 @@ public class LogAspect {
         //获取注解类
         //MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         //InitJointPoint initJointPoint = methodSignature.getMethod().getAnnotation(InitJointPoint.class);
-        Log.v("logger[", "LogAspect ----release before----methodName="+methodName+"\n" +
-                ", simpleClassName="+simpleClassName+"\n"+
-                ", className="+className+"\n"+
-                ", modifiers="+modifiers);
+        if(LogConfig.DEBUG) {
+            Log.v("logger[", "LogAspect ----release before----methodName=" + methodName + "\n" +
+                    ", simpleClassName=" + simpleClassName + "\n" +
+                    ", className=" + className + "\n" +
+                    ", modifiers=" + modifiers);
+        }
         LoggerManager.L().release();
-//        //切入的目标方法参数
-//        Object args[] = joinPoint.getArgs();
-//        if(args!=null){
-//            for (int i=0;i<args.length;i++) {
-//                Log.v("logger[", "aroundLogMethod ----0--第"+i+"个参数为："+args[i]);
-//            }
-//        }
 
         //继续执行切入的原方法
         Object object = joinPoint.proceed();
         //在切入的方法之后执行
-        Log.v("logger[", "LogAspect ----release after----");
+        if(LogConfig.DEBUG)Log.v("logger[", "LogAspect ----release after----");
         return object;
     }
 
@@ -158,15 +149,17 @@ public class LogAspect {
         //获取注解类
         //MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         //InitJointPoint initJointPoint = methodSignature.getMethod().getAnnotation(InitJointPoint.class);
-        Log.v("logger[", "LogAspect ----upload before----methodName="+methodName+"\n" +
-                ", simpleClassName="+simpleClassName+"\n"+
-                ", className="+className+"\n"+
-                ", modifiers="+modifiers);
+        if (LogConfig.DEBUG) {
+            Log.v("logger[", "LogAspect ----upload before----methodName=" + methodName + "\n" +
+                    ", simpleClassName=" + simpleClassName + "\n" +
+                    ", className=" + className + "\n" +
+                    ", modifiers=" + modifiers);
+        }
 
         //切入的目标方法参数
         Object args[] = joinPoint.getArgs();
         if(args!=null){
-            Log.v("logger[", "LogAspect ----upload before---- args0="+args[0]+", args1="+args[1]);
+            if (LogConfig.DEBUG)Log.v("logger[", "LogAspect ----upload before---- args0="+args[0]+", args1="+args[1]);
             boolean isUpload = false;
             if(args[0] instanceof Boolean){
                 isUpload = (boolean)args[0];
@@ -185,20 +178,16 @@ public class LogAspect {
                     }
                     //继续执行切入的原方法
                     Object object = joinPoint.proceed(new Object[]{fileZip});
-                    Log.v("logger[", "LogAspect ----upload after----");
+                    if (LogConfig.DEBUG)Log.v("logger[", "LogAspect ----upload after----");
                     return object;
                 }
             }
-
-//            for (int i=0;i<args.length;i++) {
-//                Log.v("logger[", "aroundLogMethod ----0--第"+i+"个参数为："+args[i]);
-//            }
         }
 
         //继续执行切入的原方法
         Object object = joinPoint.proceed();
         //在切入的方法之后执行
-        Log.v("logger[", "LogAspect ----upload after----");
+        if (LogConfig.DEBUG)Log.v("logger[", "LogAspect ----upload after----");
         return object;
     }
 
@@ -207,32 +196,32 @@ public class LogAspect {
      */
     @Around("pointcutLogMethod()")
     public Object aroundLogMethod(ProceedingJoinPoint joinPoint) throws Throwable {
-        //切入的目标方法名
-        String methodName = joinPoint.getSignature().getName();
-        //切入的目标类名(简称)
-        String simpleClassName = joinPoint.getSignature().getDeclaringType().getSimpleName();
-        //切入的目标类名(全路径)
-        String className = joinPoint.getSignature().getDeclaringTypeName();
-        //切入的目标方法生命类型
-        String modifiers = Modifier.toString(joinPoint.getSignature().getModifiers());
+//        //切入的目标方法名
+//        String methodName = joinPoint.getSignature().getName();
+//        //切入的目标类名(简称)
+//        String simpleClassName = joinPoint.getSignature().getDeclaringType().getSimpleName();
+//        //切入的目标类名(全路径)
+//        String className = joinPoint.getSignature().getDeclaringTypeName();
+//        //切入的目标方法生命类型
+//        String modifiers = Modifier.toString(joinPoint.getSignature().getModifiers());
         //获取注解类
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         LogJointPoint logJointPoint = methodSignature.getMethod().getAnnotation(LogJointPoint.class);
-//        Log.v("logger[", "aroundLogMethod ----log before----methodName="+methodName+"\n" +
+//        Log.v("logger[", "LogAspect ----log before----methodName="+methodName+"\n" +
 //                ", simpleClassName="+simpleClassName+"\n"+
 //                ", className="+className+"\n"+
 //                ", modifiers="+modifiers+"\n"+
-//                ", 注解类属性1="+logJointPoint.type()+"\n"+
-//                ", 注解类属性2="+logJointPoint.open());
+//                ", 注解属性type="+logJointPoint.type()+"\n"+
+//                ", 注解属性open="+logJointPoint.open());
 
         if(logJointPoint.open()==true){
             //切入的目标方法参数
             Object args[] = joinPoint.getArgs();
             if(args!=null){
-//                Log.v("logger[", "aroundLogMethod ----log before---- msg="+((String) args[0]));
+//                Log.v("logger[", "LogAspect ----log before---- msg="+((String) args[0]));
                 LoggerManager.L().writeTo((String) args[0]);
 //            for (int i=0;i<args.length;i++) {
-//                Log.v("logger[", "aroundLogMethod ----0--第"+i+"个参数为："+args[i]);
+//                Log.v("logger[", "LogAspect ----0--第"+i+"个参数为："+args[i]);
 //            }
             }
         }
@@ -258,7 +247,7 @@ public class LogAspect {
         //继续执行切入的原方法
         Object object = joinPoint.proceed();
         //在切入的方法之后执行
-        //Log.v("logger[", "aroundLogMethod ----log after----");
+        //Log.v("logger[", "LogAspect ----log after----");
         return object;
     }
 
@@ -269,12 +258,12 @@ public class LogAspect {
      */
     @Before("pointcutLogMethod()")
     public void beforeLogMethod(JoinPoint point) throws Throwable{
-        //Log.i("logger[", "beforeLogMethod ------1=" + point.getSignature());
+        //Log.i("logger[", "LogAspect ----before----" + point.getSignature());
     }
 
     @After("pointcutLogMethod()")
     public void afterLogMethod(JoinPoint point) throws Throwable {
-        //Log.i("logger[", "afterLogMethod ------2=" + point.getSignature());
+        //Log.i("logger[", "LogAspect ----after----" + point.getSignature());
     }
 
     /**
@@ -282,7 +271,7 @@ public class LogAspect {
      */
     @AfterReturning("pointcutLogMethod()")
     public void afterReturnLogMethod() {
-        //Log.i("logger[", "afterReturnLogMethod ------3");
+        //Log.i("logger[", "LogAspect ----after return----");
     }
 
     /**
@@ -302,30 +291,5 @@ public class LogAspect {
             return view.getContext();
         }
         return null;
-    }
-
-    /**
-     * 检查当前网络是否可用
-     *
-     * @return
-     */
-    private boolean isNetworkAvailable(Context context) {
-        // 获取手机所有连接管理对象（包括对wi-fi,net等连接的管理）
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            // 获取NetworkInfo对象
-            NetworkInfo[] networkInfo = connectivityManager.getAllNetworkInfo();
-
-            if (networkInfo != null && networkInfo.length > 0) {
-                for (int i = 0; i < networkInfo.length; i++) {
-                    // 判断当前网络状态是否为连接状态
-                    if (networkInfo[i].getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 }

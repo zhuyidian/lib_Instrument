@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-aspectjx'
 
-//第二步：迁移androidX 有关Verdion要使用29
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.0'
