@@ -2,11 +2,11 @@
 
 ## 注解使用
 * 1，在logger需要初始化的地方
-@InitJointPoint(mFilePath = "",mFileName = "logger_cache")
-mFilePath：日志缓存的相对路径
-mFileName：日志缓存文件名
+*    @InitJointPoint(mFilePath = "",mFileName = "logger_cache")
+*    mFilePath：日志缓存的相对路径
+*    mFileName：日志缓存文件名
 * 2，在logger需要释放的地方
-@ReleaseJointPoint
+** @ReleaseJointPoint
 * 3，在log日志收集的地方埋点
 @LogJointPoint(type = "MSG",open = true)
 type：日志类型
