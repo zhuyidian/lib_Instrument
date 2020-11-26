@@ -43,7 +43,7 @@ public class HttpUtils {
         createOkhttp();
 
         try {
-            Log.v("logger[", "HttpUtils url=" + url + ", file path=" + file.getPath());
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils url=" + url + ", file path=" + file.getPath());
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
 //                .addFormDataPart("encryp",getRequestEncryp(cTime,num))
@@ -60,20 +60,20 @@ public class HttpUtils {
                     .post(requestBody)
                     .build();
             Response response = okHttpClient.newCall(request).execute();
-            Log.v("logger[", "HttpUtils response.toString=" + response.toString());
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils response.toString=" + response.toString());
             if (response.isSuccessful()) {
-                Log.v("logger[", "HttpUtils suc exit");
+                if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils suc exit");
                 //file.delete();
             } else {
-                Log.v("logger[", "HttpUtils suc not exit!!!!!!!!!");
+                if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils suc not exit!!!!!!!!!");
             }
-            Log.v("logger[", "HttpUtils suc status=" + response.code());
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils suc status=" + response.code());
 //            if (!response.isSuccessful())
 //                throw new IOException("Unexpected code " + response);
             return response.body();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v("logger[", "HttpUtils e=" + e);
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils e=" + e);
             return null;
         }
     }
@@ -82,7 +82,7 @@ public class HttpUtils {
         createOkhttp();
 
         try {
-            Log.v("logger[", "HttpUtils url=" + url + ", file path=" + file.getPath()+", userId="+userId);
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils url=" + url + ", file path=" + file.getPath()+", userId="+userId);
             long cTime = System.currentTimeMillis();
             String num = Tools.getRandom(Tools.NUMBERS, 4);
             RequestBody requestBody = new MultipartBody.Builder()
@@ -102,20 +102,20 @@ public class HttpUtils {
                     .post(requestBody)
                     .build();
             Response response = okHttpClient.newCall(request).execute();
-            Log.v("logger[", "HttpUtils response.toString=" + response.toString());
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils response.toString=" + response.toString());
             if(response.isSuccessful()) {
-                Log.v("logger[", "HttpUtils suc exit");
+                if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils suc exit");
                 file.delete();
             }else {
-                Log.v("logger[", "HttpUtils suc not exit!!!!!!!!!");
+                if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils suc not exit!!!!!!!!!");
             }
-            Log.v("logger[", "HttpUtils suc status=" + response.code());
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils suc status=" + response.code());
 //            if (!response.isSuccessful())
 //                throw new IOException("Unexpected code " + response);
             return response.body();
         }catch (Exception e){
             e.printStackTrace();
-            Log.v("logger[", "HttpUtils e=" + e);
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils e=" + e);
             return null;
         }
     }
@@ -132,7 +132,7 @@ public class HttpUtils {
                 .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                     @Override
                     public void log(String message) {
-                        Log.v("logger[", "HttpUtils okhttp log message="+message);
+                        if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils okhttp log message="+message);
                     }
                 }).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();

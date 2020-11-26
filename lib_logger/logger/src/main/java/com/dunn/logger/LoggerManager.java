@@ -37,12 +37,13 @@ public final class LoggerManager {
     public void init(String filePath,String fileName){
         mFilePath = filePath;
         mFileName = fileName;
-        Log.v("logger[", "LoggerManager：init mFilePath="+mFilePath+", mFileName="+mFileName);
+
+        if (LogConfig.DEBUG) Log.v("logger[", "LoggerManager：init mFilePath="+mFilePath+", mFileName="+mFileName);
         createThread();
     }
 
     public void release(){
-        Log.v("logger[", "LoggerManager：release");
+        if (LogConfig.DEBUG) Log.v("logger[", "LoggerManager：release");
         releaseThread();
     }
 
@@ -125,7 +126,7 @@ public final class LoggerManager {
             String path = mFilePath + "/"+ mFileName;
             File logfile = new File(path);
             if (logfile.exists() && logfile.length() > 1024 * 1024 * 50) {
-                Log.v("logger[", "LoggerManager：log file size is > 50M !!!!!!!!!!!!!!!! & delete log file");
+                if (LogConfig.DEBUG) Log.v("logger[", "LoggerManager：log file size is > 50M !!!!!!!!!!!!!!!! & delete log file");
                 logfile.delete();
             }
 
