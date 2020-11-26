@@ -3,9 +3,10 @@
 ## 注解使用
 * 1，在logger需要初始化的地方
 ```xml
-@InitJointPoint(mFilePath = "",mFileName = "logger_cache")
+@InitJointPoint(mFilePath = "",mFileName = "logger_cache",isDebug = false)
 mFilePath：日志缓存的相对路径
 mFileName：日志缓存文件名
+isDebug：是否开启logger调试
 ```
 * 2，在logger需要释放的地方
 ```xml
