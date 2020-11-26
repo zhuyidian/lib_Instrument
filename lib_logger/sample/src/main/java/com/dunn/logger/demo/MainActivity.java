@@ -29,6 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     @LogJointPoint(type = "MSG",open = true)
     public void test1(String arg1,int arg2,boolean arg3){
-        
+
     }
 }
