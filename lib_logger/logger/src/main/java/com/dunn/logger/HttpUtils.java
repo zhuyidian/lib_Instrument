@@ -44,11 +44,13 @@ public class HttpUtils {
 
         try {
             if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils url=" + url + ", file path=" + file.getPath()+", token="+token);
+            long cTime = System.currentTimeMillis();
+            String num = Tools.getRandom(Tools.NUMBERS, 4);
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-//                .addFormDataPart("encryp",getRequestEncryp(cTime,num))
-//                .addFormDataPart("date",cTime + "")
-//                .addFormDataPart("ran", num)
+                    .addFormDataPart("encryp",Tools.getRequestEncryp(cTime,num))
+                    .addFormDataPart("date",cTime + "")
+                    .addFormDataPart("ran", num)
                     .addFormDataPart("accesstoken",token!=null?token:"")
                     .setType(MediaType.parse("multipart/form-data"))
                     .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
