@@ -51,7 +51,8 @@ public class HttpUtils {
                     .addFormDataPart("encryp",Tools.getRequestEncryp(cTime,num))
                     .addFormDataPart("date",cTime + "")
                     .addFormDataPart("ran", num)
-                    .addFormDataPart("accesstoken",token!=null?token:"")
+                    //.addFormDataPart("accesstoken",token!=null?token:"")
+                    .addFormDataPart("accesstoken","TQhqSAHKt7MH2NhJ8JALBvde0p2TjjQVWQV3ESEuuoQfcM8cyd1ihnFBQDka0uHK")
                     .setType(MediaType.parse("multipart/form-data"))
                     .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
                     .build();
