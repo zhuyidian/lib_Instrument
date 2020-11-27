@@ -159,7 +159,7 @@ public class LogAspect {
         //切入的目标方法参数
         Object args[] = joinPoint.getArgs();
         if(args!=null){
-            if (LogConfig.DEBUG)Log.v("logger[", "LogAspect ----upload before---- args0="+args[0]+", args1="+args[1]);
+            if (LogConfig.DEBUG)Log.v("logger[", "LogAspect ----upload before---- args0="+args[0]+", args1="+args[1]+", args2="+args[2]);
             boolean isUpload = false;
             if(args[0] instanceof Boolean){
                 isUpload = (boolean)args[0];
@@ -168,11 +168,12 @@ public class LogAspect {
                 final File fileZip = LoggerManager.L().copyfile(true);
                 if(fileZip!=null && fileZip.exists()){
                     final String url = (String)args[1];
+                    final String token = (String)args[2];
                     if(url!=null && !url.isEmpty()){
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                HttpUtils.getInstance().uploadLog(url,fileZip);
+                                HttpUtils.getInstance().uploadLog(url,fileZip,token);
                             }
                         }).start();
                     }
