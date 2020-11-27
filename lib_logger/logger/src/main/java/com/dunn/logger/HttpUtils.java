@@ -51,8 +51,7 @@ public class HttpUtils {
 //                .addFormDataPart("ran", num)
 //                .addFormDataPart("uid",userid)
                     .setType(MediaType.parse("multipart/form-data"))
-                    .addFormDataPart("file", file.getName(),
-                            RequestBody.create(MediaType.parse("multipart/form-data"), file))
+                    .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
                     .build();
             Request request = new Request.Builder()
                     //.header("Authorization", "ClientID" + UUID.randomUUID())
