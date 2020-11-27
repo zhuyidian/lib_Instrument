@@ -39,11 +39,11 @@ public class HttpUtils {
      * @return      响应结果
      * @throws IOException
      */
-    public ResponseBody uploadLog(String url, File file, String token){
+    public ResponseBody uploadLog(String url, File file, String token,String userId){
         createOkhttp();
 
         try {
-            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils url=" + url + ", file path=" + file.getPath()+", token="+token);
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils url=" + url + ", file path=" + file.getPath()+", token="+token+", userId="+userId);
             long cTime = System.currentTimeMillis();
             String num = Tools.getRandom(Tools.NUMBERS, 4);
             RequestBody requestBody = new MultipartBody.Builder()
@@ -51,6 +51,7 @@ public class HttpUtils {
                     .addFormDataPart("encryp",Tools.getRequestEncryp(cTime,num))
                     .addFormDataPart("date",cTime + "")
                     .addFormDataPart("ran", num)
+                    .addFormDataPart("id",userId!=null?userId:"")
                     //.addFormDataPart("accesstoken",token!=null?token:"")
                     //.addFormDataPart("accesstoken","TQhqSAHKt7MH2NhJ8JALBvde0p2TjjQVWQV3ESEuuoQfcM8cyd1ihnFBQDka0uHK")
                     .setType(MediaType.parse("multipart/form-data"))

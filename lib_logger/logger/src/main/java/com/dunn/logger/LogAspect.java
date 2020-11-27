@@ -169,11 +169,12 @@ public class LogAspect {
                 if(fileZip!=null && fileZip.exists()){
                     final String url = (String)args[1];
                     final String token = (String)args[2];
+                    final String userId = (String)args[3];
                     if(url!=null && !url.isEmpty()){
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                HttpUtils.getInstance().uploadLog(url,fileZip,token);
+                                HttpUtils.getInstance().uploadLog(url,fileZip,token,userId);
                             }
                         }).start();
                     }
