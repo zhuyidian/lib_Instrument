@@ -39,17 +39,17 @@ public class HttpUtils {
      * @return      响应结果
      * @throws IOException
      */
-    public ResponseBody uploadLog(String url, File file){
+    public ResponseBody uploadLog(String url, File file, String token){
         createOkhttp();
 
         try {
-            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils url=" + url + ", file path=" + file.getPath());
+            if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils url=" + url + ", file path=" + file.getPath()+", token="+token);
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
 //                .addFormDataPart("encryp",getRequestEncryp(cTime,num))
 //                .addFormDataPart("date",cTime + "")
 //                .addFormDataPart("ran", num)
-//                .addFormDataPart("uid",userid)
+                    .addFormDataPart("accesstoken",token!=null?token:"")
                     .setType(MediaType.parse("multipart/form-data"))
                     .addFormDataPart("file", file.getName(),
                             RequestBody.create(MediaType.parse("multipart/form-data"), file))
