@@ -52,12 +52,12 @@ public class HttpUtils {
                     .addFormDataPart("date",cTime + "")
                     .addFormDataPart("ran", num)
                     //.addFormDataPart("accesstoken",token!=null?token:"")
-                    .addFormDataPart("accesstoken","TQhqSAHKt7MH2NhJ8JALBvde0p2TjjQVWQV3ESEuuoQfcM8cyd1ihnFBQDka0uHK")
+                    //.addFormDataPart("accesstoken","TQhqSAHKt7MH2NhJ8JALBvde0p2TjjQVWQV3ESEuuoQfcM8cyd1ihnFBQDka0uHK")
                     .setType(MediaType.parse("multipart/form-data"))
                     .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
                     .build();
             Request request = new Request.Builder()
-                    //.header("Authorization", "ClientID" + UUID.randomUUID())
+                    .header("accesstoken", token!=null?token:"")
                     .url(url)
                     .post(requestBody)
                     .build();
