@@ -172,7 +172,7 @@ public class LogAspect {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                HttpUtils.getInstance().uploadLogOld(url,fileZip,"10244057");
+                                HttpUtils.getInstance().uploadLog(url,fileZip);
                             }
                         }).start();
                     }
