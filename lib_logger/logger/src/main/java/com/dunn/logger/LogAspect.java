@@ -174,7 +174,11 @@ public class LogAspect {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                HttpUtils.getInstance().uploadLog(url,fileZip,token,userId);
+                                String fileName = fileZip.getName();
+                                if(fileName.endsWith(".zip")){
+                                    if (LogConfig.DEBUG)Log.v("logger[", "LogAspect ----upload before & go to upload is ZIP---- fileName="+fileName);
+                                    HttpUtils.getInstance().uploadLog(url,fileZip,token,userId);
+                                }
                             }
                         }).start();
                     }
