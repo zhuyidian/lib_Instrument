@@ -22,13 +22,17 @@ open：是否开启收集
 ```xml
 @UploadJointPoint
 举例：
-public <T> void uploadLogger(T value,String url);
+public <T> void uploadLogger(T value,String url,String token,String userId);
 初始化两个参数：
 value：true(上传使能)  false(禁止上传) 
 url：上传服务器地址
+token：从服务器上拿到的
+userId：
 参数变动：
 value：从T--->File(转变成需要上传的文件)
 url：不变
+token：不变
+userId：不变
 ```
 ## 项目引用
 * 1，root build.gradle中
