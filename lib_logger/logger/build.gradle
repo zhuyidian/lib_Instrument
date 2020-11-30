@@ -13,11 +13,13 @@ group = 'com.github.zhuyidian.lib_logger'
 
 //第二步：迁移androidX 有关Verdion要使用29
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.0'
+//    compileSdkVersion 29
+//    buildToolsVersion '29.0.0'
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 28   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
         versionCode 1
         versionName '1.0.0'
         multiDexEnabled true
