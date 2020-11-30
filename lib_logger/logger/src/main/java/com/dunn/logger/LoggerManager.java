@@ -143,7 +143,7 @@ public final class LoggerManager {
                 }
                 RandomAccessFile raf = new RandomAccessFile(file, "rwd");
                 raf.seek(file.length());
-                //Log.v("logger[", "LoggerManager：write msg="+strContent);
+                if (LogConfig.DEBUG) Log.v("logger[", "LoggerManager：write msg="+strContent);
                 raf.write(strContent.getBytes("UTF-8"));
                 raf.close();
             } catch (Exception e) {
