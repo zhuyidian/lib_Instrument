@@ -93,7 +93,8 @@ public class LogAspect {
 
         String mPath = initJointPoint.mFilePath();
         String mName = initJointPoint.mFileName();
-        LoggerManager.L().init(Environment.getExternalStorageDirectory().getAbsolutePath() + mPath, mName);
+        //LoggerManager.L().init(Environment.getExternalStorageDirectory().getAbsolutePath() + mPath, mName);
+        LoggerManager.L().init(Environment.getExternalStorageDirectory().getPath() + mPath, mName);
 
         //继续执行切入的原方法
         Object object = joinPoint.proceed();

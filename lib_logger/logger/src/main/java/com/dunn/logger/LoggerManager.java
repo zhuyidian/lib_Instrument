@@ -122,6 +122,9 @@ public final class LoggerManager {
 
         @Override
         public void run() {
+            //生成文件夹之后，再生成文件，不然会出错
+            makeFilePath(mFilePath, mFileName);
+
             //检查文件大小
             String path = mFilePath + "/"+ mFileName;
             File logfile = new File(path);
@@ -130,14 +133,12 @@ public final class LoggerManager {
                 logfile.delete();
             }
 
-            //生成文件夹之后，再生成文件，不然会出错
-            makeFilePath(mFilePath, mFileName);
-
             // 每次写入时，都换行写
             String strContent = msg + "\r\n";
             try {
                 File file = new File(path);
                 if (!file.exists()) {
+                    //if(!file.getParentFile().exists()) file.getParentFile().mkdir();
                     file.getParentFile().mkdirs();
                     file.createNewFile();
                 }
@@ -148,6 +149,7 @@ public final class LoggerManager {
                 raf.close();
             } catch (Exception e) {
                 e.printStackTrace();
+                if (LogConfig.DEBUG) Log.v("logger[", "LoggerManager：write e="+e);
             }
         }
     }
@@ -162,19 +164,21 @@ public final class LoggerManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            if (LogConfig.DEBUG) Log.v("logger[", "LoggerManager：makeFilePath e="+e);
         }
         return file;
     }
 
     private void makeRootDirectory(String filePath) {
+        String pathLogger = filePath;
         File file = null;
         try {
-            file = new File(filePath);
+            file = new File(pathLogger);
             if (!file.exists()) {
                 file.mkdir();
             }
         } catch (Exception e) {
-
+            if (LogConfig.DEBUG) Log.v("logger[", "LoggerManager：makeRootDirectory e="+e);
         }
     }
 
