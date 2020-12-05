@@ -51,4 +51,11 @@ implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 * 4，日志压缩文件上传
 * 5，logger采用AOP切面编程思想
 ## 版本更新
-* 
+* V1.1.0
+```
+支持Android10
+```
+* V1.1.4
+```
+由于近期非Android10项目中使用的缘故，logger不支持Android10了
+```
