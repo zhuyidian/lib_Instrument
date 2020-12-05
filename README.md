@@ -61,4 +61,4 @@ implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 ```
 ## 问题分析
 * 1，Permission denied
-![Image text](https://github.com/zhuyidian/lib_logger/blob/main/PermissionDenied.png)
+![Image text](https://github.com/zhuyidian/lib_logger/blob/main/imgfiles/PermissionDenied.png)
