@@ -44,3 +44,11 @@ classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
 apply plugin: 'android-aspectjx'
 implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 ```
+## 项目说明
+* 1，目前logger不支持Android10
+* 2，日志收集
+* 3，日志文件压缩
+* 4，日志压缩文件上传
+* 5，logger采用AOP切面编程思想
+## 版本更新
+* 
