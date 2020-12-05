@@ -61,8 +61,8 @@ implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 ```
 ## 问题分析
 * 1，Permission denied
-```
 ![Image text](https://github.com/zhuyidian/lib_logger/blob/main/imgfiles/PermissionDenied.png)
+```
 问题分析：
 （Target不一致导致）如果logger是支持Android10,但是外部项目不支持Android10，那么会出现这个错误。但是不会影响功能使用，只是提示错误而已。
 解决办法：
