@@ -160,5 +160,45 @@ public class ZipUtils {
             }
         }
     }
+
+    /**
+     * 压缩文件和文件夹
+     *
+     */
+    private void ZipFolder(String mPath,String mName) throws Exception {
+        //创建文件
+        String path = mPath + "/"+ mName+"zzz";
+        File file = new File(path);
+        //zip
+        String pathZip = mPath + "/"+ mName+".zip";
+        File fileZip = new File(pathZip);
+        //创建ZIP
+        ZipOutputStream outZip = new ZipOutputStream(new FileOutputStream(fileZip));
+        //压缩
+        ZipFiles(file, file.getName(), outZip);
+        //完成和关闭
+        outZip.finish();
+        outZip.close();
+    }
+
+    /**
+     * 压缩文件
+     */
+    private void ZipFiles(File srcFile, String fileName, ZipOutputStream zipOutputSteam) throws Exception {
+        if (zipOutputSteam == null)
+            return;
+
+        if (srcFile.isFile()) {
+            ZipEntry zipEntry = new ZipEntry(fileName);
+            FileInputStream inputStream = new FileInputStream(srcFile);
+            zipOutputSteam.putNextEntry(zipEntry);
+            int len;
+            byte[] buffer = new byte[4096];
+            while ((len = inputStream.read(buffer)) != -1) {
+                zipOutputSteam.write(buffer, 0, len);
+            }
+            zipOutputSteam.closeEntry();
+        }
+    }
 }
 

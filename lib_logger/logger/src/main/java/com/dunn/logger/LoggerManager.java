@@ -47,6 +47,10 @@ public final class LoggerManager {
         releaseThread();
     }
 
+    /**
+     * 写log的入口
+     * @param content
+     */
     public void writeTo(String content) {
         if(mFilePath!=null && !mFilePath.isEmpty() && mFileName!=null && !mFileName.isEmpty()){
             if (dealExecutorService != null && !dealExecutorService.isShutdown()){
@@ -55,6 +59,37 @@ public final class LoggerManager {
         }
     }
 
+    /**
+     * 强制删除文件
+     */
+    public void deleteLogFile(){
+        try {
+            if (mFilePath != null && !mFilePath.isEmpty() && mFileName != null && !mFileName.isEmpty()) {
+                if (dealExecutorService != null && !dealExecutorService.isShutdown()) {
+                    dealExecutorService.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            String path = mFilePath + "/" + mFileName;
+                            File logfile = new File(path);
+                            if (logfile.exists()) {
+                                if (LogConfig.DEBUG)
+                                    Log.v("logger[", "LoggerManager：delete log file");
+                                logfile.delete();
+                            }
+                        }
+                    });
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 拷贝和压缩文件
+     * @param rewrite
+     * @return　拷贝的文件　　或者　　压缩文件
+     */
     public File copyfile(Boolean rewrite ) {
         try {
             String path = mFilePath + "/" + mFileName;
@@ -179,46 +214,6 @@ public final class LoggerManager {
             }
         } catch (Exception e) {
             if (LogConfig.DEBUG) Log.v("logger[", "LoggerManager：makeRootDirectory e="+e);
-        }
-    }
-
-    /**
-     * 压缩文件和文件夹
-     *
-     */
-    private void ZipFolder() throws Exception {
-        //创建文件
-        String path = mFilePath + "/"+ mFileName+"zzz";
-        File file = new File(path);
-        //zip
-        String pathZip = mFilePath + "/"+ mFileName+".zip";
-        File fileZip = new File(pathZip);
-        //创建ZIP
-        ZipOutputStream outZip = new ZipOutputStream(new FileOutputStream(fileZip));
-        //压缩
-        ZipFiles(file, file.getName(), outZip);
-        //完成和关闭
-        outZip.finish();
-        outZip.close();
-    }
-
-    /**
-     * 压缩文件
-     */
-    private void ZipFiles(File srcFile, String fileName, ZipOutputStream zipOutputSteam) throws Exception {
-        if (zipOutputSteam == null)
-            return;
-
-        if (srcFile.isFile()) {
-            ZipEntry zipEntry = new ZipEntry(fileName);
-            FileInputStream inputStream = new FileInputStream(srcFile);
-            zipOutputSteam.putNextEntry(zipEntry);
-            int len;
-            byte[] buffer = new byte[4096];
-            while ((len = inputStream.read(buffer)) != -1) {
-                zipOutputSteam.write(buffer, 0, len);
-            }
-            zipOutputSteam.closeEntry();
         }
     }
 

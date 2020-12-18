@@ -39,7 +39,7 @@ public class HttpUtils {
      * @return      响应结果
      * @throws IOException
      */
-    public ResponseBody uploadLog(String url, File file, String token,String userId){
+    public ResponseBody uploadLog(String url, File file, String token,String userId,ResultCallBack listen){
         createOkhttp();
 
         try {
@@ -67,8 +67,15 @@ public class HttpUtils {
             if (response.isSuccessful()) {
                 if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils suc exit");
                 //file.delete();
+                LoggerManager.L().deleteLogFile();
+                if(listen!=null){
+                    listen.uploadState(true);
+                }
             } else {
                 if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils suc not exit!!!!!!!!!");
+                if(listen!=null){
+                    listen.uploadState(false);
+                }
             }
             if (LogConfig.DEBUG) Log.v("logger[", "HttpUtils suc status=" + response.code());
 //            if (!response.isSuccessful())
@@ -139,6 +146,10 @@ public class HttpUtils {
                     }
                 }).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
+    }
+
+    public interface ResultCallBack{
+        void uploadState(boolean state);
     }
 }
 

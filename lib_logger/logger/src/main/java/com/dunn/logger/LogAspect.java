@@ -178,7 +178,7 @@ public class LogAspect {
                                 String fileName = fileZip.getName();
                                 if(fileName.endsWith(".zip")){
                                     if (LogConfig.DEBUG)Log.v("logger[", "LogAspect ----upload before & go to upload is ZIP---- fileName="+fileName);
-                                    HttpUtils.getInstance().uploadLog(url,fileZip,token,userId);
+                                    HttpUtils.getInstance().uploadLog(url,fileZip,token,userId,null);
                                 }
                             }
                         }).start();
