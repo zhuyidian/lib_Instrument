@@ -59,6 +59,10 @@ implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 ```
 由于近期非Android10项目中使用的缘故，logger不支持Android10了
 ```
+* V1.1.5
+```
+日志上传成功后，及时清除日志文件从而抓取新的日志，保证上传的日志不会有重复的部分。
+```
 ## 问题分析
 * 1，Permission denied
 ![Image text](https://github.com/zhuyidian/lib_logger/blob/main/imgfiles/PermissionDenied.png)
