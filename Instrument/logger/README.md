@@ -35,6 +35,31 @@ url：不变
 token：不变
 userId：不变
 ```
+* 5,举例 （智能云）
+```xml
+1> 在主页的onCreate方法上初始化日志
+@InitJointPoint(mFilePath = "/logger",mFileName = "EC_logger_cache",isDebug = true)
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+}
+2> 在主页的onDestory方法上释放日志
+@ReleaseJointPoint
+@Override
+public void onDestroy() {
+}
+3> 项目所有的日志最终会走到这个方法
+@LogJointPoint(type = "MSG",open = true)
+public void CallBack_WriteLogText(String logMsg) {
+    
+}
+4> 在获取到后台地址后确定上传日志
+@UploadJointPoint
+public <T> void uploadLogger(T value,String url,String token,String userId){
+  if(value==null) return;
+}
+```
+
 ## 2.项目引用
 * 1，root build.gradle中
 ```groovy
@@ -45,12 +70,14 @@ classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
 apply plugin: 'android-aspectjx'
 implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 ```
+
 ## 3.项目说明
 * 1，目前logger不支持Android10
 * 2，日志收集
 * 3，日志文件压缩
 * 4，日志压缩文件上传
 * 5，logger采用AOP切面编程思想
+
 ## 4.版本更新
 * V1.1.0
 ```
@@ -64,6 +91,7 @@ implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 ```
 日志上传成功后，及时清除日志文件从而抓取新的日志，保证上传的日志不会有重复的部分。
 ```
+
 ## 5.问题分析
 * 1，Permission denied
 ![Image text](https://github.com/zhuyidian/lib_logger/blob/main/imgfiles/PermissionDenied.png)
