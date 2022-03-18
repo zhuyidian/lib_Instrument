@@ -1,7 +1,7 @@
 # logger
 
 
-## 注解使用
+## 1.注解使用
 * 1，在logger需要初始化的地方
 ```xml
 @InitJointPoint(mFilePath = "",mFileName = "logger_cache",isDebug = false)
@@ -35,7 +35,7 @@ url：不变
 token：不变
 userId：不变
 ```
-## 项目引用
+## 2.项目引用
 * 1，root build.gradle中
 ```groovy
 classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
@@ -45,13 +45,13 @@ classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
 apply plugin: 'android-aspectjx'
 implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 ```
-## 项目说明
+## 3.项目说明
 * 1，目前logger不支持Android10
 * 2，日志收集
 * 3，日志文件压缩
 * 4，日志压缩文件上传
 * 5，logger采用AOP切面编程思想
-## 版本更新
+## 4.版本更新
 * V1.1.0
 ```
 支持Android10
@@ -64,7 +64,7 @@ implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 ```
 日志上传成功后，及时清除日志文件从而抓取新的日志，保证上传的日志不会有重复的部分。
 ```
-## 问题分析
+## 5.问题分析
 * 1，Permission denied
 ![Image text](https://github.com/zhuyidian/lib_logger/blob/main/imgfiles/PermissionDenied.png)
 ```
