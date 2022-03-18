@@ -1,16 +1,16 @@
-# lib_logger
-/lib_logger/.gradle/
-/lib_logger/.idea/
-/lib_logger/.svn/
-/lib_logger/java_pid5600.hprof   
-/lib_logger/local.properties
-/lib_logger/*.iml
+# Instrument
+/Instrument/.gradle/
+/Instrument/.idea/
+/Instrument/.svn/
+/Instrument/java_pid5600.hprof   
+/Instrument/local.properties
+/Instrument/*.iml
 
 #sample
-/lib_logger/sample/build/
-/lib_logger/sample/*.iml
+/Instrument/sample/build/
+/Instrument/sample/*.iml
 
 #logger
-/lib_logger/logger/build/
-/lib_logger/logger/*.iml
+/Instrument/logger/build/
+/Instrument/logger/*.iml
 
