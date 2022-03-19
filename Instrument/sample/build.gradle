@@ -29,6 +29,6 @@ dependencies {
     testImplementation this.rootProject.ext.dependencies.junit
 
     //network
-    implementation project(':logger')
-    //implementation 'com.github.teamZW.customWidget:librarycircletick:1.0.5'
+    //implementation project(':logger')
+    implementation 'com.github.zhuyidian:lib_Instrument:V1.1.6'
 }

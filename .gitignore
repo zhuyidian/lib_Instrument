@@ -14,3 +14,7 @@
 /Instrument/logger/build/
 /Instrument/logger/*.iml
 
+#excel
+/Instrument/excel/build/
+/Instrument/excel/*.iml
+
