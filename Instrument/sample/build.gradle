@@ -26,13 +26,13 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(path: ':logger')
+//    implementation rootProject.ext.dependencies.annotations
+    implementation rootProject.ext.dependencies.appcompatV7
     implementation project(path: ':excel')
-    implementation rootProject.ext.dependencies.annotations
+    implementation project(path: ':logger')
 
-    //network
-//    implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.8'
-//    implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.8'
+//    implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.9'
+//    implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.9'
 }
 
 // 配置参数
