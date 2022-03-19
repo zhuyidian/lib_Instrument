@@ -1,4 +1,4 @@
-package com.dunn.logger;
+package com.dunn.instrument.logger;
 
 import android.util.Log;
 
@@ -10,8 +10,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public final class LoggerManager {
     private static volatile LoggerManager instance;

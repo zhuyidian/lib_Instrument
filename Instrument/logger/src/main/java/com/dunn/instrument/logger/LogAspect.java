@@ -1,10 +1,8 @@
-package com.dunn.logger;
+package com.dunn.instrument.logger;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -32,7 +30,7 @@ public class LogAspect {
      * 找到处理的切点
      * * *(..)  可以处理所有的方法
      */
-    @Pointcut("execution(@com.dunn.logger.InitJointPoint * *(..))")
+    @Pointcut("execution(@com.dunn.instrument.logger.InitJointPoint * *(..))")
     public void pointcutInitMethod() {
 
     }
@@ -41,7 +39,7 @@ public class LogAspect {
      * 找到处理的切点
      * * *(..)  可以处理所有的方法
      */
-    @Pointcut("execution(@com.dunn.logger.ReleaseJointPoint * *(..))")
+    @Pointcut("execution(@com.dunn.instrument.logger.ReleaseJointPoint * *(..))")
     public void pointcutReleaseMethod() {
 
     }
@@ -50,7 +48,7 @@ public class LogAspect {
      * 找到处理的切点
      * * *(..)  可以处理所有的方法
      */
-    @Pointcut("execution(@com.dunn.logger.UploadJointPoint * *(..))")
+    @Pointcut("execution(@com.dunn.instrument.logger.UploadJointPoint * *(..))")
     public void pointcutUploadMethod() {
 
     }
@@ -59,7 +57,7 @@ public class LogAspect {
      * 找到处理的切点
      * * *(..)  可以处理所有的方法
      */
-    @Pointcut("execution(@com.dunn.logger.LogJointPoint * *(..))")
+    @Pointcut("execution(@com.dunn.instrument.logger.LogJointPoint * *(..))")
     public void pointcutLogMethod() {
 
     }

@@ -1,4 +1,4 @@
-package com.dunn.logger;
+package com.dunn.instrument.logger;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

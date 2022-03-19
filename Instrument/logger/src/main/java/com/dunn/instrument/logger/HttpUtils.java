@@ -1,4 +1,4 @@
-package com.dunn.logger;
+package com.dunn.instrument.logger;
 
 import android.util.Log;
 

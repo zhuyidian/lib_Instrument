@@ -1,14 +1,13 @@
-package com.dunn.logger.demo;
+package com.dunn.instrument;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dunn.logger.InitJointPoint;
-import com.dunn.logger.LogJointPoint;
-import com.dunn.logger.ReleaseJointPoint;
-import com.dunn.logger.UploadJointPoint;
+import com.dunn.instrument.logger.InitJointPoint;
+import com.dunn.instrument.logger.LogJointPoint;
+import com.dunn.instrument.logger.ReleaseJointPoint;
+import com.dunn.instrument.logger.UploadJointPoint;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.dunn.logger;
+package com.dunn.instrument.logger;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,8 +11,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface InitJointPoint {
-    String mFilePath() default "";
-    String mFileName() default "";
-    boolean isDebug() default false;
+public @interface ReleaseJointPoint {
+
 }
