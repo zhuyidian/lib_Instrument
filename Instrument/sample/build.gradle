@@ -7,7 +7,7 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
     buildToolsVersion rootProject.ext.android.buildToolsVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
     defaultConfig {
-        applicationId 'com.dunn.instrument'
+        applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersio  //29   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
         versionCode rootProject.ext.android.versionCode
