@@ -1,6 +1,16 @@
 plugins {
     id 'com.android.library'
 }
+apply plugin: 'com.github.dcendents.android-maven'
+
+repositories {
+    mavenCentral()
+    google()
+    jcenter()
+    maven {
+        url this.rootProject.ext.myMaven.url
+    }
+}
 group = this.rootProject.ext.myMaven.git
 
 android {
