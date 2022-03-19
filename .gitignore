@@ -3,6 +3,8 @@
 /Instrument/.idea/
 /Instrument/.svn/
 /Instrument/java_pid5600.hprof   
+/Instrument/java_pid8156.hprof 
+/Instrument/*.hprof 
 /Instrument/local.properties
 /Instrument/*.iml
 
