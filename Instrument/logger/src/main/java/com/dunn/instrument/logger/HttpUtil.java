@@ -15,10 +15,10 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 
-public class HttpUtils {
+public class HttpUtil {
     private OkHttpClient okHttpClient;
 
-    private HttpUtils(){
+    private HttpUtil(){
         createOkhttp();
     }
 
@@ -26,10 +26,10 @@ public class HttpUtils {
      * 使用静态内部类的方式实现单例模式
      */
     private static class UploadUtilInstance{
-        private static final HttpUtils INSTANCE = new HttpUtils();
+        private static final HttpUtil INSTANCE = new HttpUtil();
     }
 
-    public static HttpUtils getInstance(){
+    public static HttpUtil getInstance(){
         return UploadUtilInstance.INSTANCE;
     }
 

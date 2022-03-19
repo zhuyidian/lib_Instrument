@@ -18,3 +18,7 @@
 /Instrument/excel/build/
 /Instrument/excel/*.iml
 
+#buildSrc
+/Instrument/buildSrc/build/
+/Instrument/buildSrc/*.iml
+

@@ -91,10 +91,15 @@ public class ExcelDeal {
 
     public ExcelDeal(Context context) {
         mContext = context;
-        File dir = mContext.getFilesDir();
-        File file = new File(dir, FILE_NAME);
-        ABSOLUTE_FILE_PATH = file.getPath();
-        Log.d(TAG, "ExcelDeal: ABSOLUTE_FILE_PATH=" + ABSOLUTE_FILE_PATH);
+        try {
+            File dir = mContext.getFilesDir();
+            File file = new File(dir, FILE_NAME);
+            ABSOLUTE_FILE_PATH = file.getPath();
+            Log.d(TAG, "ExcelDeal: ABSOLUTE_FILE_PATH=" + ABSOLUTE_FILE_PATH);
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, "ExcelDeal: e=" + e);
+        }
     }
 
     /**

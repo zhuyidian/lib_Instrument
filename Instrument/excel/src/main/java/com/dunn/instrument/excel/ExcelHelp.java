@@ -2,6 +2,7 @@ package com.dunn.instrument.excel;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -61,7 +62,9 @@ public class ExcelHelp implements Runnable {
         }
         if (success && !isRunning) {
             isRunning = true;
-            AsyncTask.SERIAL_EXECUTOR.execute(this);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                AsyncTask.SERIAL_EXECUTOR.execute(this);
+            }
         }
     }
 

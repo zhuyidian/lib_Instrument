@@ -68,7 +68,7 @@ classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
 * 2，module build.gradle中
 ```groovy
 apply plugin: 'android-aspectjx'
-implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
+implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.8'
 ```
 
 ## 3.项目说明
@@ -78,21 +78,7 @@ implementation 'com.github.zhuyidian:lib_logger:V1.0.0'
 * 4，日志压缩文件上传
 * 5，logger采用AOP切面编程思想
 
-## 4.版本更新
-* V1.1.0
-```
-支持Android10
-```
-* V1.1.4
-```
-由于近期非Android10项目中使用的缘故，logger不支持Android10了
-```
-* V1.1.5
-```
-日志上传成功后，及时清除日志文件从而抓取新的日志，保证上传的日志不会有重复的部分。
-```
-
-## 5.问题分析
+## 4.问题分析
 * 1，Permission denied
 ![Image text](https://github.com/zhuyidian/lib_logger/blob/main/imgfiles/PermissionDenied.png)
 ```

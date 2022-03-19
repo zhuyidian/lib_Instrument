@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-aspectjx'
+apply plugin: 'com.dunn.instrument.monitorimage'
 
 android {
 //    compileSdkVersion 29
@@ -25,10 +26,16 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation this.rootProject.ext.dependencies.appcompat
-    testImplementation this.rootProject.ext.dependencies.junit
+    implementation project(path: ':logger')
+    implementation project(path: ':excel')
+    implementation rootProject.ext.dependencies.annotations
 
     //network
-    //implementation project(':logger')
-    implementation 'com.github.zhuyidian:lib_Instrument:V1.1.6'
+//    implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.8'
+//    implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.8'
+}
+
+// 配置参数
+tinkerPatch {
+    oldApk = "oldApk"
 }

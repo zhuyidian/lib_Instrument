@@ -1,3 +1,5 @@
-include ':logger',  ':sample'
-
+include ':logger'
 include ':excel'
+include ':buildSrc'
+include ':sample'
+rootProject.name='Instrument'

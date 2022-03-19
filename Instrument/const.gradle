@@ -28,11 +28,13 @@ ext {
             junit                 : '4.12',
             junitNew              : '4.+',
             junitNewX             : '1.1.3',
-            appcompatX            : '1.4.1',
+            appcompatX            : '1.3.1',
             appcompat             : '+',
             appcompatRC           : '28.0.0-rc01',
             appcompatAndroidX     : '1.0.0',
             V7Support             : "28.0.0",
+            annotations           : "28.0.0",
+            runner                : "1.0.1",
             retrofitSdkVersion    : "2.4.0",
             glideSdkVersion       : "4.8.0",
             dagger2SdkVersion     : "2.15",
@@ -41,7 +43,15 @@ ext {
             rxlifecycle2SdkVersion: "2.2.1",
             espressoSdkVersion    : "3.4.0",
             canarySdkVersion      : "1.5.4",
-            aspectj               : "1.8.+"
+            aspectj               : "1.8.+",
+            okhttp3               : "3.8.1",
+            okhttp3log            : "3.8.1",
+            okhttpUrlconnection   : "2.0.0",
+            picasso               : "2.5.2",
+            autolayout            : "1.4.5",
+            pickerview            : "3.2.5",
+            photoview             : "1.2.3",
+            nineoldandroids       : "2.4.0"
 
     ]
 
@@ -51,8 +61,8 @@ ext {
             "junitNew"                  : "junit:junit:${version.junitNew}",
             "junitNewX"                 : "junit:junit:${version.junitNewX}",
             "androidJUnitRunner"        : "android.support.test.runner.AndroidJUnitRunner",
-            "runner"                    : "com.android.support.test:runner:1.0.1",
-            "espressoCore"             : "com.android.support.test.espresso:espresso-core:${version["espressoSdkVersion"]}",
+            "runner"                    : "com.android.support.test:runner:${version.runner}",
+            "espressoCore"              : "com.android.support.test.espresso:espresso-core:${version["espressoSdkVersion"]}",
             "espresso-contrib"          : "com.android.support.test.espresso:espresso-contrib:${version["espressoSdkVersion"]}",
             "espresso-intents"          : "com.android.support.test.espresso:espresso-intents:${version["espressoSdkVersion"]}",
 
@@ -65,7 +75,7 @@ ext {
             "design"                    : "com.android.support:design:${version["androidSupportSdkVersion"]}",
             "support-v4"                : "com.android.support:support-v4:${version["androidSupportSdkVersion"]}",
             "cardview-v7"               : "com.android.support:cardview-v7:${version["androidSupportSdkVersion"]}",
-            "annotations"               : "com.android.support:support-annotations:${version["androidSupportSdkVersion"]}",
+            "annotations"               : "com.android.support:support-annotations:${version["annotations"]}",
             "kotlin"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${android["kotlinVersion"]}",
 
             //network
@@ -74,24 +84,22 @@ ext {
             "retrofit-converter-scalars": "com.squareup.retrofit2:converter-scalars:${version["retrofitSdkVersion"]}",
             "retrofit-adapter-rxjava"   : "com.squareup.retrofit2:adapter-rxjava:${version["retrofitSdkVersion"]}",
             "retrofit-adapter-rxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:${version["retrofitSdkVersion"]}",
-            //"okhttp3"                    : "com.squareup.okhttp3:okhttp:3.10.0",
-            "okhttp3"                   : "com.squareup.okhttp3:okhttp:3.8.1",
-            "okhttp3log"                : "com.squareup.okhttp3:logging-interceptor:3.8.1",
-            //"okhttp3-logging-interceptor": "com.squareup.okhttp3:logging-interceptor:3.10.0",
-            "okhttp-urlconnection"      : "com.squareup.okhttp:okhttp-urlconnection:2.0.0",
+            "okhttp3"                   : "com.squareup.okhttp3:okhttp:${version["okhttp3"]}",
+            "okhttp3log"                : "com.squareup.okhttp3:logging-interceptor:${version["okhttp3log"]}",
+            "okhttpUrlconnection"       : "com.squareup.okhttp:okhttp-urlconnection:${version["okhttpUrlconnection"]}",
             "glide"                     : "com.github.bumptech.glide:glide:${version["glideSdkVersion"]}",
             "glide-compiler"            : "com.github.bumptech.glide:compiler:${version["glideSdkVersion"]}",
             "glide-loader-okhttp3"      : "com.github.bumptech.glide:okhttp3-integration:${version["glideSdkVersion"]}",
-            "picasso"                   : "com.squareup.picasso:picasso:2.5.2",
+            "picasso"                   : "com.squareup.picasso:picasso:${version["picasso"]}",
 
             //view
             "autolayout"                : "com.zhy:autolayout:1.4.5",
             "butterknife"               : "com.jakewharton:butterknife:${version["butterknifeSdkVersion"]}",
             "butterknife-compiler"      : "com.jakewharton:butterknife-compiler:${version["butterknifeSdkVersion"]}",
-            "pickerview"                : "com.contrarywind:Android-PickerView:3.2.5",
-            "photoview"                 : "com.github.chrisbanes.photoview:library:1.2.3",
+            "pickerview"                : "com.contrarywind:Android-PickerView:${version["pickerview"]}",
+            "photoview"                 : "com.github.chrisbanes.photoview:library:${version["photoview"]}",
             "numberprogressbar"         : "com.daimajia.numberprogressbar:library:1.2@aar",
-            "nineoldandroids"           : "com.nineoldandroids:library:2.4.0",
+            "nineoldandroids"           : "com.nineoldandroids:library:${version["nineoldandroids"]}",
             "paginate"                  : "com.github.markomilos:paginate:0.5.1",
             "vlayout"                   : "com.alibaba.android:vlayout:1.1.0@aar",
             "circleimageview"           : "de.hdodenhof:circleimageview:2.2.0",
@@ -152,6 +160,6 @@ ext {
             "canary-debug"              : "com.squareup.leakcanary:leakcanary-android:${version["canarySdkVersion"]}",
             "canary-release"            : "com.squareup.leakcanary:leakcanary-android-no-op:${version["canarySdkVersion"]}",
             "umeng-analytics"           : "com.umeng.analytics:analytics:6.0.1",
-            "material"                  : "com.google.android.material:material:1.5.0",
+            "material"                  : "com.google.android.material:material:1.5.0-alpha02",
     ]
 }
