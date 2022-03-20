@@ -24,3 +24,7 @@
 /Instrument/buildSrc/build/
 /Instrument/buildSrc/*.iml
 
+#buildSrc
+/Instrument/crash/build/
+/Instrument/crash/*.iml
+

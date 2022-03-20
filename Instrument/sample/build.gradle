@@ -28,11 +28,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 //    implementation rootProject.ext.dependencies.annotations
     implementation rootProject.ext.dependencies.appcompatV7
-    implementation project(path: ':excel')
-    implementation project(path: ':logger')
+//    implementation project(path: ':excel')
+//    implementation project(path: ':logger')
 
-//    implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.9'
-//    implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.9'
+    implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.10'
+    implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.10'
+    implementation project(path: ':crash')
 }
 
 // 配置参数
