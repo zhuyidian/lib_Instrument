@@ -32,7 +32,7 @@
 /Instrument/anr/build/
 /Instrument/anr/*.iml
 
-#method
-/Instrument/method/build/
-/Instrument/method/*.iml
+#method_choreographer
+/Instrument/method_choreographer/build/
+/Instrument/method_choreographer/*.iml
 

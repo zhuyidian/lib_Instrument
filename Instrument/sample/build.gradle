@@ -32,6 +32,7 @@ dependencies {
 //    implementation project(path: ':logger')
 //    implementation project(path: ':crash')
 //    implementation project(path: ':anr')
+    implementation project(path: ':method_choreographer')
 
     implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.12'
     implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.12'

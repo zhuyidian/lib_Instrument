@@ -6,12 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.dunn.instrument.excel.ExcelHelp;
-import com.dunn.instrument.logger.InitJointPoint;
-import com.dunn.instrument.logger.LogJointPoint;
-import com.dunn.instrument.logger.ReleaseJointPoint;
-import com.dunn.instrument.logger.UploadJointPoint;
-
 public class MainActivity extends Activity {
     public static String TAG = "MainActivity";
 
@@ -20,11 +14,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //ApiCrash.crashInit(getApplication());
-        ApiAnrWatchDog.anrInit(getApplicationContext());
-
-        long AA = 99 / 1000;
-        float BB = 99 / (float)1000;
-        Log.i(TAG,"AA="+AA+", BB="+BB);
+        //ApiAnrWatchDog.anrInit(getApplicationContext());
+        ApiMethodChoreographer.methodInit();
     }
 
     public void click(View view) {
@@ -33,11 +24,12 @@ public class MainActivity extends Activity {
         ApiExcel.excelInfo();
         ApiExcel.excelSubmit();
         //ApiCrash.nativeCrashTest();
-//        try {
-//            Thread.sleep(20000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
