@@ -5,6 +5,9 @@ import android.os.Looper;
 import android.os.MessageQueue;
 import android.support.annotation.NonNull;
 
+import com.dunn.instrument.crash.local.CrashHandlerListener;
+import com.dunn.instrument.crash.local.NativeCrashMonitor;
+
 public class CrashMonitor implements MessageQueue.IdleHandler {
     private static final CrashMonitor instance = new CrashMonitor();
     private Application mApplication;
@@ -23,6 +26,18 @@ public class CrashMonitor implements MessageQueue.IdleHandler {
     public void init(Application application){
         Looper.myQueue().addIdleHandler(this);
         this.mApplication = application;
+
+        NativeCrashMonitor nativeCrashMonitor = new NativeCrashMonitor();
+        nativeCrashMonitor.init(new CrashHandlerListener() {
+            @Override
+            public void onCrash(String threadName, Error error) {
+
+            }
+        });
+    }
+
+    public void nativeCrashTest(){
+        NativeCrashMonitor.nativeCrash();
     }
 
     @Override

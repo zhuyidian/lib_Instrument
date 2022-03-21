@@ -1,10 +1,11 @@
-# Excel
+# Crash
 
 
 ## 1.使用
 * 1，初始化
 ```xml
-ExcelHelp.getInstance().init(getApplicationContext());
+放在主页初始化，这样不会清理掉主页activity，只清理掉其它activity
+ApiCrash.crashInit(getApplication());
 ```
 * 2，数据收集
 ```xml

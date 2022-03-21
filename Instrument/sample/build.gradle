@@ -30,9 +30,11 @@ dependencies {
     implementation rootProject.ext.dependencies.appcompatV7
 //    implementation project(path: ':excel')
 //    implementation project(path: ':logger')
+//    implementation project(path: ':crash')
 
-    implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.10'
-    implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.10'
+    implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.11'
+    implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.11'
+//    implementation 'com.github.zhuyidian.lib_Instrument:crash:V1.1.11'
     implementation project(path: ':crash')
 }
 

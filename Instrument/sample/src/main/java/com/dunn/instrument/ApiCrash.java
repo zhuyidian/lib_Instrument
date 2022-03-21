@@ -16,4 +16,8 @@ public class ApiCrash {
         // 在首页的空闲时候触发
         CrashMonitor.getInstance().init(application);
     }
+
+    public static void nativeCrashTest(){
+        CrashMonitor.getInstance().nativeCrashTest();
+    }
 }

@@ -27,7 +27,9 @@ public class MainActivity extends Activity {
         ApiLogger.logOut("logger日志测试");
         ApiExcel.excelInfo();
         ApiExcel.excelSubmit();
-        jump();
+        ApiCrash.nativeCrashTest();
+
+        //jump();
     }
 
     @Override
