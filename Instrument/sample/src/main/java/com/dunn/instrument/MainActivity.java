@@ -21,6 +21,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         //ApiCrash.crashInit(getApplication());
         ApiAnrWatchDog.anrInit(getApplicationContext());
+
+        long AA = 99 / 1000;
+        float BB = 99 / (float)1000;
+        Log.i(TAG,"AA="+AA+", BB="+BB);
     }
 
     public void click(View view) {
