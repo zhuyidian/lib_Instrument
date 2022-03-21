@@ -15,7 +15,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         //ApiCrash.crashInit(getApplication());
         //ApiAnrWatchDog.anrInit(getApplicationContext());
-        ApiMethodChoreographer.methodInit();
+        //ApiMethodChoreographer.methodInit();
+        ApiMethodChoreographer.choreographerInit();
     }
 
     public void click(View view) {
