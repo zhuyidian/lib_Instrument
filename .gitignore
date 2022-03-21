@@ -28,3 +28,7 @@
 /Instrument/crash/build/
 /Instrument/crash/*.iml
 
+#anr
+/Instrument/anr/build/
+/Instrument/anr/*.iml
+

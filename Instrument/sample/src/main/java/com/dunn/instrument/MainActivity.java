@@ -19,7 +19,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ApiCrash.crashInit(getApplication());
+        //ApiCrash.crashInit(getApplication());
+        ApiAnrWatchDog.anrInit(getApplicationContext());
     }
 
     public void click(View view) {
@@ -27,9 +28,12 @@ public class MainActivity extends Activity {
         ApiLogger.logOut("logger日志测试");
         ApiExcel.excelInfo();
         ApiExcel.excelSubmit();
-        ApiCrash.nativeCrashTest();
-
-        //jump();
+        //ApiCrash.nativeCrashTest();
+//        try {
+//            Thread.sleep(20000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
