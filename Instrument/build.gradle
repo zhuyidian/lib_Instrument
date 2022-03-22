@@ -14,6 +14,9 @@ buildscript {
 //        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
+
+        //lib_matrix
+        classpath ("com.tencent.matrix:matrix-gradle-plugin:${MATRIX_VERSION}") { changing = true }
     }
 }
 

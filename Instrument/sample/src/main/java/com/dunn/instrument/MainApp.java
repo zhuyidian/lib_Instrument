@@ -9,8 +9,9 @@ import android.util.Log;
 
 import com.dunn.instrument.excel.ExcelHelp;
 import com.dunn.instrument.logger.InitJointPoint;
+import com.dunn.instrument.matrix.MatrixApplication;
 
-public class MainApp extends Application {
+public class MainApp extends MatrixApplication {
 
     @Override
     protected void attachBaseContext(Context base) {

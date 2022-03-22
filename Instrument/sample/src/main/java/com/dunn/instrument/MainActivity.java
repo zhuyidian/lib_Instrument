@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
         //ApiCrash.crashInit(getApplication());
         //ApiAnrWatchDog.anrInit(getApplicationContext());
         //ApiMethodChoreographer.methodInit();
-        ApiMethodChoreographer.choreographerInit();
+        //ApiMethodChoreographer.choreographerInit();
     }
 
     public void click(View view) {

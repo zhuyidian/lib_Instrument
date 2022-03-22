@@ -22,6 +22,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    //lib_matrix
+    packagingOptions {
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libwechatbacktrace.so'
+        pickFirst 'lib/arm64-v8a/libwechatbacktrace.so'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 
 dependencies {
@@ -32,15 +44,27 @@ dependencies {
 //    implementation project(path: ':logger')
 //    implementation project(path: ':crash')
 //    implementation project(path: ':anr')
-    implementation project(path: ':method_choreographer')
+//    implementation project(path: ':method_choreographer')
 
     implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.12'
     implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.12'
     implementation 'com.github.zhuyidian.lib_Instrument:crash:V1.1.12'
     implementation 'com.github.zhuyidian.lib_Instrument:anr:V1.2.0'
+    implementation 'com.github.zhuyidian.lib_Instrument:method_choreographer:V1.2.1'
+    implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
 }
 
 // 配置参数
 tinkerPatch {
     oldApk = "oldApk"
+}
+
+//lib_matrix
+apply plugin: 'com.tencent.matrix-plugin'
+matrix {
+    trace {
+        enable = true	//if you don't want to use trace canary, set false
+        baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
+        blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
+    }
 }
