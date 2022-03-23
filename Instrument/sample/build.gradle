@@ -15,6 +15,11 @@ android {
         versionName rootProject.ext.android.versionName
         multiDexEnabled rootProject.ext.android.multiDexEnabled
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //thread
+        ndk{
+            abiFilters "armeabi-v7a"
+        }
     }
     buildTypes {
         release {
@@ -52,6 +57,7 @@ dependencies {
     implementation 'com.github.zhuyidian.lib_Instrument:anr:V1.2.0'
     implementation 'com.github.zhuyidian.lib_Instrument:method_choreographer:V1.2.1'
     implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
+    implementation 'com.github.zhuyidian:lib_Instrument_Thread:V1.0.5'
 }
 
 // 配置参数

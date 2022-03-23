@@ -17,26 +17,32 @@ public class MainActivity extends Activity {
         //ApiAnrWatchDog.anrInit(getApplicationContext());
         //ApiMethodChoreographer.methodInit();
         //ApiMethodChoreographer.choreographerInit();
+        ApiThread.threadInit();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public void click(View view) {
         Log.i(TAG,"click:");
-        ApiLogger.logOut("logger日志测试");
-        ApiExcel.excelInfo();
-        ApiExcel.excelSubmit();
+        //ApiLogger.logOut("logger日志测试");
+        //ApiExcel.excelInfo();
+        //ApiExcel.excelSubmit();
         //ApiCrash.nativeCrashTest();
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ApiLogger.loggerRelease();
+        //ApiLogger.loggerRelease();
     }
 
     public void jump() {

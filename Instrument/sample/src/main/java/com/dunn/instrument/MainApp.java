@@ -21,8 +21,8 @@ public class MainApp extends MatrixApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        ApiLogger.loggerInit();
-        ApiExcel.excelInit(getApplicationContext());
+        //ApiLogger.loggerInit();
+        //ApiExcel.excelInit(getApplicationContext());
     }
 
     @Override
