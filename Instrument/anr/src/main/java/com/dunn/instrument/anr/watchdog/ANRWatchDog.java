@@ -76,7 +76,9 @@ public class ANRWatchDog implements Runnable {
             @Override
             public void run() {
                 ActivityManager.ProcessErrorStateInfo processErrorStateInfo = getErrorInfo(mContext);
+                Log.e(TAG, "获取ANR信息 processErrorStateInfo="+processErrorStateInfo);
                 if (processErrorStateInfo != null) {
+                    Log.e(TAG, "获取ANR信息 processErrorStateInfo="+processErrorStateInfo);
                     // 有 ANR 了
                     RuntimeException e = new RuntimeException(processErrorStateInfo.shortMsg);
                     // 先思考一下，这样拿堆栈是不是一定是对的
@@ -115,6 +117,7 @@ public class ANRWatchDog implements Runnable {
             } while (times++ < loop);
         } catch (Exception e) {
             e.printStackTrace();
+            Log.e(TAG, "getErrorInfo e="+e);
         }
         return null;
     }

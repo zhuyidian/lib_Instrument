@@ -14,21 +14,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //ApiCrash.crashInit(getApplication());
-        //ApiAnrWatchDog.anrInit(getApplicationContext());
+        ApiAnrWatchDog.anrInit(getApplicationContext());
         //ApiMethodChoreographer.methodInit();
         //ApiMethodChoreographer.choreographerInit();
-        ApiThread.threadInit();
+        //ApiThread.threadInit();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+
     }
 
     public void click(View view) {
@@ -37,6 +28,12 @@ public class MainActivity extends Activity {
         //ApiExcel.excelInfo();
         //ApiExcel.excelSubmit();
         //ApiCrash.nativeCrashTest();
+
+        try {
+            Thread.sleep(20000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
