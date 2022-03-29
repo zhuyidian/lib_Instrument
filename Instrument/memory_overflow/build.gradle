@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.library'
+}
+apply plugin: 'com.github.dcendents.android-maven'
+
+repositories {
+    mavenCentral()
+    google()
+    jcenter()
+    maven {
+        url this.rootProject.ext.myMaven.url
+    }
+}
+group = this.rootProject.ext.myMaven.git
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        multiDexEnabled rootProject.ext.android.multiDexEnabled
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled rootProject.ext.android.minifyEnabled
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+    implementation rootProject.ext.dependencies.annotations
+    compileOnly rootProject.ext.dependencies.haha
+}
