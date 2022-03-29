@@ -36,3 +36,6 @@
 /Instrument/method_choreographer/build/
 /Instrument/method_choreographer/*.iml
 
+#memory_overflow
+/Instrument/memory_overflow/build/
+/Instrument/memory_overflow/*.iml

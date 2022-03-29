@@ -4,5 +4,7 @@ include ':buildSrc'
 include ':crash'
 include ':anr'
 include ':method_choreographer'
+include ':memory_overflow'
 include ':sample'
 rootProject.name='Instrument'
+

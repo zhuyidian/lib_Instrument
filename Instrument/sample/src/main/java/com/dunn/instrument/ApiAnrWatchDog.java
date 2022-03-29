@@ -1,10 +1,8 @@
 package com.dunn.instrument;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.dunn.instrument.anr.watchdog.ANRWatchDog;
-import com.dunn.instrument.crash.CrashMonitor;
 
 /**
  * @ClassName: ApiAnrWatchDog

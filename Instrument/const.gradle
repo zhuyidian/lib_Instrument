@@ -51,8 +51,8 @@ ext {
             autolayout            : "1.4.5",
             pickerview            : "3.2.5",
             photoview             : "1.2.3",
-            nineoldandroids       : "2.4.0"
-
+            nineoldandroids       : "2.4.0",
+            haha                  : "2.1"
     ]
 
     dependencies = [
@@ -71,7 +71,7 @@ ext {
             appcompatRC                 : "com.android.support:appcompat-v7:${version.appcompatRC}",
             appcompat                   : "com.android.support:appcompat-v7:${version.appcompat}",
             appcompatAndroidX           : "com.android.support:appcompat-v7:${version.appcompatAndroidX}",
-            "appcompatV7"              : "com.android.support:appcompat-v7:${version["V7Support"]}",
+            "appcompatV7"               : "com.android.support:appcompat-v7:${version["V7Support"]}",
             "design"                    : "com.android.support:design:${version["androidSupportSdkVersion"]}",
             "support-v4"                : "com.android.support:support-v4:${version["androidSupportSdkVersion"]}",
             "cardview-v7"               : "com.android.support:cardview-v7:${version["androidSupportSdkVersion"]}",
@@ -161,5 +161,6 @@ ext {
             "canary-release"            : "com.squareup.leakcanary:leakcanary-android-no-op:${version["canarySdkVersion"]}",
             "umeng-analytics"           : "com.umeng.analytics:analytics:6.0.1",
             "material"                  : "com.google.android.material:material:1.5.0-alpha02",
+            "haha"                      : "com.squareup.haha:haha:${version["haha"]}",
     ]
 }

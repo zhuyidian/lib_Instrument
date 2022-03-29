@@ -23,6 +23,7 @@ public class MainApp extends MatrixApplication {
         super.onCreate();
         //ApiLogger.loggerInit();
         //ApiExcel.excelInit(getApplicationContext());
+        ApiOom.oomInit(this);
     }
 
     @Override

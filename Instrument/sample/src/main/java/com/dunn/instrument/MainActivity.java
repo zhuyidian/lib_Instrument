@@ -21,8 +21,7 @@ public class MainActivity extends Activity {
         //ApiMethodChoreographer.methodInit();
         //ApiMethodChoreographer.choreographerInit();
         //ApiThread.threadInit();
-        ApiIO.ioStart();
-
+        //ApiIO.ioStart();
     }
 
     public void click(View view) {
@@ -31,8 +30,8 @@ public class MainActivity extends Activity {
         //ApiExcel.excelInfo();
         //ApiExcel.excelSubmit();
         //ApiCrash.nativeCrashTest();
+        //smallBuffer();
 
-        smallBuffer();
     }
 
     @Override

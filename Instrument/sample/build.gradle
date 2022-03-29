@@ -50,6 +50,7 @@ dependencies {
 //    implementation project(path: ':crash')
 //    implementation project(path: ':anr')
 //    implementation project(path: ':method_choreographer')
+    implementation project(path: ':memory_overflow')
 
     implementation 'com.github.zhuyidian.lib_Instrument:excel:V1.1.12'
     implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.12'
