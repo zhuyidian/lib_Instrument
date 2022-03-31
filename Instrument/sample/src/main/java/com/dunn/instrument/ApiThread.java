@@ -2,9 +2,6 @@ package com.dunn.instrument;
 
 import android.app.Application;
 
-import com.dunn.instrument.crash.CrashMonitor;
-import com.dunn.instrument.thread.ThreadHelp;
-
 /**
  * @ClassName: ApiCrash
  * @Author: ZhuYiDian
@@ -13,10 +10,10 @@ import com.dunn.instrument.thread.ThreadHelp;
  */
 public class ApiThread {
     public static void threadInit(){
-        ThreadHelp.monitorThreadInit();
+//        ThreadHelp.monitorThreadInit();
     }
 
     public static void threadMonitor(){
-        ThreadHelp.monitorAllThread();
+//        ThreadHelp.monitorAllThread();
     }
 }

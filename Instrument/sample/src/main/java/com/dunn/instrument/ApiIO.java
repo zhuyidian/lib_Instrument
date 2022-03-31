@@ -1,8 +1,5 @@
 package com.dunn.instrument;
 
-import com.dunn.instrument.iomonitor.FileIOMonitor;
-import com.dunn.instrument.thread.ThreadHelp;
-
 /**
  * @ClassName: ApiIO
  * @Author: ZhuYiDian
@@ -11,6 +8,6 @@ import com.dunn.instrument.thread.ThreadHelp;
  */
 public class ApiIO {
     public static void ioStart(){
-        FileIOMonitor.start();
+//        FileIOMonitor.start();
     }
 }

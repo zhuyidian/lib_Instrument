@@ -2,8 +2,6 @@ package com.dunn.instrument;
 
 import android.content.Context;
 
-import com.dunn.instrument.anr.watchdog.ANRWatchDog;
-
 /**
  * @ClassName: ApiAnrWatchDog
  * @Author: ZhuYiDian
@@ -12,7 +10,7 @@ import com.dunn.instrument.anr.watchdog.ANRWatchDog;
  */
 public class ApiAnrWatchDog {
     public static void anrInit(Context context){
-        ANRWatchDog anrWatchDog = new ANRWatchDog(context);
-        anrWatchDog.start();
+//        ANRWatchDog anrWatchDog = new ANRWatchDog(context);
+//        anrWatchDog.start();
     }
 }

@@ -2,9 +2,6 @@ package com.dunn.instrument;
 
 import android.app.Application;
 
-import com.dunn.instrument.crash.CrashMonitor;
-import com.dunn.instrument.methodchoreographer.ChoreographerMonitor;
-import com.dunn.instrument.methodchoreographer.SlowMethodMonitor;
 
 /**
  * @ClassName: ApiMethod
@@ -14,12 +11,12 @@ import com.dunn.instrument.methodchoreographer.SlowMethodMonitor;
  */
 public class ApiMethodChoreographer {
     public static void methodInit(){
-        SlowMethodMonitor slowMethodMonitor = new SlowMethodMonitor();
-        slowMethodMonitor.start();
+//        SlowMethodMonitor slowMethodMonitor = new SlowMethodMonitor();
+//        slowMethodMonitor.start();
     }
 
     public static void choreographerInit(){
-        ChoreographerMonitor choreographerMonitor = new ChoreographerMonitor();
-        choreographerMonitor.start();
+//        ChoreographerMonitor choreographerMonitor = new ChoreographerMonitor();
+//        choreographerMonitor.start();
     }
 }

@@ -3,8 +3,6 @@ package com.dunn.instrument;
 import android.app.Application;
 import android.content.Context;
 
-import com.dunn.instrument.crash.CrashMonitor;
-
 /**
  * @ClassName: ApiCrash
  * @Author: ZhuYiDian
@@ -14,10 +12,10 @@ import com.dunn.instrument.crash.CrashMonitor;
 public class ApiCrash {
     public static void crashInit(Application application){
         // 在首页的空闲时候触发
-        CrashMonitor.getInstance().init(application);
+//        CrashMonitor.getInstance().init(application);
     }
 
     public static void nativeCrashTest(){
-        CrashMonitor.getInstance().nativeCrashTest();
+//        CrashMonitor.getInstance().nativeCrashTest();
     }
 }
