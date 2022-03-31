@@ -21,9 +21,11 @@ public class MainApp extends MatrixApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        //ApiLogger.loggerInit();
-        //ApiExcel.excelInit(getApplicationContext());
-        ApiOom.oomInit(this);
+        ApiExcel.excelInit(getApplicationContext());
+//        ApiExcel.clearExcel();
+        ApiExcel.setFunctionRowName();
+        ApiExcel.setUiRowName();
+        ApiExcel.getInfo().mModule0.mPid = Process.myPid()+"";
     }
 
     @Override

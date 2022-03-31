@@ -4,6 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -37,15 +41,57 @@ public class ExcelHelp implements Runnable {
         return sInstance;
     }
 
+    /**
+     * 使用前必须先初始化
+     * @param context
+     */
     public void init(Context context) {
         mExcelDeal = new ExcelDeal(context);
-//        mExcelDeal.delExcel();
     }
 
+    /**
+     * 使用前必须先初始化  可以设置文件名称
+     * @param context
+     * @param fileName
+     */
+    public void init(Context context,String fileName) {
+        mExcelDeal = new ExcelDeal(context,fileName);
+    }
+
+    /**
+     * 有必要设置function表列名称
+     * @param name
+     */
+    public void setFunctionRowName(String[] name){
+        mExcelDeal.setFunctionRowName(name);
+    }
+
+    /**
+     * 有必要设置ui表列名称
+     * @param name
+     */
+    public void setUiRowName(String[] name){
+        mExcelDeal.setUiRowName(name);
+    }
+
+    /**
+     * 有必要清除数据，重新创建文件
+     */
+    public void clearExcel(){
+        mExcelDeal.delExcel();
+    }
+
+    /**
+     * 获取info设置数据
+     * @return
+     */
     public ExcelInfo getInfo() {
         return mInfo;
     }
 
+    /**
+     * 最后某个点，集中提交一行数据
+     */
     public void submit() {
         synchronized (mInfo) {
             ExcelInfo infoTask = new ExcelInfo(mInfo);

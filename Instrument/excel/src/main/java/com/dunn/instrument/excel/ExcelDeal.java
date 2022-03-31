@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jxl.Workbook;
 import jxl.format.Border;
@@ -31,105 +33,128 @@ import android.util.Log;
 public class ExcelDeal {
     private static final String TAG = ExcelDeal.class.getSimpleName();
     private Context mContext;
-    public final static String FILE_NAME = "Ccosservice.xls";
+    private String FILE_NAME = "Ccosservice.xls";
     private String ABSOLUTE_FILE_PATH = "";
-    public int count = 0;
-    public final int MAX_ROW_SIZE = 5000;
 
     //sheet 0
-    public final static String SHEET_0 = "All";
-    public final static int SHEET_ID_0 = 0;
-    public static final int COLUMNS_MUN = 13;
-    public static final String START_BROADCAST_LABEL = "StartBroadcast";
-    public static final String OTHER_BROADCAST_LABEL = "OtherBroadcast";
-    public static final String PID_LABEL = "Pid";
-    public static final String PROCESS_START_LABEL = "ProcessStart";
-    public static final String PROCESS_INIT_LABEL = "ProcessInit";
-    public static final String SERVICE_START_LABEL = "ServiceStart";
-    public static final String SERVICE_INIT_LABEL = "ServiceInit";
-    public static final String SERVICE_COMMAND_LABEL = "ServiceCommand";
-    public static final String SERVICE_MODE_LABEL = "ServiceMode";
-    public static final String SERVICE_SPECIFICAPP_LABEL = "ServiceSpecificApp";
-    public static final String DIALOG_CREATE_LABEL = "DialogCreate";
-    public static final String DIALOG_INIT_LABEL = "DialogInit";
-    public static final String DIALOG_SHOW_LABEL = "DialogShow(MS)";
+    private static final String SHEET_0 = "module";
+    private static final int SHEET_ID_0 = 0;
+    private static final int COLUMNS_MUN = 7;
+    private static final String PID_COL = "pid";
+    private static final String APP_START_COL = "app_start";
+    private static final String APP_INIT_COL = "app_init";
+    private static final String BROADCAST_START_COL = "broadcast_start";
+    private static final String SERVICE_START_COL = "service_start";
+    private static final String SERVICE_INIT_COL = "service_init";
+    private static final String SERVICE_COMMAND_COL = "service_command";
 
     //sheet 1
-    public final static String SHEET_1 = "Other";
-    public final static int SHEET_ID_1 = 1;
-    public static final int COLUMNS_MUN1 = 14;
-    public static final String mThemeHook_LABEL = "ThemeHook";
-    public static final String mThemeInit_LABEL = "ThemeInit";
-    public static final String mDensityInit_LABEL = "DensityInit";
-    public static final String mBroadcastInit_LABEL = "BroadcastInit";
-    public static final String mQuickInit_LABEL = "QuickInit";
-    public static final String mSourceInit_LABEL = "SourceInit";
-    public static final String mAppInfoInit_LABEL = "AppInfoInit";
-    public static final String mHomeHeaderInit_LABEL = "HomeHeaderInit";
-    public static final String mImageLoaderInit_LABEL = "ImageLoaderInit";
-    public static final String mSkyInit_LABEL = "SkyInit";
-    public static final String mMultiModelInit_LABEL = "MultiModelInit";
-    public static final String mHostRemoteInit_LABEL = "HostRemoteInit";
-    public static final String mSensorDataInit_LABEL = "SensorDataInit";
-    public static final String mTtsInit_LABEL = "TtsInit";
+    private static final String SHEET_1 = "function";
+    private static final int SHEET_ID_1 = 1;
+    public static final String FUNCTION1_COL = "function1";
+    public static final String FUNCTION2_COL = "function2";
+    public static final String FUNCTION3_COL = "function3";
+    public static final String FUNCTION4_COL = "function4";
+    public static final String FUNCTION5_COL = "function5";
+    private Map<String, String> mFunctionMap = new HashMap<>();
+    public static final String[] FUNCTION_COL = new String[]{
+            FUNCTION1_COL,
+            FUNCTION2_COL,
+            FUNCTION3_COL,
+            FUNCTION4_COL,
+            FUNCTION5_COL,
+    };
 
     //sheet 2
-    public final static String SHEET_2 = "Widget";
-    public final static int SHEET_ID_2 = 2;
-    public static final int COLUMNS_MUN2 = 11;
-    public static final String mTheHook_LABEL = "TheHook";
-    public static final String mThemeRegister_LABEL = "ThemeRegister";
-    public static final String mCreateDialog_LABEL = "CreateDialog";
-    public static final String mCreateBar_LABEL = "CreateBar";
-    public static final String mCreateControlPanel_LABEL = "CreateControlPanel";
-    public static final String mCreateInfoPanel_LABEL = "CreateInfoPanel";
-    public static final String mCreateScroll_LABEL = "CreateScroll";
-    public static final String mCreateDate_LABEL = "CreateDate";
-    public static final String mCreateSource_LABEL = "CreateSource";
-    public static final String mCreateQuick_LABEL = "CreateQuick";
-    public static final String mCreateApps_LABEL = "CreateApps";
+    private static final String SHEET_2 = "ui";
+    private static final int SHEET_ID_2 = 2;
+    public static final String UI1_COL = "ui1";
+    public static final String UI2_COL = "ui2";
+    public static final String UI3_COL = "ui3";
+    public static final String UI4_COL = "ui4";
+    public static final String UI5_COL = "ui5";
+    private Map<String, String> mUiMap = new HashMap<>();
+    public static final String[] UI_COL = new String[]{
+            UI1_COL,
+            UI2_COL,
+            UI3_COL,
+            UI4_COL,
+            UI5_COL,
+    };
 
     public ExcelDeal(Context context) {
+        this(context, null);
+    }
+
+    public ExcelDeal(Context context, String excelFileName) {
         mContext = context;
+        if (excelFileName != null) {
+            FILE_NAME = excelFileName;
+        }
+        for (int i = 0; i < FUNCTION_COL.length; i++) {
+            mFunctionMap.put(FUNCTION_COL[i], FUNCTION_COL[i]);
+        }
+        for (int i = 0; i < UI_COL.length; i++) {
+            mUiMap.put(UI_COL[i], UI_COL[i]);
+        }
+
         try {
             File dir = mContext.getFilesDir();
             File file = new File(dir, FILE_NAME);
             ABSOLUTE_FILE_PATH = file.getPath();
             Log.d(TAG, "ExcelDeal: ABSOLUTE_FILE_PATH=" + ABSOLUTE_FILE_PATH);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "ExcelDeal: e=" + e);
         }
     }
 
+    public ExcelDeal setFunctionRowName(String[] rowName) {
+        if (rowName == null || rowName.length <= 0) return this;
+
+        for (int i = 0; i < rowName.length && i < FUNCTION_COL.length; i++) {
+            mFunctionMap.put(FUNCTION_COL[i], rowName[i]);
+        }
+
+        return this;
+    }
+
+    public ExcelDeal setUiRowName(String[] rowName) {
+        if (rowName == null || rowName.length <= 0) return this;
+
+        for (int i = 0; i < rowName.length && i < UI_COL.length; i++) {
+            mUiMap.put(UI_COL[i], rowName[i]);
+        }
+
+        return this;
+    }
+
     /**
      * 删除 Excel
      */
-    public void delExcel() {
+    public ExcelDeal delExcel() {
         File file = new File(ABSOLUTE_FILE_PATH);
         if (file.exists()) {
             file.delete();
         }
 
         Log.d(TAG, "delExcel:");
+        return this;
     }
 
-    public void updateExcel(ExcelInfo info) {
+    public ExcelDeal updateExcel(ExcelInfo info) {
         try {
             if (!isFileExists(ABSOLUTE_FILE_PATH)) {
                 createExcel();
             }
             Log.d(TAG, "updateExcel: info=" + info);
             appendExcel(info);
-            count++;
-
-            if (count > MAX_ROW_SIZE) {
-                reSetCount();
-            }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             Log.e(TAG, "updateExcel: e=" + e);
+        }finally {
+            return this;
         }
     }
 
@@ -155,94 +180,41 @@ public class ExcelDeal {
         //sheet 0
         // 添加第一个工作表并设置第一个Sheet的名字
         WritableSheet sheet = wwb.createSheet(SHEET_0, SHEET_ID_0);
-        Label label;
         // Label(x,y,z) 代表单元格的第x+1列，第y+1行, 内容z, 排版格式
-        label = new Label(0, 0, START_BROADCAST_LABEL, getHeader());
+        Label label;
+        label = new Label(0, 0, PID_COL, getHeader());
         sheet.addCell(label);
-        label = new Label(1, 0, OTHER_BROADCAST_LABEL, getHeader());
+        label = new Label(1, 0, APP_START_COL, getHeader());
         sheet.addCell(label);
-        label = new Label(2, 0, PID_LABEL, getHeader());
+        label = new Label(2, 0, APP_INIT_COL, getHeader());
         sheet.addCell(label);
-        label = new Label(3, 0, PROCESS_START_LABEL, getHeader());
+        label = new Label(3, 0, BROADCAST_START_COL, getHeader());
         sheet.addCell(label);
-        label = new Label(4, 0, PROCESS_INIT_LABEL, getHeader());
+        label = new Label(4, 0, SERVICE_START_COL, getHeader());
         sheet.addCell(label);
-        label = new Label(5, 0, SERVICE_START_LABEL, getHeader());
+        label = new Label(5, 0, SERVICE_INIT_COL, getHeader());
         sheet.addCell(label);
-        label = new Label(6, 0, SERVICE_INIT_LABEL, getHeader());
-        sheet.addCell(label);
-        label = new Label(7, 0, SERVICE_COMMAND_LABEL, getHeader());
-        sheet.addCell(label);
-        label = new Label(8, 0, SERVICE_MODE_LABEL, getHeader());
-        sheet.addCell(label);
-        label = new Label(9, 0, SERVICE_SPECIFICAPP_LABEL, getHeader());
-        sheet.addCell(label);
-        label = new Label(10, 0, DIALOG_CREATE_LABEL, getHeader());
-        sheet.addCell(label);
-        label = new Label(11, 0, DIALOG_INIT_LABEL, getHeader());
-        sheet.addCell(label);
-        label = new Label(12, 0, DIALOG_SHOW_LABEL, getHeader());
+        label = new Label(6, 0, SERVICE_COMMAND_COL, getHeader());
         sheet.addCell(label);
 
         //sheet 1
+        // 添加第一个工作表并设置第一个Sheet的名字
         WritableSheet sheet1 = wwb.createSheet(SHEET_1, SHEET_ID_1);
-        Label label1;
         // Label(x,y,z) 代表单元格的第x+1列，第y+1行, 内容z, 排版格式
-        label1 = new Label(0, 0, mThemeHook_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(1, 0, mThemeInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(2, 0, mDensityInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(3, 0, mBroadcastInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(4, 0, mQuickInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(5, 0, mSourceInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(6, 0, mAppInfoInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(7, 0, mHomeHeaderInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(8, 0, mImageLoaderInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(9, 0, mSkyInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(10, 0, mMultiModelInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(11, 0, mHostRemoteInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(12, 0, mSensorDataInit_LABEL, getHeader());
-        sheet1.addCell(label1);
-        label1 = new Label(13, 0, mTtsInit_LABEL, getHeader());
-        sheet1.addCell(label1);
+        for (int i = 0; i < FUNCTION_COL.length; i++) {
+            Log.d(TAG, "createExcel: label=" + SHEET_1+", col="+i+", row="+0+", name="+mFunctionMap.get(FUNCTION_COL[i]));
+            Label label1 = new Label(i, 0, mFunctionMap.get(FUNCTION_COL[i]), getHeader());
+            sheet1.addCell(label1);
+        }
 
         //sheet 2
         WritableSheet sheet2 = wwb.createSheet(SHEET_2, SHEET_ID_2);
-        Label label2;
         // Label(x,y,z) 代表单元格的第x+1列，第y+1行, 内容z, 排版格式
-        label2 = new Label(0, 0, mTheHook_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(1, 0, mThemeRegister_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(2, 0, mCreateDialog_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(3, 0, mCreateBar_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(4, 0, mCreateControlPanel_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(5, 0, mCreateInfoPanel_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(6, 0, mCreateScroll_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(7, 0, mCreateDate_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(8, 0, mCreateSource_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(9, 0, mCreateQuick_LABEL, getHeader());
-        sheet2.addCell(label2);
-        label2 = new Label(10, 0, mCreateApps_LABEL, getHeader());
-        sheet2.addCell(label2);
+        for (int i = 0; i < UI_COL.length; i++) {
+            Log.d(TAG, "createExcel: label=" + SHEET_2+", col="+i+", row="+0+", name="+mUiMap.get(UI_COL[i]));
+            Label label2 = new Label(i, 0, mUiMap.get(UI_COL[i]), getHeader());
+            sheet2.addCell(label2);
+        }
 
         if (null != wwb) {
             // 写入数据
@@ -269,19 +241,17 @@ public class ExcelDeal {
 
         //sheet 1
         WritableSheet sheet1 = wwb.getSheet(SHEET_ID_1);
-        Label label1;
         int currentRow1 = sheet1.getRows();
-        for (int i = 0; i < COLUMNS_MUN1; i++) {
-            label1 = getLabelSheet1(i, currentRow1, info);
+        for (int i = 0; i < FUNCTION_COL.length; i++) {
+            Label label1 = new Label(i, currentRow1, info.getFunction1Value(FUNCTION_COL[i]));
             sheet1.addCell(label1);
         }
 
         //sheet 2
         WritableSheet sheet2 = wwb.getSheet(SHEET_ID_2);
-        Label label2;
         int currentRow2 = sheet2.getRows();
-        for (int i = 0; i < COLUMNS_MUN2; i++) {
-            label2 = getLabelSheet2(i, currentRow2, info);
+        for (int i = 0; i < UI_COL.length; i++) {
+            Label label2 = new Label(i, currentRow2, info.getUi2Value(UI_COL[i]));
             sheet2.addCell(label2);
         }
 
@@ -291,8 +261,27 @@ public class ExcelDeal {
         }
     }
 
-    private void reSetCount() {
-        count = 0;
+    private Label getLabelSheet0(int col, int raw, ExcelInfo info) {
+        if (col >= COLUMNS_MUN || info == null) return null;
+
+        switch (col) {
+            case 0:
+                return new Label(col, raw, info.mModule0.mPid);
+            case 1:
+                return new Label(col, raw, info.mModule0.mApplicationStart);
+            case 2:
+                return new Label(col, raw, info.mModule0.mApplicationInit);
+            case 3:
+                return new Label(col, raw, info.mModule0.mBroadcastStart);
+            case 4:
+                return new Label(col, raw, info.mModule0.mServiceStart);
+            case 5:
+                return new Label(col, raw, info.mModule0.mServiceInit);
+            case 6:
+                return new Label(col, raw, info.mModule0.mServiceCommand);
+            default:
+                return null;
+        }
     }
 
     private WritableCellFormat getHeader() {
@@ -354,114 +343,5 @@ public class ExcelDeal {
             return false;
         }
         return true;
-    }
-
-    private Label getLabelSheet0(int col, int raw, ExcelInfo info) {
-        if (col >= COLUMNS_MUN || info == null) return null;
-
-        switch (col) {
-            case 0:
-                return new Label(col, raw, info.mStartBroadcast);
-            case 1:
-                return new Label(col, raw, info.mOtherBroadcast);
-            case 2:
-                return new Label(col, raw, info.mPid + "");
-            case 3:
-                return new Label(col, raw, info.mProcessStartTime);
-            case 4:
-                return new Label(col, raw, info.mProcessInitTime);
-            case 5:
-                return new Label(col, raw, info.mServiceStartTime);
-            case 6:
-                return new Label(col, raw, info.mServiceInitTime);
-            case 7:
-                return new Label(col, raw, info.mServiceCommand);
-            case 8:
-                return new Label(col, raw, info.mServiceMode);
-            case 9:
-                return new Label(col, raw, info.mServiceSpecificApp);
-            case 10:
-                return new Label(col, raw, info.mDialogCreateTime);
-            case 11:
-                return new Label(col, raw, info.mDialogInitTime);
-            case 12:
-                Label lable;
-                if (info.mDialogShowTime > 300l) {
-                    lable = new Label(col, raw, info.mDialogShowTime + "", getHeaderMark());
-                } else {
-                    lable = new Label(col, raw, info.mDialogShowTime + "");
-                }
-                return lable;
-            default:
-                return null;
-        }
-    }
-
-    private Label getLabelSheet1(int col, int raw, ExcelInfo info) {
-        if (col >= COLUMNS_MUN1 || info == null) return null;
-
-        switch (col) {
-            case 0:
-                return new Label(col, raw, info.mThemeHook);
-            case 1:
-                return new Label(col, raw, info.mThemeInit);
-            case 2:
-                return new Label(col, raw, info.mDensityInit);
-            case 3:
-                return new Label(col, raw, info.mBroadcastInit);
-            case 4:
-                return new Label(col, raw, info.mQuickInit);
-            case 5:
-                return new Label(col, raw, info.mSourceInit);
-            case 6:
-                return new Label(col, raw, info.mAppInfoInit);
-            case 7:
-                return new Label(col, raw, info.mHomeHeaderInit);
-            case 8:
-                return new Label(col, raw, info.mImageLoaderInit);
-            case 9:
-                return new Label(col, raw, info.mSkyInit);
-            case 10:
-                return new Label(col, raw, info.mMultiModelInit);
-            case 11:
-                return new Label(col, raw, info.mHostRemoteInit);
-            case 12:
-                return new Label(col, raw, info.mSensorDataInit);
-            case 13:
-                return new Label(col, raw, info.mTtsInit);
-            default:
-                return null;
-        }
-    }
-
-    private Label getLabelSheet2(int col, int raw, ExcelInfo info) {
-        if (col >= COLUMNS_MUN2 || info == null) return null;
-
-        switch (col) {
-            case 0:
-                return new Label(col, raw, info.mTheHook);
-            case 1:
-                return new Label(col, raw, info.mThemeRegister);
-            case 2:
-                return new Label(col, raw, info.mCreateDialog);
-            case 3:
-                return new Label(col, raw, info.mCreateBar);
-            case 4:
-                return new Label(col, raw, info.mCreateControlPanel);
-            case 5:
-                return new Label(col, raw, info.mCreateInfoPanel);
-            case 6:
-                return new Label(col, raw, info.mCreateScroll);
-            case 7:
-                return new Label(col, raw, info.mCreateDate);
-            case 8:
-                return new Label(col, raw, info.mCreateSource);
-            case 9:
-                return new Label(col, raw, info.mCreateQuick);
-            case 10:
-                return new Label(col, raw, info.mCreateApps);
-            default:
-                return null;
-        }
     }
 }

@@ -3,6 +3,7 @@ package com.dunn.instrument;
 import android.content.Context;
 
 import com.dunn.instrument.excel.ExcelHelp;
+import com.dunn.instrument.excel.ExcelInfo;
 
 /**
  * @ClassName: ApiExcel
@@ -12,11 +13,27 @@ import com.dunn.instrument.excel.ExcelHelp;
  */
 public class ApiExcel {
     public static void excelInit(Context context){
-        ExcelHelp.getInstance().init(context);
+        ExcelHelp.getInstance().init(context, "Ccosservice.xls");
     }
 
-    public static void excelInfo(){
-        ExcelHelp.getInstance().getInfo().mAppInfoInit = System.currentTimeMillis() + "";
+    public static void clearExcel(){
+        ExcelHelp.getInstance().clearExcel();
+    }
+
+    public static void setFunctionRowName(){
+        ExcelHelp.getInstance().setFunctionRowName(new String[]{
+                "wo", "ni", "ta",
+        });
+    }
+
+    public static void setUiRowName(){
+        ExcelHelp.getInstance().setUiRowName(new String[]{
+                "wo", "ni", "ta",
+        });
+    }
+
+    public static ExcelInfo getInfo(){
+        return ExcelHelp.getInstance().getInfo();
     }
 
     public static void excelSubmit(){

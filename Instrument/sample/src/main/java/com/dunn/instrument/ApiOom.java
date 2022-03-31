@@ -2,8 +2,6 @@ package com.dunn.instrument;
 
 import android.app.Application;
 
-import com.dunn.instrument.oom.Help;
-
 /**
  * @ClassName: ApiOom
  * @Author: ZhuYiDian
@@ -12,6 +10,6 @@ import com.dunn.instrument.oom.Help;
  */
 public class ApiOom {
     public static void oomInit(Application application){
-        Help.initMemory(application);
+//        Help.initMemory(application);
     }
 }
