@@ -24,10 +24,6 @@
 /Instrument/crash/build/
 /Instrument/crash/*.iml
 
-#anr
-/Instrument/anr/build/
-/Instrument/anr/*.iml
-
 #method_choreographer
 /Instrument/method_choreographer/build/
 /Instrument/method_choreographer/*.iml

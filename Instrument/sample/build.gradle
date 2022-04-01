@@ -47,13 +47,11 @@ dependencies {
     implementation rootProject.ext.dependencies.appcompatV7
 //    implementation project(path: ':logger')
 //    implementation project(path: ':crash')
-//    implementation project(path: ':anr')
 //    implementation project(path: ':method_choreographer')
 //    implementation project(path: ':memory_overflow')
 
 //    implementation 'com.github.zhuyidian.lib_Instrument:logger:V1.1.12'
 //    implementation 'com.github.zhuyidian.lib_Instrument:crash:V1.1.12'
-//    implementation 'com.github.zhuyidian.lib_Instrument:anr:V1.2.0'
 //    implementation 'com.github.zhuyidian.lib_Instrument:method_choreographer:V1.2.1'
 //    implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
 //    implementation 'com.github.zhuyidian:lib_Instrument_Thread:V1.0.6'
