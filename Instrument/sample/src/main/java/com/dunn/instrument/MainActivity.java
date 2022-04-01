@@ -16,7 +16,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //ApiCrash.crashInit(getApplication());
         //ApiMethodChoreographer.methodInit();
         //ApiMethodChoreographer.choreographerInit();
         //ApiThread.threadInit();
@@ -28,7 +27,6 @@ public class MainActivity extends Activity {
         //ApiLogger.logOut("logger日志测试");
         //ApiExcel.excelInfo();
         //ApiExcel.excelSubmit();
-        //ApiCrash.nativeCrashTest();
         //smallBuffer();
     }
 
