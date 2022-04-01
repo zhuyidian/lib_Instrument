@@ -1,5 +1,4 @@
 include ':logger'
-include ':excel'
 include ':buildSrc'
 include ':crash'
 include ':anr'

@@ -31,8 +31,6 @@ public class MainActivity extends Activity {
         //ApiExcel.excelSubmit();
         //ApiCrash.nativeCrashTest();
         //smallBuffer();
-
-        ApiExcel.excelSubmit();
     }
 
     @Override
