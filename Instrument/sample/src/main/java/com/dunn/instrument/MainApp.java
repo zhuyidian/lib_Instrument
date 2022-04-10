@@ -2,10 +2,7 @@ package com.dunn.instrument;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Process;
-import android.util.Log;
 
 public class MainApp extends Application {
 

@@ -9,6 +9,7 @@ import android.view.View;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
@@ -67,6 +68,9 @@ public class LogAspect {
      */
     @Around("pointcutInitMethod()")
     public Object aroundInitMethod(ProceedingJoinPoint joinPoint) throws Throwable {
+//        Signature signature = joinPoint.getSignature(); //获取方法签名
+//        String name = signature.toShortString(); //获取方法所有信息
+
         //切入的目标方法名
         String methodName = joinPoint.getSignature().getName();
         //切入的目标类名(简称)
@@ -95,6 +99,11 @@ public class LogAspect {
         LoggerManager.L().init(Environment.getExternalStorageDirectory().getPath() + mPath, mName);
 
         //继续执行切入的原方法
+//        try {
+//            Object object = joinPoint.proceed();
+//        }catch (Throwable throwable){
+//            throwable.printStackTrace();
+//        }
         Object object = joinPoint.proceed();
         //在切入的方法之后执行
         if (LogConfig.DEBUG) Log.v("logger[", "LogAspect ----init after----");

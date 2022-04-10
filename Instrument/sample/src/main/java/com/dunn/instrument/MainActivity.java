@@ -3,6 +3,8 @@ package com.dunn.instrument;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
+import android.support.v4.os.TraceCompat;
 import android.util.Log;
 import android.view.View;
 
@@ -15,7 +17,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Debug.startMethodTracing("tracePath_test");
+        //TraceCompat.beginSection("ApponCreate");
         setContentView(R.layout.activity_main);
+        //TraceCompat.endSection();
+        //Debug.stopMethodTracing();
+
         //ApiMethodChoreographer.methodInit();
         //ApiMethodChoreographer.choreographerInit();
         //ApiThread.threadInit();
