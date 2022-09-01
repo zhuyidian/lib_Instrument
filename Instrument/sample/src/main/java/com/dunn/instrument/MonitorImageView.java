@@ -7,10 +7,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
 import android.os.MessageQueue;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
+
+import androidx.annotation.Nullable;
 
 public class MonitorImageView extends ImageView implements MessageQueue.IdleHandler {
     private final String TAG = "MonitorImageView";

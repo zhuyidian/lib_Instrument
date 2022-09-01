@@ -55,6 +55,16 @@ dependencies {
 //    implementation 'com.github.zhuyidian:lib_Instrument_Thread:V1.0.6'
 //    implementation 'com.github.zhuyidian:lib_Instrument_IoMonitor:V1.0.0'
 //    implementation 'com.github.zhuyidian.lib_Instrument:memory_overflow:V1.2.6'
+
+//    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.0.2'
+//    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crash:V1.0.7'
+//    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crashlocal:V1.0.7'
+//    implementation 'com.github.zhuyidian.lib_Instrument_Thread:threadhooksrc:V1.1.5'
+//    implementation 'com.github.zhuyidian.lib_Instrument_Thread:thread:V1.1.5'
+//    implementation 'com.github.zhuyidian:lib_Instrument_IoMonitor:V1.0.1'
+    implementation 'com.github.zhuyidian:lib_Instrument_Excel:V1.0.4'
+    implementation 'com.github.zhuyidian:lib_Instrument_Anr:V1.0.0'
+    implementation 'com.github.zhuyidian:lib_Instrument_MethodMonitor:V1.0.0'
 }
 
 // 配置参数
