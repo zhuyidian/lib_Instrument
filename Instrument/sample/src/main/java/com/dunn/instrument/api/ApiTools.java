@@ -1,4 +1,4 @@
-package com.dunn.instrument;
+package com.dunn.instrument.api;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,8 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.DisplayMetrics;
-
-import com.dunn.instrument.anr.watchdog.ANRWatchDog;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.dunn.instrument;
+package com.dunn.instrument.plugin;
 
 import android.content.Context;
 import android.graphics.Bitmap;

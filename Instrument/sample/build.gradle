@@ -45,11 +45,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
 //    implementation rootProject.ext.dependencies.annotations
     implementation rootProject.ext.dependencies.appcompatV7
-//    implementation project(path: ':memory_overflow')
 
-//    implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
-//    implementation 'com.github.zhuyidian.lib_Instrument:memory_overflow:V1.2.6'
-
+//    implementation 'com.github.zhuyidian:lib_Instrument_Oom:V1.0.0'
 //    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.0.2'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crash:V1.0.7'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crashlocal:V1.0.7'
@@ -61,6 +58,8 @@ dependencies {
 //    implementation 'com.github.zhuyidian:lib_Instrument_MethodMonitor:V1.0.0'
 //    implementation 'com.github.zhuyidian:lib_Instrument_Alarms:V1.0.0'
 //    implementation 'com.github.zhuyidian:lib_Instrument_Logger:V1.0.0'
+
+//    implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
 }
 
 // 配置参数
