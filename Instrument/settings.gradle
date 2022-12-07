@@ -1,4 +1,3 @@
-include ':logger'
 include ':buildSrc'
 include ':memory_overflow'
 include ':sample'
