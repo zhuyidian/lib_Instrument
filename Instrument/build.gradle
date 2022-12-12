@@ -5,6 +5,8 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/jcenter" }
+        maven { url "http://172.20.135.19:8080/nexus/content/repositories/ClientApp/" }
     }
     dependencies {
         //第三步：迁移androidX gradle版本要升级成3.4.1
@@ -16,7 +18,7 @@ buildscript {
         classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'
 
         //lib_matrix
-        classpath ("com.tencent.matrix:matrix-gradle-plugin:${MATRIX_VERSION}") { changing = true }
+//        classpath ("com.tencent.matrix:matrix-gradle-plugin:${MATRIX_VERSION}") { changing = true }
     }
 }
 
@@ -26,6 +28,16 @@ allprojects {
         google()
         jcenter()
 	    maven { url "https://jitpack.io" }
+        maven {
+//            allowInsecureProtocol true
+            url "http://maven.aliyun.com/nexus/content/repositories/jcenter" }
+        maven {
+//            allowInsecureProtocol true
+            url "http://172.20.135.19:8080/nexus/content/repositories/ClientApp/" }
+        // Warning: this repository is going to shut down soon
+        maven {
+            url "http://172.22.198.202:10001/repository/maven-public/"
+        }
     }
 }
 

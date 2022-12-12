@@ -1,4 +1,4 @@
-include ':buildSrc'
+//include ':buildSrc'
 include ':sample'
 rootProject.name='Instrument'
 

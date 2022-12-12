@@ -3,41 +3,68 @@ apply plugin: 'android-aspectjx'
 apply plugin: 'com.dunn.instrument.monitorimage'
 
 android {
-//    compileSdkVersion 29
-//    buildToolsVersion '29.0.0'
     compileSdkVersion rootProject.ext.android.compileSdkVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
     buildToolsVersion rootProject.ext.android.buildToolsVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
+
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion  //29   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
-        multiDexEnabled rootProject.ext.android.multiDexEnabled
+//        multiDexEnabled rootProject.ext.android.multiDexEnabled  //开启之后在电视上起不来
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //thread
-        ndk{
-            abiFilters "armeabi-v7a"
+//        ndk{
+//            abiFilters "armeabi-v7a"
+//        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../sign/platform.keystore')
+            keyAlias 'skyworth'
+            storePassword 'android'
+            keyPassword 'android'
+        }
+        debug {
+            storeFile file('../sign/debug.keystore')
+            keyAlias 'androiddebugkey'
+            storePassword 'android'
+            keyPassword 'android'
         }
     }
+
     buildTypes {
         release {
             minifyEnabled rootProject.ext.android.minifyEnabled
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
     //lib_matrix
-    packagingOptions {
-        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
-        pickFirst 'lib/arm64-v8a/libc++_shared.so'
-        pickFirst 'lib/armeabi-v7a/libwechatbacktrace.so'
-        pickFirst 'lib/arm64-v8a/libwechatbacktrace.so'
-    }
+//    packagingOptions {
+//        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+//        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+//        pickFirst 'lib/armeabi-v7a/libwechatbacktrace.so'
+//        pickFirst 'lib/arm64-v8a/libwechatbacktrace.so'
+//    }
 
-    packagingOptions {
-        exclude 'META-INF/proguard/androidx-annotations.pro'
+//    packagingOptions {
+//        exclude 'META-INF/proguard/androidx-annotations.pro'
+//    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "${variant.name}_${variant.versionName}_${variant.buildType.name}.apk"
+        }
     }
 }
 
@@ -47,7 +74,7 @@ dependencies {
     implementation rootProject.ext.dependencies.appcompatV7
 
 //    implementation 'com.github.zhuyidian:lib_Instrument_Oom:V1.0.0'
-//    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.0.2'
+    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.0.3'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crash:V1.0.7'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crashlocal:V1.0.7'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Thread:threadhooksrc:V1.1.5'
@@ -60,12 +87,14 @@ dependencies {
 //    implementation 'com.github.zhuyidian:lib_Instrument_Logger:V1.0.0'
 
 //    implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
+
+    implementation "swaiotos:sal:1.0.347"
 }
 
 // 配置参数
-tinkerPatch {
-    oldApk = "oldApk"
-}
+//tinkerPatch {
+//    oldApk = "oldApk"
+//}
 
 //lib_matrix
 //apply plugin: 'com.tencent.matrix-plugin'
