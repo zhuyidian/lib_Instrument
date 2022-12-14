@@ -1,61 +1,71 @@
 package com.dunn.instrument.service;
 
+import android.app.ActivityManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.os.SystemProperties;
 import androidx.annotation.NonNull;
 
 import com.dunn.instrument.R;
 import com.dunn.instrument.floatwindow.FloatWindowManager;
 import com.dunn.instrument.floatwindow.WindowRecordBean;
+import com.dunn.instrument.tools.framework.ram.MemTools;
+import com.dunn.instrument.tools.framework.system.SystemUtil;
 import com.dunn.instrument.tools.log.LogUtil;
 import com.dunn.instrument.tools.thread.ThreadManager;
-import com.tianci.tv.utils.TVSDKDebug;
-
-import swaiotos.sal.SalModule;
-import swaiotos.sal.platform.IDeviceInfo;
 
 public class DeviceInfoService extends Service {
     private static final String TAG = "DeviceInfoService";
+    private static final int MSG_MEMINFO = 0;
+    private static final int MSG_VERSION = 1;
     private WindowRecordBean mBean;
-    private TextView mModel;
-    private TextView mMachine;
-    private TextView mChip;
-    private TextView mAndroidVersion;
-    private TextView mArm;
-    private DataThread mDataThread;
+    private TextView mVersion;
+    private TextView mTotalMem;
+    private TextView mAvailMem;
+    private TextView mFreeMem;
+    private TextView mSwapTotal;
+    private TextView mSwapFree;
+    private MemThread mMemThread;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             int what = msg.what;
-            if (what == 0) {
-//                if (!TextUtils.isEmpty(msg.getData().getString("text1")))
-//                    //cpuUsageTextView.setText(msg.getData().getString("text1"));
-//
-//                if (!TextUtils.isEmpty(msg.getData().getString("text2")))
-//                    //memUsageTextView.setText(msg.getData().getString("text2"));
-//
-//                if (!TextUtils.isEmpty(msg.getData().getString("text3")))
-//                    //appCpuUsageTextView.setText(msg.getData().getString("text3"));
-//
-//                if (!TextUtils.isEmpty(msg.getData().getString("text4")))
-//                    //appMemUsageTextView.setText(msg.getData().getString("text4"));
-//
-//                if (!TextUtils.isEmpty(msg.getData().getString("text5")))
-//                    //appFpsTextView.setText(msg.getData().getString("text5"));
+            switch (what) {
+                case MSG_MEMINFO:
+                    if (!TextUtils.isEmpty(msg.getData().getString("totalMem")))
+                        mTotalMem.setText("totalMem:"+msg.getData().getString("totalMem"));
+
+                    if (!TextUtils.isEmpty(msg.getData().getString("availMem")))
+                        mAvailMem.setText("availMem:"+msg.getData().getString("availMem"));
+
+                    if (!TextUtils.isEmpty(msg.getData().getString("freeMem")))
+                        mFreeMem.setText("freeMem:"+msg.getData().getString("freeMem"));
+
+                    if (!TextUtils.isEmpty(msg.getData().getString("swapTotal")))
+                        mSwapTotal.setText("swapTotal:"+msg.getData().getString("swapTotal"));
+
+                    if (!TextUtils.isEmpty(msg.getData().getString("swapFree")))
+                        mSwapFree.setText("swapFree:"+msg.getData().getString("swapFree"));
+                    break;
+                case MSG_VERSION:
+                    if (!TextUtils.isEmpty(msg.getData().getString("version")))
+                        mVersion.setText("version:"+msg.getData().getString("version"));
+                    break;
             }
         }
     };
@@ -68,8 +78,8 @@ public class DeviceInfoService extends Service {
         super.onCreate();
         LogUtil.i(TAG, "onCreate: ");
         showFloatWindow();
-        getDeviceInfo();
         startThread();
+        getVersion();
     }
 
     @Override
@@ -95,19 +105,20 @@ public class DeviceInfoService extends Service {
 
     private void showFloatWindow() {
         View view = LayoutInflater.from(this).inflate(R.layout.float_window_device_info, null);
-        mModel = view.findViewById(R.id.model);
+        mVersion = view.findViewById(R.id.version);
+        mTotalMem = view.findViewById(R.id.totalMem);
         //cpuUsageTextView.setTextColor(getResources().getColor(R.color.black));
-        mMachine = view.findViewById(R.id.machine);
+        mAvailMem = view.findViewById(R.id.availMem);
         // appCpuUsageTextView.setTextColor(getResources().getColor(R.color.black));
-        mChip = view.findViewById(R.id.chip);
+        mFreeMem = view.findViewById(R.id.freeMem);
         // memUsageTextView.setTextColor(getResources().getColor(R.color.black));
-        mAndroidVersion = view.findViewById(R.id.android_version);
-        mArm = view.findViewById(R.id.arm);
+        mSwapTotal = view.findViewById(R.id.swapTotal);
+        mSwapFree = view.findViewById(R.id.swapFree);
         // appMemUsageTextView.setTextColor(getResources().getColor(R.color.black));
         mBean = FloatWindowManager.getInstance().createAndShowFloatWindow();
-        if(mBean!=null && mBean.getContentView()!=null){
+        if (mBean != null && mBean.getContentView() != null) {
             RelativeLayout mWindowContent = mBean.getContentView();
-            if(mWindowContent!=null){
+            if (mWindowContent != null) {
                 mWindowContent.addView(view);
             }
         }
@@ -117,42 +128,20 @@ public class DeviceInfoService extends Service {
         FloatWindowManager.getInstance().removeFloatWindow(mBean);
     }
 
-    private void getDeviceInfo(){
-        ThreadManager.getInstance().ioThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    IDeviceInfo mIDeviceInfo = swaiotos.sal.SAL.getModule(DeviceInfoService.this, SalModule.DEVICE_INFO);
-                    String mac = mIDeviceInfo.getMac();
-                    LogUtil.i(TAG, "getDeviceInfo: Mac=" + mac);
-                    String model = mIDeviceInfo.getModel();
-                    LogUtil.i(TAG, "getDeviceInfo: Model=" + model);
-                    String chip = mIDeviceInfo.getChip();
-                    LogUtil.i(TAG, "getDeviceInfo: Chip=" + chip);
-                    String deviceId = mIDeviceInfo.getDeviceID();
-                    LogUtil.i(TAG, "getDeviceInfo: DeviceID=" + deviceId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    LogUtil.e(TAG, "getDeviceInfo: e=" + e);
-                }
-            }
-        });
-    }
-
     private void startThread() {
         stopThread();
-        mDataThread = new DataThread();
-        mDataThread.start();
+        mMemThread = new MemThread();
+        mMemThread.start();
     }
 
     private void stopThread() {
-        if (mDataThread != null) {
-            mDataThread.exit();
-            mDataThread = null;
+        if (mMemThread != null) {
+            mMemThread.exit();
+            mMemThread = null;
         }
     }
 
-    private static class DataThread extends Thread {
+    private class MemThread extends Thread {
         private boolean isStart = false;
 
         @Override
@@ -169,7 +158,8 @@ public class DeviceInfoService extends Service {
         public void run() {
             while (isStart) {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
+                    getMeminfo();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -177,16 +167,45 @@ public class DeviceInfoService extends Service {
         }
     }
 
-    private void sendMsg(String msg) {
+    private void getMeminfo() {
+        int memoryUnit = 1024;
+        MemTools.MemInfo memInfo = MemTools.getSystemMemInfo();
+        long totalMem = memInfo.memTotal / memoryUnit;
+        long availMem = memInfo.memAvailable / memoryUnit;
+        long freeMem = memInfo.memFree / memoryUnit;
+        long buffers = memInfo.buffers / memoryUnit;
+        long cachedMem = memInfo.cached / memoryUnit;
+        long swapTotal = memInfo.swapTotal / memoryUnit;
+        long swapFree = memInfo.swapFree / memoryUnit;
+        if (availMem == 0) {
+            ActivityManager.MemoryInfo info = MemTools.getMemoryInfo(DeviceInfoService.this);
+            availMem = info.availMem / memoryUnit / memoryUnit;
+        }
+
         Message message = mHandler.obtainMessage();
-        message.what = 0;
+        message.what = MSG_MEMINFO;
         Bundle bundle = new Bundle();
-        bundle.putString("text1", msg);
-        bundle.putString("text2", msg);
-        bundle.putString("text3", msg);
-        bundle.putString("text4", msg);
-        bundle.putString("text5", msg);
+        bundle.putString("totalMem", totalMem + " MB");
+        bundle.putString("freeMem", freeMem + " MB");
+        bundle.putString("availMem", availMem + " MB");
+        bundle.putString("swapTotal", swapTotal + " MB");
+        bundle.putString("swapFree", swapFree + " MB");
         message.setData(bundle);
         mHandler.sendMessage(message);
+    }
+
+    private void getVersion() {
+        ThreadManager.getInstance().ioThread(new Runnable() {
+            @Override
+            public void run() {
+                String version = SystemUtil.getSystemVersions();
+                Message message = mHandler.obtainMessage();
+                message.what = MSG_VERSION;
+                Bundle bundle = new Bundle();
+                bundle.putString("version", version);
+                message.setData(bundle);
+                mHandler.sendMessage(message);
+            }
+        });
     }
 }

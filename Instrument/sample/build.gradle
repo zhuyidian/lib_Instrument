@@ -29,8 +29,12 @@ android {
             keyPassword 'android'
         }
         debug {
-            storeFile file('../sign/debug.keystore')
-            keyAlias 'androiddebugkey'
+//            storeFile file('../sign/debug.keystore')
+//            keyAlias 'androiddebugkey'
+//            storePassword 'android'
+//            keyPassword 'android'
+            storeFile file('../sign/platform.keystore')
+            keyAlias 'skyworth'
             storePassword 'android'
             keyPassword 'android'
         }
@@ -38,7 +42,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled rootProject.ext.android.minifyEnabled
+            minifyEnabled false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -74,7 +78,7 @@ dependencies {
     implementation rootProject.ext.dependencies.appcompatV7
 
 //    implementation 'com.github.zhuyidian:lib_Instrument_Oom:V1.0.0'
-    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.0.3'
+    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.0.6'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crash:V1.0.7'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crashlocal:V1.0.7'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Thread:threadhooksrc:V1.1.5'
@@ -87,8 +91,6 @@ dependencies {
 //    implementation 'com.github.zhuyidian:lib_Instrument_Logger:V1.0.0'
 
 //    implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
-
-    implementation "swaiotos:sal:1.0.347"
 }
 
 // 配置参数

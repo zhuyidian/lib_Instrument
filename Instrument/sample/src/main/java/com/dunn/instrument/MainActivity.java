@@ -6,20 +6,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.dunn.instrument.service.DeviceInfoService;
-import com.dunn.instrument.service.InfoService;
-import com.dunn.instrument.service.InfoTest1Service;
-import com.dunn.instrument.service.InfoTest2Service;
-import com.dunn.instrument.service.InfoTest3Service;
-import com.dunn.instrument.service.InfoTest4Service;
-import com.dunn.instrument.service.InfoTest5Service;
-import com.dunn.instrument.service.InfoTest6Service;
-import com.dunn.instrument.tools.log.LogUtil;
+import com.dunn.instrument.service.ProcessService;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
@@ -73,41 +65,41 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btn3:
                 if(flag3){
-                    stopService(new Intent(MainActivity.this, InfoTest2Service.class));
+                    stopService(new Intent(MainActivity.this, ProcessService.class));
                 }else{
-                    startService(new Intent(MainActivity.this, InfoTest2Service.class));
+                    startService(new Intent(MainActivity.this, ProcessService.class));
                 }
                 flag3 = !flag3;
                 break;
             case R.id.btn4:
                 if(flag4){
-                    stopService(new Intent(MainActivity.this, InfoTest3Service.class));
+                    //stopService(new Intent(MainActivity.this, InfoTest3Service.class));
                 }else{
-                    startService(new Intent(MainActivity.this, InfoTest3Service.class));
+                    //startService(new Intent(MainActivity.this, InfoTest3Service.class));
                 }
                 flag4 = !flag4;
                 break;
             case R.id.btn5:
                 if(flag5){
-                    stopService(new Intent(MainActivity.this, InfoTest4Service.class));
+                    //stopService(new Intent(MainActivity.this, InfoTest4Service.class));
                 }else{
-                    startService(new Intent(MainActivity.this, InfoTest4Service.class));
+                    //startService(new Intent(MainActivity.this, InfoTest4Service.class));
                 }
                 flag5 = !flag5;
                 break;
             case R.id.btn6:
                 if(flag6){
-                    stopService(new Intent(MainActivity.this, InfoTest5Service.class));
+                    //stopService(new Intent(MainActivity.this, InfoTest5Service.class));
                 }else{
-                    startService(new Intent(MainActivity.this, InfoTest5Service.class));
+                    //startService(new Intent(MainActivity.this, InfoTest5Service.class));
                 }
                 flag6 = !flag6;
                 break;
             case R.id.btn7:
                 if(flag7){
-                    stopService(new Intent(MainActivity.this, InfoTest6Service.class));
+                    //stopService(new Intent(MainActivity.this, InfoTest6Service.class));
                 }else{
-                    startService(new Intent(MainActivity.this, InfoTest6Service.class));
+                    //startService(new Intent(MainActivity.this, InfoTest6Service.class));
                 }
                 flag7 = !flag7;
                 break;
@@ -131,10 +123,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             startActivityForResult(intent, 0);
             return;
         }
-        startService(new Intent(MainActivity.this, InfoService.class));
+        //startService(new Intent(MainActivity.this, InfoService.class));
     }
 
     private void stopInfoService(){
-        stopService(new Intent(MainActivity.this, InfoService.class));
+        //stopService(new Intent(MainActivity.this, InfoService.class));
     }
 }

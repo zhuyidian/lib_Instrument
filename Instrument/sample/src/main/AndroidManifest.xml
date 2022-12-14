@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.DUMP" />
 
     <application
         android:allowBackup="true"
@@ -32,30 +33,7 @@
             android:name=".service.DeviceInfoService">
         </service>
         <service
-            android:name=".service.InfoService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.coocaa.perf.action" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".service.InfoTest1Service">
-        </service>
-        <service
-            android:name=".service.InfoTest2Service">
-        </service>
-        <service
-            android:name=".service.InfoTest3Service">
-        </service>
-        <service
-            android:name=".service.InfoTest4Service">
-        </service>
-        <service
-            android:name=".service.InfoTest5Service">
-        </service>
-        <service
-            android:name=".service.InfoTest6Service">
+            android:name=".service.ProcessService">
         </service>
     </application>
 

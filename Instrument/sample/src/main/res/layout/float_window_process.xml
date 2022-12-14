@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/version"
+        android:id="@+id/pkg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -15,7 +14,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/totalMem"
+        android:id="@+id/cls"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -23,31 +22,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/availMem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="10sp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/freeMem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="10sp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/swapTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="10sp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/swapFree"
+        android:id="@+id/fps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
