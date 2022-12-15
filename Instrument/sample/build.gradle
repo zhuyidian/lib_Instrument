@@ -3,13 +3,15 @@ apply plugin: 'android-aspectjx'
 apply plugin: 'com.dunn.instrument.monitorimage'
 
 android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
+    //compileSdkVersion rootProject.ext.android.compileSdkVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
+    compileSdkVersion 32
     buildToolsVersion rootProject.ext.android.buildToolsVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
 
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion  //29   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
+        //targetSdkVersion rootProject.ext.android.targetSdkVersion  //29   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
+        targetSdkVersion 32
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 //        multiDexEnabled rootProject.ext.android.multiDexEnabled  //开启之后在电视上起不来
@@ -78,7 +80,7 @@ dependencies {
     implementation rootProject.ext.dependencies.appcompatV7
 
 //    implementation 'com.github.zhuyidian:lib_Instrument_Oom:V1.0.0'
-    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.0.6'
+    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.1.0'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crash:V1.0.7'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crashlocal:V1.0.7'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Thread:threadhooksrc:V1.1.5'

@@ -54,4 +54,12 @@
         android:textSize="10sp"
         android:textColor="@color/black" />
 
+    <TextView
+        android:id="@+id/cpuRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        android:textColor="@color/black" />
+
 </LinearLayout>

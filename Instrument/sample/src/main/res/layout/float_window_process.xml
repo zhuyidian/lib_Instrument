@@ -29,4 +29,36 @@
         android:textSize="10sp"
         android:textColor="@color/black" />
 
+    <TextView
+        android:id="@+id/procCpuRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/procNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/threadNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/procTotalPss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        android:textColor="@color/black" />
+
 </LinearLayout>
