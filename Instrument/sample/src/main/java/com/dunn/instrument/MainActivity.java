@@ -22,7 +22,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public static String TAG = "MainActivity";
     private Button btn1,btn2,btn3,btn4,btn5,btn6,btn7;
     private boolean flag1,flag2,flag3,flag4,flag5,flag6,flag7;
-    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,21 +47,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btn5.setOnClickListener(this);
         btn6.setOnClickListener(this);
         btn7.setOnClickListener(this);
-
-        mHandler = new Handler();
-        getWindow().getDecorView().post(new Runnable() {
-            @Override public void run() {
-                LogUtil.i(TAG,"decorview post");
-                Thread.dumpStack();
-                mHandler.post(new Runnable() {
-                    //认为第一帧绘制完成
-                    @Override public void run() {
-                        LogUtil.i(TAG,"first frame is over");
-                        updateText();
-                    }
-                });
-            }
-        });
 
         LogUtil.i(TAG,"onCreate end");
     }
@@ -141,12 +125,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         LogUtil.i(TAG,"onWindowFocusChanged hasFocus="+hasFocus);
-    }
-
-    private void updateText() {
-        TraceCompat.beginSection("updateText");
-        btn7.setText("image7");
-        TraceCompat.endSection();
     }
 
     private void startInfoService() {

@@ -2,6 +2,7 @@ package com.dunn.instrument.service;
 
 import android.app.ActivityManager;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -53,6 +54,7 @@ public class ProcessService extends Service {
     private TextView mProcTotalPss;
     private ProcessThread mProcessThread;
     private long cnt = 0;  //时间计数器
+    private ActivityManager mActivityManager;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -72,8 +74,11 @@ public class ProcessService extends Service {
                         mFps.setText("fps:"+msg.getData().getString("fps"));
                     break;
                 case MSG_CPU:
-                    if (!TextUtils.isEmpty(msg.getData().getString("procCpuRate")))
-                        mProcCpuRate.setText("procCpuRate:"+msg.getData().getString("procCpuRate"));
+                    if (!TextUtils.isEmpty(msg.getData().getString("procCpuRate"))) {
+                        String procCpuRate = msg.getData().getString("procCpuRate");
+                        LogUtil.i(TAG, "MSG_CPU procCpuRate:" + procCpuRate);
+                        mProcCpuRate.setText("procCpuRate:" + procCpuRate);
+                    }
                     if (!TextUtils.isEmpty(msg.getData().getString("procNum")))
                         mProcNum.setText("procNum:"+msg.getData().getString("procNum"));
                     if (!TextUtils.isEmpty(msg.getData().getString("threadNum")))
@@ -94,6 +99,7 @@ public class ProcessService extends Service {
     public void onCreate() {
         super.onCreate();
         LogUtil.i(TAG, "onCreate: ");
+        mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         showFloatWindow();
         startThread();
         CpuManager.getInstance().init(ProcessService.this.getApplicationContext());
@@ -111,6 +117,7 @@ public class ProcessService extends Service {
     public void onDestroy() {
         super.onDestroy();
         LogUtil.i(TAG, "onDestroy: ");
+        mActivityManager = null;
         stopThread();
         hideFloatWindow();
     }
@@ -196,6 +203,11 @@ public class ProcessService extends Service {
     private String getCurrentPkg() {
         String pkg = SystemProperties.get("sky.current.apk", "");
         String cls = SystemProperties.get("sky.current.actname", "");
+        if (TextUtils.isEmpty(pkg)) {
+            ComponentName cn = mActivityManager.getRunningTasks(1).get(0).topActivity;
+            pkg = cn.getPackageName();
+            cls = cn.getClassName();
+        }
 
         Message message = mHandler.obtainMessage();
         message.what = MSG_CURRENT_PKG;

@@ -16,13 +16,13 @@ public class MainApp extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        LogUtil.TAG = "Instrument";
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         FloatWindowManager.getInstance().init(this);
-        LogUtil.TAG = "Instrument";
     }
 
     @Override
