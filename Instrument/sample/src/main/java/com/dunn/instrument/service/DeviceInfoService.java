@@ -40,6 +40,7 @@ public class DeviceInfoService extends Service {
     private static final int MSG_MEMINFO = 0;
     private static final int MSG_VERSION = 1;
     public static final int MSG_CPUINFO = 2;
+    public static final String KEY_CPURATE = "cpu_rate";
     private WindowRecordBean mBean;
     private TextView mVersion;
     private TextView mTotalMem;
@@ -107,7 +108,7 @@ public class DeviceInfoService extends Service {
 
     private void handleInnerEvent(Intent intent) {
         if (intent == null) return;
-        String cpuRate = intent.getStringExtra("CPURATE");
+        String cpuRate = intent.getStringExtra(KEY_CPURATE);
         if (cpuRate == null) {
             return;
         }

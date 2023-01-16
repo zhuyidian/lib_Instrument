@@ -1,5 +1,7 @@
 package com.dunn.instrument.service;
 
+import static com.dunn.instrument.service.DeviceInfoService.KEY_CPURATE;
+
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.ComponentName;
@@ -7,14 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemProperties;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -23,23 +23,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.dunn.instrument.R;
+import com.dunn.instrument.bean.PkgClsBean;
 import com.dunn.instrument.floatwindow.FloatWindowManager;
 import com.dunn.instrument.floatwindow.WindowRecordBean;
+import com.dunn.instrument.monitor.PerfMonitor;
 import com.dunn.instrument.tools.framework.cpu.CpuManager;
 import com.dunn.instrument.tools.framework.fps.FpsInfo;
 import com.dunn.instrument.tools.framework.fps.GetFpsUtils;
 import com.dunn.instrument.tools.framework.ram.MemManager;
-import com.dunn.instrument.tools.framework.ram.MemTools;
 import com.dunn.instrument.tools.log.LogUtil;
 import com.dunn.instrument.tools.thread.ThreadManager;
 
-import java.io.File;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ProcessService extends Service {
-    private static final String TAG = "ProcessService";
+public class TopProcessService extends Service {
+    private static final String TAG = "TopProcessService";
     private static final int MSG_CURRENT_PKG = 0;
     private static final int MSG_FPS = 1;
     private static final int MSG_CPU = 2;
@@ -52,9 +50,9 @@ public class ProcessService extends Service {
     private TextView mProcNum;
     private TextView mThreadNum;
     private TextView mProcTotalPss;
+    private PerfMonitor mMonitor;
     private ProcessThread mProcessThread;
     private long cnt = 0;  //时间计数器
-    private ActivityManager mActivityManager;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -64,14 +62,14 @@ public class ProcessService extends Service {
             switch (what) {
                 case MSG_CURRENT_PKG:
                     if (!TextUtils.isEmpty(msg.getData().getString("pkg")))
-                        mPkg.setText("pkg:"+msg.getData().getString("pkg"));
+                        mPkg.setText("pkg:" + msg.getData().getString("pkg"));
 
                     if (!TextUtils.isEmpty(msg.getData().getString("cls")))
-                        mCls.setText("cls:"+msg.getData().getString("cls"));
+                        mCls.setText("cls:" + msg.getData().getString("cls"));
                     break;
                 case MSG_FPS:
                     if (!TextUtils.isEmpty(msg.getData().getString("fps")))
-                        mFps.setText("fps:"+msg.getData().getString("fps"));
+                        mFps.setText("fps:" + msg.getData().getString("fps"));
                     break;
                 case MSG_CPU:
                     if (!TextUtils.isEmpty(msg.getData().getString("procCpuRate"))) {
@@ -80,30 +78,30 @@ public class ProcessService extends Service {
                         mProcCpuRate.setText("procCpuRate:" + procCpuRate);
                     }
                     if (!TextUtils.isEmpty(msg.getData().getString("procNum")))
-                        mProcNum.setText("procNum:"+msg.getData().getString("procNum"));
+                        mProcNum.setText("procNum:" + msg.getData().getString("procNum"));
                     if (!TextUtils.isEmpty(msg.getData().getString("threadNum")))
-                        mThreadNum.setText("threadNum:"+msg.getData().getString("threadNum"));
+                        mThreadNum.setText("threadNum:" + msg.getData().getString("threadNum"));
                     break;
                 case MSG_MEM:
                     if (!TextUtils.isEmpty(msg.getData().getString("procTotalPss")))
-                        mProcTotalPss.setText("procTotalPss:"+msg.getData().getString("procTotalPss"));
+                        mProcTotalPss.setText("procTotalPss:" + msg.getData().getString("procTotalPss"));
                     break;
             }
         }
     };
 
-    public ProcessService() {
+    public TopProcessService() {
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         LogUtil.i(TAG, "onCreate: ");
-        mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        mMonitor = new PerfMonitor(TopProcessService.this.getApplicationContext(), new Listenter());
         showFloatWindow();
         startThread();
-        CpuManager.getInstance().init(ProcessService.this.getApplicationContext());
-        MemManager.getInstance().init(ProcessService.this.getApplicationContext());
+        CpuManager.getInstance().init(TopProcessService.this.getApplicationContext());
+        MemManager.getInstance().init(TopProcessService.this.getApplicationContext());
     }
 
     @Override
@@ -117,9 +115,12 @@ public class ProcessService extends Service {
     public void onDestroy() {
         super.onDestroy();
         LogUtil.i(TAG, "onDestroy: ");
-        mActivityManager = null;
         stopThread();
         hideFloatWindow();
+        if (mMonitor != null) {
+            mMonitor.destory();
+            mMonitor = null;
+        }
     }
 
     @Override
@@ -128,8 +129,58 @@ public class ProcessService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    class Listenter implements PerfMonitor.PerfMonitorListener {
+        @Override
+        public void onCpuInfo(CpuManager.CpuInfo mCpuInfo) {
+            if (mCpuInfo == null) return;
+            sendMsgToDeviceInfo(TopProcessService.this, mCpuInfo.cpuRate);
+            Message message = mHandler.obtainMessage();
+            message.what = MSG_CPU;
+            Bundle bundle = new Bundle();
+            bundle.putString("procCpuRate", mCpuInfo.procCpuRate);
+            bundle.putString("procNum", mCpuInfo.procProcessNum);
+            bundle.putString("threadNum", mCpuInfo.procThreadNum);
+            message.setData(bundle);
+            mHandler.sendMessage(message);
+        }
+
+        @Override
+        public void onFps(String fps) {
+            if (fps == null) return;
+            Message message = mHandler.obtainMessage();
+            message.what = MSG_FPS;
+            Bundle bundle = new Bundle();
+            bundle.putString("fps", fps);
+            message.setData(bundle);
+            mHandler.sendMessage(message);
+        }
+
+        @Override
+        public void onMemInfo(String memInfo) {
+            if (memInfo == null) return;
+            Message message = mHandler.obtainMessage();
+            message.what = MSG_MEM;
+            Bundle bundle = new Bundle();
+            bundle.putString("procTotalPss", memInfo);
+            message.setData(bundle);
+            mHandler.sendMessage(message);
+        }
+
+        @Override
+        public void onCurrentPkgInfo(PkgClsBean bean) {
+            if (bean == null) return;
+            Message message = mHandler.obtainMessage();
+            message.what = MSG_CURRENT_PKG;
+            Bundle bundle = new Bundle();
+            bundle.putString("pkg", bean.mPackageName);
+            bundle.putString("cls", bean.mClassName);
+            message.setData(bundle);
+            mHandler.sendMessage(message);
+        }
+    }
+
     private void showFloatWindow() {
-        View view = LayoutInflater.from(this).inflate(R.layout.float_window_process, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.float_window_top_process, null);
         mPkg = view.findViewById(R.id.pkg);
         mCls = view.findViewById(R.id.cls);
         mFps = view.findViewById(R.id.fps);
@@ -180,14 +231,15 @@ public class ProcessService extends Service {
         public void run() {
             while (isStart) {
                 long start = System.currentTimeMillis();
-                String pkg = getCurrentPkg();
-                LogUtil.i(TAG,"ProcessThread: pkg="+pkg);
+                String pkg = null;
+                if (mMonitor != null) pkg = mMonitor.getCurrentPkg();
+                LogUtil.i(TAG, "ProcessThread: pkg=" + pkg);
                 if (pkg != null) {
-                    getFps(pkg);
-                    getCpuInfo(pkg);
+                    if (mMonitor != null) mMonitor.getFps(pkg);
+                    if (mMonitor != null) mMonitor.getCpuInfo(pkg);
                     //每5s获取一次内存
                     if (cnt % 5 == 0) {
-                        ThreadManager.getInstance().ioThread(new MemRunnable(pkg));
+                        if (mMonitor != null) mMonitor.getMemInfo(pkg);
                     }
                     cnt++;
                 }
@@ -200,96 +252,14 @@ public class ProcessService extends Service {
         }
     }
 
-    private String getCurrentPkg() {
-        String pkg = SystemProperties.get("sky.current.apk", "");
-        String cls = SystemProperties.get("sky.current.actname", "");
-        if (TextUtils.isEmpty(pkg)) {
-            ComponentName cn = mActivityManager.getRunningTasks(1).get(0).topActivity;
-            pkg = cn.getPackageName();
-            cls = cn.getClassName();
-        }
-
-        Message message = mHandler.obtainMessage();
-        message.what = MSG_CURRENT_PKG;
-        Bundle bundle = new Bundle();
-        bundle.putString("pkg", pkg);
-        bundle.putString("cls", cls);
-        message.setData(bundle);
-        mHandler.sendMessage(message);
-
-        return pkg;
-    }
-
-    private void getFps(String pkgName) {
-        StringBuilder text = new StringBuilder();
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        double[] info = GetFpsUtils.getInfo(pkgName);
-        double fps1 = info[0];
-        double ss = info[2];
-        double jumpingFrames = info[1];
-        double totalFrame = info[3];
-        long maxFrameTime = (long) info[4];
-        int stuckSum2 = GetFpsUtils.getStuckSum2();
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            text.append("").append(fps1)
-                    .append(" 总帧数：").append(totalFrame)   //间隔内获取到的所有帧数
-                    .append(" 最大帧时长：").append(maxFrameTime)  //最大桢时长
-                    .append(" 掉帧数：").append(jumpingFrames)  //大于16.67的帧数
-                    .append(" 卡顿次数：").append(stuckSum2)
-                    .append(" 流畅分：").append(decimalFormat.format(ss));
-        } else {
-            float fps = FpsInfo.fps();
-            text.append("").append(fps);
-        }
-//        LogUtil.i(TAG,"getFps: pkgName="+pkgName+", fps="+String.valueOf(text));
-        Message message = mHandler.obtainMessage();
-        message.what = MSG_FPS;
-        Bundle bundle = new Bundle();
-        bundle.putString("fps", String.valueOf(text));
-        message.setData(bundle);
-        mHandler.sendMessage(message);
-    }
-
-    private void getCpuInfo(String pkgName){
-        CpuManager.CpuInfo mCpuInfo = CpuManager.getInstance().getCpuInfo(pkgName);
-        sendMsgToDeviceInfo(ProcessService.this,mCpuInfo.cpuRate);
-        Message message = mHandler.obtainMessage();
-        message.what = MSG_CPU;
-        Bundle bundle = new Bundle();
-        bundle.putString("procCpuRate", mCpuInfo.procCpuRate);
-        bundle.putString("procNum", mCpuInfo.procProcessNum);
-        bundle.putString("threadNum", mCpuInfo.procThreadNum);
-        message.setData(bundle);
-        mHandler.sendMessage(message);
-    }
-
-    private class MemRunnable implements Runnable{
-        String mPkg;
-
-        public MemRunnable(String pkg) {
-            mPkg = pkg;
-        }
-
-        @Override
-        public void run() {
-            MemManager.ProcMemInfo mProcMemInfo = MemManager.getInstance().getProcMemInfo(mPkg);
-            Message message = mHandler.obtainMessage();
-            message.what = MSG_MEM;
-            Bundle bundle = new Bundle();
-            bundle.putString("procTotalPss", mProcMemInfo.totalPss + " MB");
-            message.setData(bundle);
-            mHandler.sendMessage(message);
-        }
-    }
-
-    private void sendMsgToDeviceInfo(Context context, String cpuRate){
+    private void sendMsgToDeviceInfo(Context context, String cpuRate) {
         Intent intent = new Intent(context, DeviceInfoService.class);
-        intent.putExtra("CPURATE", cpuRate);
+        intent.putExtra(KEY_CPURATE, cpuRate);
         try {
 //            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //                context.startForegroundService(intent);
 //            } else {
-                context.startService(intent);
+            context.startService(intent);
 //            }
         } catch (Exception e) {
             e.printStackTrace();

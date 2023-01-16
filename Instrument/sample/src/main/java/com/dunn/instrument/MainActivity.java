@@ -1,20 +1,21 @@
 package com.dunn.instrument;
 
+import static com.dunn.instrument.service.SpecifyProcessService.KEY_PKG;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.SystemProperties;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.core.os.TraceCompat;
-
 import com.dunn.instrument.service.DeviceInfoService;
-import com.dunn.instrument.service.ProcessService;
+import com.dunn.instrument.service.SpecifyProcessService;
+import com.dunn.instrument.service.TopProcessService;
 import com.dunn.instrument.tools.log.LogUtil;
 
 
@@ -72,17 +73,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.btn3:
                 if(flag3){
-                    stopService(new Intent(MainActivity.this, ProcessService.class));
+                    stopService(new Intent(MainActivity.this, TopProcessService.class));
                 }else{
-                    startService(new Intent(MainActivity.this, ProcessService.class));
+                    startService(new Intent(MainActivity.this, TopProcessService.class));
                 }
                 flag3 = !flag3;
                 break;
             case R.id.btn4:
                 if(flag4){
-                    //stopService(new Intent(MainActivity.this, InfoTest3Service.class));
+                    stopService(new Intent(MainActivity.this, SpecifyProcessService.class));
                 }else{
-                    //startService(new Intent(MainActivity.this, InfoTest3Service.class));
+                    //再次检查是否固定监控某个进程
+                    String property = SystemProperties.get("third.perf.monitor.pkg", "");
+                    Intent intent = new Intent(MainActivity.this, SpecifyProcessService.class);
+                    intent.putExtra(KEY_PKG,property);
+                    startService(intent);
                 }
                 flag4 = !flag4;
                 break;

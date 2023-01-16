@@ -70,12 +70,9 @@
 
         <activity android:name=".SecondActivity"/>
 
-        <service
-            android:name=".service.DeviceInfoService">
-        </service>
-        <service
-            android:name=".service.ProcessService">
-        </service>
+        <service android:name=".service.DeviceInfoService"/>
+        <service android:name=".service.TopProcessService"/>
+        <service android:name=".service.SpecifyProcessService"/>
     </application>
 
 </manifest>
