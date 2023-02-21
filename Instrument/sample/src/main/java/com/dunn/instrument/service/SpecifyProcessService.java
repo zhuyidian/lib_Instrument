@@ -2,18 +2,14 @@ package com.dunn.instrument.service;
 
 import static com.dunn.instrument.service.DeviceInfoService.KEY_CPURATE;
 
-import android.app.ActivityManager;
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
-import android.os.SystemProperties;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +24,8 @@ import com.dunn.instrument.floatwindow.FloatWindowManager;
 import com.dunn.instrument.floatwindow.WindowRecordBean;
 import com.dunn.instrument.monitor.PerfMonitor;
 import com.dunn.instrument.tools.framework.cpu.CpuManager;
-import com.dunn.instrument.tools.framework.fps.FpsInfo;
-import com.dunn.instrument.tools.framework.fps.GetFpsUtils;
 import com.dunn.instrument.tools.framework.ram.MemManager;
 import com.dunn.instrument.tools.log.LogUtil;
-import com.dunn.instrument.tools.thread.ThreadManager;
-
-import java.text.DecimalFormat;
 
 public class SpecifyProcessService extends Service {
     private static final String TAG = "SpecifyProcessService";

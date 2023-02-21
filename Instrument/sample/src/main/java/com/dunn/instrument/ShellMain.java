@@ -1,18 +1,13 @@
 package com.dunn.instrument;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Looper;
-import android.os.Process;
 import android.os.SystemProperties;
 
 import com.dunn.instrument.bean.PkgClsBean;
 import com.dunn.instrument.monitor.PerfMonitor;
 import com.dunn.instrument.tools.framework.cpu.CpuManager;
-import com.dunn.instrument.tools.log.LogUtil;
 import com.dunn.instrument.tools.reflect.Reflector;
-
-import java.io.File;
 
 public class ShellMain {
     private static final String TAG = "ShellMain";

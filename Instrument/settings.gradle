@@ -2,3 +2,4 @@
 include ':sample'
 rootProject.name='Instrument'
 
+include ':myaosp'

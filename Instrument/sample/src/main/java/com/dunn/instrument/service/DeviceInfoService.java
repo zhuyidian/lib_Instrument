@@ -6,7 +6,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,14 +13,12 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.os.SystemProperties;
+
 import androidx.annotation.NonNull;
 
 import com.dunn.instrument.R;
@@ -32,8 +29,6 @@ import com.dunn.instrument.tools.framework.ram.MemTools;
 import com.dunn.instrument.tools.framework.system.SystemUtil;
 import com.dunn.instrument.tools.log.LogUtil;
 import com.dunn.instrument.tools.thread.ThreadManager;
-
-import java.util.List;
 
 public class DeviceInfoService extends Service {
     private static final String TAG = "DeviceInfoService";

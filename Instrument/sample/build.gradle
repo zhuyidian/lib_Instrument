@@ -94,7 +94,9 @@ dependencies {
 
 //    implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
 
+    implementation project(path: ':myaosp')
     compileOnly files('../build-libs/layoutlib.jar')
+//    implementation files('./libs/skymonitor.jar')
 }
 
 // 配置参数

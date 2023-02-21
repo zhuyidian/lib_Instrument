@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -58,6 +59,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.btn1:
                 if(flag1){
                     stopInfoService();
+                    testSkyMonitor();
                 }else{
                     startInfoService();
                 }
@@ -146,5 +148,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void stopInfoService(){
         //stopService(new Intent(MainActivity.this, InfoService.class));
+    }
+
+    private void testSkyMonitor(){
+        SkyMonitorHelper mSkyMonitorHelper = new SkyMonitorHelper(MainActivity.this);
+        Log.i("SkyMonitor_Test","testSkyMonitor1: mSkyMonitorHelper="+mSkyMonitorHelper);
+        mSkyMonitorHelper.testMethod();
     }
 }

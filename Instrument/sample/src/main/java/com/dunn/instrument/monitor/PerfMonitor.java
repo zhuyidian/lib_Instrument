@@ -4,13 +4,10 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Message;
 import android.os.SystemProperties;
 import android.text.TextUtils;
 
 import com.dunn.instrument.bean.PkgClsBean;
-import com.dunn.instrument.service.TopProcessService;
 import com.dunn.instrument.tools.framework.cpu.CpuManager;
 import com.dunn.instrument.tools.framework.fps.FpsInfo;
 import com.dunn.instrument.tools.framework.fps.GetFpsUtils;
