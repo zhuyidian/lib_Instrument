@@ -7,13 +7,15 @@
     tools:context=".activity.KeepAliveActivity">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true" >
         <ListView
             android:id="@+id/apps_list"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:visibility="visible"/>
     </RelativeLayout>
 
     <LinearLayout
