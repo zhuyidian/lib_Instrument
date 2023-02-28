@@ -81,6 +81,7 @@ dependencies {
 
 //    implementation 'com.github.zhuyidian:lib_Instrument_Oom:V1.0.0'
     implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.1.0'
+
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crash:V1.0.7'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crashlocal:V1.0.7'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Thread:threadhooksrc:V1.1.5'
@@ -94,9 +95,10 @@ dependencies {
 
 //    implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
 
-    implementation project(path: ':myaosp')
+//    implementation project(path: ':myaosp')
     compileOnly files('../build-libs/layoutlib.jar')
-//    implementation files('./libs/skymonitor.jar')
+    implementation files('./libs/skymonitor.jar')
+//    implementation files('./libs/javalib.jar')
 }
 
 // 配置参数

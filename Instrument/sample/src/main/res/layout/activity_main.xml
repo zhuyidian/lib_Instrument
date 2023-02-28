@@ -11,25 +11,29 @@
         android:id="@+id/btn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="按键1"/>
+        android:textAllCaps="false"
+        android:text="DeviceInfo"/>
 
     <Button
         android:id="@+id/btn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DeviceInfo"/>
+        android:textAllCaps="false"
+        android:text="TopProcess"/>
 
     <Button
         android:id="@+id/btn3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TopProcess"/>
+        android:textAllCaps="false"
+        android:text="SpecifyProcess"/>
 
     <Button
         android:id="@+id/btn4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SpecifyProcess"/>
+        android:textAllCaps="false"
+        android:text="KeepAlive"/>
 
     <Button
         android:id="@+id/btn5"

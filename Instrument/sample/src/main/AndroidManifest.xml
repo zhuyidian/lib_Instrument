@@ -68,7 +68,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SecondActivity"/>
+        <activity android:name=".activity.KeepAliveActivity"/>
 
         <service android:name=".service.DeviceInfoService"/>
         <service android:name=".service.TopProcessService"/>

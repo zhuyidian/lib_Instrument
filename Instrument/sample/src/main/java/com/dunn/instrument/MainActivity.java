@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.dunn.instrument.activity.KeepAliveActivity;
 import com.dunn.instrument.service.DeviceInfoService;
 import com.dunn.instrument.service.SpecifyProcessService;
 import com.dunn.instrument.service.TopProcessService;
@@ -55,34 +56,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        checkPermission();
         switch (v.getId()){
-            case R.id.btn1:
+            case R.id.btn1:   //DeviceInfo
                 if(flag1){
-                    stopInfoService();
-                    testSkyMonitor();
-                }else{
-                    startInfoService();
-                }
-                flag1=!flag1;
-                break;
-            case R.id.btn2:
-                if(flag2){
                     stopService(new Intent(MainActivity.this, DeviceInfoService.class));
                 }else{
                     startService(new Intent(MainActivity.this, DeviceInfoService.class));
                 }
-                flag2 = !flag2;
+                flag1=!flag1;
                 break;
-            case R.id.btn3:
-                if(flag3){
+            case R.id.btn2:    //TopProcess
+                if(flag2){
                     stopService(new Intent(MainActivity.this, TopProcessService.class));
                 }else{
                     startService(new Intent(MainActivity.this, TopProcessService.class));
                 }
-                flag3 = !flag3;
+                flag2 = !flag2;
                 break;
-            case R.id.btn4:
-                if(flag4){
+            case R.id.btn3:    //SpecifyProcess
+                if(flag3){
                     stopService(new Intent(MainActivity.this, SpecifyProcessService.class));
                 }else{
                     //再次检查是否固定监控某个进程
@@ -91,29 +84,33 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     intent.putExtra(KEY_PKG,property);
                     startService(intent);
                 }
-                flag4 = !flag4;
+                flag3 = !flag3;
+                break;
+            case R.id.btn4:   //KeepAlive
+                Intent intent1 = new Intent(MainActivity.this, KeepAliveActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.btn5:
                 if(flag5){
-                    //stopService(new Intent(MainActivity.this, InfoTest4Service.class));
+
                 }else{
-                    //startService(new Intent(MainActivity.this, InfoTest4Service.class));
+
                 }
                 flag5 = !flag5;
                 break;
             case R.id.btn6:
                 if(flag6){
-                    //stopService(new Intent(MainActivity.this, InfoTest5Service.class));
+
                 }else{
-                    //startService(new Intent(MainActivity.this, InfoTest5Service.class));
+
                 }
                 flag6 = !flag6;
                 break;
             case R.id.btn7:
                 if(flag7){
-                    //stopService(new Intent(MainActivity.this, InfoTest6Service.class));
+
                 }else{
-                    //startService(new Intent(MainActivity.this, InfoTest6Service.class));
+
                 }
                 flag7 = !flag7;
                 break;
@@ -125,7 +122,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //stopInfoService();
     }
 
     @Override
@@ -134,25 +130,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
         LogUtil.i(TAG,"onWindowFocusChanged hasFocus="+hasFocus);
     }
 
-    private void startInfoService() {
+    private boolean checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
             Toast.makeText(this, "当前无权限，请授权", Toast.LENGTH_SHORT);
             Intent intent = new Intent();
             intent.setAction(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
             intent.setData(Uri.parse("package:" + getPackageName()));
             startActivityForResult(intent, 0);
-            return;
+            return true;
         }
-        //startService(new Intent(MainActivity.this, InfoService.class));
+        return true;
     }
 
-    private void stopInfoService(){
-        //stopService(new Intent(MainActivity.this, InfoService.class));
-    }
-
-    private void testSkyMonitor(){
-        SkyMonitorHelper mSkyMonitorHelper = new SkyMonitorHelper(MainActivity.this);
-        Log.i("SkyMonitor_Test","testSkyMonitor1: mSkyMonitorHelper="+mSkyMonitorHelper);
-        mSkyMonitorHelper.testMethod();
-    }
+//    private void testSkyMonitor(){
+//        SkyMonitorHelper mSkyMonitorHelper = new SkyMonitorHelper(MainActivity.this);
+//        Log.i("SkyMonitor_Test","testSkyMonitor1: mSkyMonitorHelper="+mSkyMonitorHelper);
+//        mSkyMonitorHelper.testMethod();
+//    }
 }
