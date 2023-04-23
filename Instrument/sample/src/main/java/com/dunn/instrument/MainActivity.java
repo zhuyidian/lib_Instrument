@@ -9,12 +9,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.dunn.instrument.activity.KeepAliveActivity;
+import com.dunn.instrument.function.keepalive.KeepAliveActivity;
 import com.dunn.instrument.service.DeviceInfoService;
 import com.dunn.instrument.service.SpecifyProcessService;
 import com.dunn.instrument.service.TopProcessService;

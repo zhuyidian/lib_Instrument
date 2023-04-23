@@ -51,6 +51,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
+        android:persistent="true"
         android:allowBackup="true"
         android:name=".MainApp"
         android:icon="@mipmap/ic_launcher"
@@ -68,7 +69,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.KeepAliveActivity"/>
+        <activity android:name=".function.keepalive.KeepAliveActivity"/>
 
         <service android:name=".service.DeviceInfoService"/>
         <service android:name=".service.TopProcessService"/>

@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.KeepAliveActivity">
+    tools:context=".function.keepalive.KeepAliveActivity">
 
     <RelativeLayout
-        android:layout_width="200dp"
+        android:id="@+id/left_layout"
+        android:layout_width="600dp"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true" >
         <ListView
@@ -15,42 +16,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
+            android:focusable="true"
             android:visibility="visible"/>
     </RelativeLayout>
-
     <LinearLayout
-        android:layout_width="800dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <CheckBox
-            android:id="@+id/processSwitch1"
+        android:id="@+id/right_layout"
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:check="true"
-            app:beforeBg="@mipmap/switch_background"/>
-        <TextView
-            android:id="@+id/processText1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="process1"/>
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/native_read_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="native read test"/>
+            <Button
+                android:id="@+id/native_write_test"
+                android:layout_marginLeft="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="native_write_test"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="800dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <CheckBox
-            android:id="@+id/processSwitch2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:check="true"
-            app:beforeBg="@mipmap/switch_background"/>
-        <TextView
-            android:id="@+id/processText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="process2"/>
-    </LinearLayout>
-
-
 </RelativeLayout>

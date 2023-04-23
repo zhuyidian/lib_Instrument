@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="20dp"
-    android:background="@color/white">
+    android:layout_height="wrap_content"
+    android:background="@drawable/listview_item_focused">
 
     <RelativeLayout
         android:id="@+id/rl_pic"
@@ -14,9 +14,9 @@
         android:padding="1dp">
 
         <ImageView
-            android:id="@+id/isa_circle"
-            android:layout_width="20dip"
-            android:layout_height="20dip"
+            android:id="@+id/tv_icon"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
             android:layout_centerInParent="true"
             android:scaleType="fitXY"
             android:src="@drawable/ai_face_default" />
@@ -31,14 +31,13 @@
         android:orientation="vertical"
         android:padding="1dp">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textColor="@color/black"
-            android:textSize="18.0sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/tv_packagename"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:ellipsize="end"-->
+<!--            android:lines="1"-->
+<!--            android:textColor="@color/black" />-->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,19 +48,27 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ssss"
-                android:textColor="@color/tc_99"
-                android:textSize="15sp" />
+                android:text="label:"
+                android:textColor="@color/tc_99" />
 
             <TextView
-                android:id="@+id/tv_identity"
+                android:id="@+id/tv_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:ellipsize="end"
                 android:lines="1"
-                android:textColor="@color/tc_33"
-                android:textSize="15sp" />
+                android:textColor="@color/tc_33" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="@color/result_points"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -73,41 +80,39 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ssss"
-                android:textColor="@color/tc_99"
-                android:textSize="15sp" />
+                android:text="packageName:"
+                android:textColor="@color/tc_99" />
 
             <TextView
-                android:id="@+id/tv_welcome"
+                android:id="@+id/tv_packagename"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
+                android:layout_marginLeft="5dp"
                 android:ellipsize="end"
-                android:lines="2"
-                android:textColor="@color/tc_33"
-                android:textSize="15sp" />
+                android:lines="1"
+                android:textColor="@color/tc_33" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ssss"
-                android:textColor="@color/tc_99"
-                android:textSize="15sp" />
+                android:text="state:"
+                android:textColor="@color/tc_99" />
 
             <TextView
-                android:id="@+id/tv_voice"
+                android:id="@+id/tv_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
+                android:layout_marginLeft="5dp"
                 android:ellipsize="end"
-                android:textColor="@color/tc_33"
-                android:textSize="15sp" />
+                android:lines="1"
+                android:textColor="@color/red" />
         </LinearLayout>
     </LinearLayout>
 
