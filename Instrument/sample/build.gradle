@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-aspectjx'
-apply plugin: 'com.dunn.instrument.monitorimage'
 
 android {
-    //compileSdkVersion rootProject.ext.android.compileSdkVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
+//    compileSdkVersion rootProject.ext.android.compileSdkVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
     compileSdkVersion 32
     buildToolsVersion rootProject.ext.android.buildToolsVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
 
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
-        //targetSdkVersion rootProject.ext.android.targetSdkVersion  //29   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
+//        targetSdkVersion rootProject.ext.android.targetSdkVersion  //29   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
         targetSdkVersion 32
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
@@ -77,7 +76,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
 //    implementation rootProject.ext.dependencies.annotations
-    implementation rootProject.ext.dependencies.appcompatV7
+    compileOnly rootProject.ext.dependencies.appcompatV7
+//    compileOnly rootProject.ext.dependencies.appcompatX
 
 //    implementation 'com.github.zhuyidian:lib_Instrument_Oom:V1.0.0'
     implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.1.0'
@@ -97,9 +97,37 @@ dependencies {
 
 //    implementation project(path: ':myaosp')
     compileOnly files('../build-libs/layoutlib.jar')
-//    implementation files('./libs/skymonitor.jar')
-    implementation files('./libs/javalib.jar')
+    implementation files('./libs/skymonitor.jar')
 }
+
+preBuild {
+    doLast {
+        def imlFile = file(project.name + ".iml")
+        println('Change ' + project.name + '.iml order')
+        try {
+            def parsedXml = (new XmlParser()).parse(imlFile)
+            def jdkNode = parsedXml.component[1].orderEntry.find { it.'@type' == 'jdk' }
+            parsedXml.component[1].remove(jdkNode)
+            def sdkString = "Android API " + android.compileSdkVersion.substring("android-".length()) + " Platform"
+            new Node(parsedXml.component[1], 'orderEntry', ['type': 'jdk', 'jdkName': sdkString, 'jdkType': 'Android SDK'])
+            groovy.xml.XmlUtil.serialize(parsedXml, new FileOutputStream(imlFile))
+        } catch (FileNotFoundException e) {
+            // nop, iml not found
+            println "no iml found"
+        }
+    }
+}
+
+//gradle.projectsEvaluated {
+//    tasks.withType(JavaCompile) {
+//        Set<File> fileSet = options.bootstrapClasspath.getFiles()
+//        List<File> newFileList =  new ArrayList<>();
+//        //"../framework.jar" 为相对位置，需要参照着修改，或者用绝对位置
+//        newFileList.add(new File("libs/classes.jar"))
+//        newFileList.addAll(fileSet)
+//        options.bootstrapClasspath = files(newFileList.toArray())
+//    }
+//}
 
 // 配置参数
 //tinkerPatch {

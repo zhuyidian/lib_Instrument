@@ -1,5 +1,13 @@
 package com.dunn.instrument.function.keepalive;
 
+import static com.dunn.instrument.function.keepalive.InterfaceKeepalive.PROCESS_CMD_AUTO_START;
+import static com.dunn.instrument.function.keepalive.InterfaceKeepalive.PROCESS_CMD_AUTO_START_ALLOW;
+import static com.dunn.instrument.function.keepalive.InterfaceKeepalive.PROCESS_CMD_AUTO_START_NOT_ALLOW;
+import static com.dunn.instrument.function.keepalive.InterfaceKeepalive.PROCESS_CMD_BACKGROUND;
+import static com.dunn.instrument.function.keepalive.InterfaceKeepalive.PROCESS_CMD_BACKGROUND_KEEP;
+import static com.dunn.instrument.function.keepalive.InterfaceKeepalive.PROCESS_CMD_BACKGROUND_LIMIT;
+import static com.dunn.instrument.function.keepalive.InterfaceKeepalive.PROCESS_CMD_BACKGROUND_SMART;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,13 +16,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.skyworth.skymonitor.SkyMonitorHelper;
-import android.skyworth.skymonitor.keepalive.SkyProcAliveBean;
+import android.os.SystemProperties;
+import android.skyworth.skymonitor.AppCustom;
 import android.util.Xml;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.dunn.instrument.R;
 import com.dunn.instrument.tools.framework.pkms.PkmsUtil;
@@ -39,16 +48,15 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
     private ListView mAppListView;
     private AppsAdapter mAppsAdapter;
     private ArrayList<AppsBean> appsList = new ArrayList<AppsBean>();
-    private ArrayList<SkyProcAliveBean> appsAliveList = new ArrayList<>();
-    private SkyMonitorHelper mSkyMonitorHelper;
+    private InterfaceKeepaliveSystem mInterfaceKeepaliveSystem;
     private Button mNativeReadTest, mNativeWriteTest;
+    private TextView mOpenTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keepalive);
-//        mSkyMonitorHelper = new SkyMonitorHelper(KeepAliveActivity.this);
-
+        mInterfaceKeepaliveSystem = new InterfaceKeepaliveSystem(KeepAliveActivity.this);
         initView();
         initData();
     }
@@ -73,6 +81,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
                                 appsList.get(i).getCtl().getIsAutoStartToAllow(),
                                 appsList.get(i).getCtl().getIsBackgroundRunByUserCtl(),
                                 appsList.get(i).getCtl().getBackgroundRunToStrategy());
+//                        setData(appsList.get(i).getPackageName(),appsList.get(i).getCtl().getIsAutoStartToAllow(),appsList.get(i).getCtl().getBackgroundRunToStrategy());
                         updateListView();
                     }
                 });
@@ -92,6 +101,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
 
         mNativeReadTest = (Button) findViewById(R.id.native_read_test);
         mNativeWriteTest = (Button) findViewById(R.id.native_write_test);
+        mOpenTest = (TextView) findViewById(R.id.open_test);
         mNativeReadTest.setOnClickListener(this);
         mNativeWriteTest.setOnClickListener(this);
     }
@@ -111,85 +121,224 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
     }
 
     private void initData() {
+        String openFlag = SystemProperties.get("skymonitor.resource", "");
+        LogUtil.i(TAG,"initData: get properties openFlag="+openFlag);
+        mOpenTest.setText(openFlag);
+
         ThreadManager.getInstance().ioThread(new Runnable() {
             @Override
             public void run() {
-                //ArrayList<AppsBean> list = getAllAppInfo(KeepAliveActivity.this);
-                //ArrayList<SkyPackageInfoBean> installAppList = (ArrayList<SkyPackageInfoBean>) mSkyMonitorHelper.getPackageInfoList();
-                //appsAliveList = (ArrayList<SkyProcAliveBean>) mSkyMonitorHelper.getUserCtlList();
-                //if(appsAliveList==null){
-                //    LogUtil.i(TAG,"getAppsAliveList: appsAliveList is null"+Thread.currentThread());
-                //}
-                ArrayList<AppsBean> installList = (ArrayList<AppsBean>) getLauncherApps(KeepAliveActivity.this);
-                LogUtil.i(TAG, "initData: start installList size=" + installList.size());
-                //过滤installList，排除掉一个应用存在多个Launcher属性
 
+                LogUtil.i(TAG,"initData: [interface: getProcessList]");
+                final List<AppCustom> appList = mInterfaceKeepaliveSystem.getProcessList();
 
-                ArrayList<AppsBean> configList = (ArrayList<AppsBean>) readDefaultConfig("Low","/data/system/process_manager_default.xml");
-                if(configList!=null) {
-                    for (AppsBean bean : configList) {
-                        LogUtil.i(TAG, "initData: read config bean=" + bean);
-                    }
-                    for (AppsBean bean : configList) {
-                        boolean findConfigFlag = false;
-                        Iterator<AppsBean> it = installList.iterator();
-                        while (it.hasNext()) {
-                            AppsBean app = it.next();
-                            if (bean.getPackageName().equals(app.getPackageName())) {
-                                findConfigFlag = true;
-                                if (bean.getCtl().getIsAutoStartByUserCtl() || bean.getCtl().getIsBackgroundRunByUserCtl()) {   //配置显示
-                                    app.getCtl().setIsAutoStartByUserCtl(bean.getCtl().getIsAutoStartByUserCtl());
-                                    app.getCtl().setIsAutoStartToAllow(bean.getCtl().getIsAutoStartToAllow());
-                                    app.getCtl().setIsBackgroundRunByUserCtl(bean.getCtl().getIsBackgroundRunByUserCtl());
-                                    app.getCtl().setBackgroundRunToStrategy(bean.getCtl().getBackgroundRunToStrategy());
-                                } else {  //配置不显示
-                                    LogUtil.i(TAG, "initData: ###### remove app=" + app);
-                                    it.remove();
-                                }
-                                break;
-                            }
-                        }
-                        if (!findConfigFlag) {
-                            if (bean.getCtl().getIsAutoStartByUserCtl() || bean.getCtl().getIsBackgroundRunByUserCtl()) {   //配置显示
-                                if(isAppInstalled(KeepAliveActivity.this,bean.getPackageName())){
-                                    LogUtil.i(TAG, "initData: ###### add bean=" + bean);
-                                    bean.setLabel(PkmsUtil.getAppNameByPkg(KeepAliveActivity.this,bean.getPackageName()));
-                                    bean.setIcon(PkmsUtil.getAppIcon(KeepAliveActivity.this,bean.getPackageName()));
-                                    installList.add(bean);
-                                }
-                            }
-                        }
-                    }
+                if(appList==null) {
+                    LogUtil.e(TAG,"initData: appList is null");
+                    return;
+                }
+                LogUtil.i(TAG,"initData: appList size="+appList.size());
+                for(int i=0;i<appList.size();i++){
+                    LogUtil.i(TAG,"initData: AppCustom packageName="+appList.get(i).pkgname+", autoUser="+appList.get(i).autoUser+
+                            ", autoallow="+appList.get(i).autoallow+", backuser="+appList.get(i).backuser+
+                            ", backstrate="+appList.get(i).backstrate);
                 }
 
-                if (installList != null) {
-                    LogUtil.i(TAG, "initData: end installList size=" + installList.size());
-                    appsList.clear();
-                    appsList.addAll(installList);
-                    ThreadManager.getInstance().uiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateListView();
+//                ThreadManager.getInstance().uiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        updateListView();
+//                    }
+//                });
+                KeepAliveActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        appsList.clear();
+                        for(int i=0;i<appList.size();i++){
+                            AppCustom custom = appList.get(i);
+                            AppsBean appBean = new AppsBean();
+                            appBean.setLabel(PkmsUtil.getAppNameByPkg(KeepAliveActivity.this,custom.pkgname));
+                            appBean.setPackageName(custom.pkgname);
+                            appBean.setIcon(PkmsUtil.getAppIcon(KeepAliveActivity.this,custom.pkgname));
+                            AppStateCtl ctl = new AppStateCtl();
+                            ctl.setIsAutoStartByUserCtl(custom.autoUser);
+                            ctl.setIsAutoStartToAllow(custom.autoallow);
+                            ctl.setIsBackgroundRunByUserCtl(custom.backuser);
+                            ctl.setBackgroundRunToStrategy(custom.backstrate);
+                            appBean.setCtl(ctl);
+                            appsList.add(appBean);
                         }
-                    });
-    //            for(int i=0;i<appsAliveList.size();i++){
-    //                SkyProcAliveBean bean = appsAliveList.get(i);
-    //                AppsBean appBean = new AppsBean();
-    //                appBean.setLabel(PkmsUtil.getAppNameByPkg(KeepAliveActivity.this,bean.getPackageName()));
-    //                appBean.setPackageName(bean.getPackageName());
-    //                appBean.setIcon(PkmsUtil.getAppIcon(KeepAliveActivity.this,bean.getPackageName()));
-    //                AppStateCtl ctl = new AppStateCtl();
-    //                ctl.setIsAutoStartByUserCtl(bean.getIsAutoStartByUserCtl());
-    //                ctl.setIsAutoStartToAllow(bean.getIsAutoStartToAllow());
-    //                ctl.setIsBackgroundRunByUserCtl(bean.getIsBackgroundRunByUserCtl());
-    //                ctl.setBackgroundRunToStrategy(bean.getBackgroundRunToStrategy());
-    //                appBean.setCtl(ctl);
-    //                appsList.add(appBean);
-    //            }
-                }
+                        LogUtil.i(TAG,"initData: update Adapter");
+                        updateListView();
+                    }
+                });
+
+//                //第一步: 拿到全部安装应用列表
+//                ArrayList<AppsBean> installList = (ArrayList<AppsBean>) getLauncherApps(KeepAliveActivity.this);
+//                LogUtil.i(TAG, "initData: start installList size=" + installList.size());
+//
+//                ArrayList<AppsBean> configList = (ArrayList<AppsBean>) readDefaultConfig("Low","/data/system/process_manager_default.xml");
+//                if(configList!=null) {
+//                    for (AppsBean bean : configList) {
+//                        LogUtil.i(TAG, "initData: read config bean=" + bean);
+//                    }
+//                    for (AppsBean bean : configList) {
+//                        boolean findConfigFlag = false;
+//                        Iterator<AppsBean> it = installList.iterator();
+//                        while (it.hasNext()) {
+//                            AppsBean app = it.next();
+//                            if (bean.getPackageName().equals(app.getPackageName())) {
+//                                findConfigFlag = true;
+//                                if (bean.getCtl().getIsAutoStartByUserCtl() || bean.getCtl().getIsBackgroundRunByUserCtl()) {   //配置显示
+//                                    app.getCtl().setIsAutoStartByUserCtl(bean.getCtl().getIsAutoStartByUserCtl());
+//                                    app.getCtl().setIsAutoStartToAllow(bean.getCtl().getIsAutoStartToAllow());
+//                                    app.getCtl().setIsBackgroundRunByUserCtl(bean.getCtl().getIsBackgroundRunByUserCtl());
+//                                    app.getCtl().setBackgroundRunToStrategy(bean.getCtl().getBackgroundRunToStrategy());
+//                                } else {  //配置不显示
+//                                    LogUtil.i(TAG, "initData: ###### remove app=" + app);
+//                                    it.remove();
+//                                }
+//                                break;
+//                            }
+//                        }
+//                        if (!findConfigFlag) {
+//                            if (bean.getCtl().getIsAutoStartByUserCtl() || bean.getCtl().getIsBackgroundRunByUserCtl()) {   //配置显示
+//                                if(isAppInstalled(KeepAliveActivity.this,bean.getPackageName())){
+//                                    LogUtil.i(TAG, "initData: ###### add bean=" + bean);
+//                                    bean.setLabel(PkmsUtil.getAppNameByPkg(KeepAliveActivity.this,bean.getPackageName()));
+//                                    bean.setIcon(PkmsUtil.getAppIcon(KeepAliveActivity.this,bean.getPackageName()));
+//                                    installList.add(bean);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                if (installList != null) {
+//                    LogUtil.i(TAG, "initData: end installList size=" + installList.size());
+//                    appsList.clear();
+//                    appsList.addAll(installList);
+//
+//                    updateData();
+//                }
             }
         });
+    }
 
+    class UpdateRunable implements Runnable{
+        private AppsBean mBean;
+        private int mCommandIDStart;
+        private int mCommandIDBackground;
+
+        public UpdateRunable(int commandIDStart, int commandIDBackground) {
+            mCommandIDStart = commandIDStart;
+            mCommandIDBackground = commandIDBackground;
+        }
+
+        public UpdateRunable(AppsBean bean, int commandIDStart, int commandIDBackground) {
+            mBean = bean;
+            mCommandIDStart = commandIDStart;
+            mCommandIDBackground = commandIDBackground;
+        }
+
+        @Override
+        public void run() {
+            /*
+            int startValue = mInterfaceKeepalive.getProcessInfo(mBean.getPackageName(),mCommandIDStart);
+            int backgroundValue = mInterfaceKeepalive.getProcessInfo(mBean.getPackageName(),mCommandIDBackground);
+            LogUtil.i(TAG, "UpdateRunable: getProcessInfo mPackageName="+mBean.getPackageName()+", startValue=" + startValue+", backgroundValue="+backgroundValue);
+            if(startValue == PROCESS_CMD_AUTO_START_ALLOW){
+                mBean.getCtl().setIsAutoStartToAllow(true);
+            }else if(startValue == PROCESS_CMD_AUTO_START_NOT_ALLOW){
+                mBean.getCtl().setIsAutoStartToAllow(false);
+            }else{
+                LogUtil.e(TAG, "UpdateRunable: is error!!!!!!!!!! getProcessInfo mPackageName="+mBean.getPackageName()+", mCommandIDStart=" + mCommandIDStart+", startValue="+startValue);
+            }
+            if(backgroundValue == PROCESS_CMD_BACKGROUND_SMART){
+                mBean.getCtl().setBackgroundRunToStrategy("smart");
+            }else if(backgroundValue == PROCESS_CMD_BACKGROUND_LIMIT){
+                mBean.getCtl().setBackgroundRunToStrategy("limit");
+            }else if(backgroundValue == PROCESS_CMD_BACKGROUND_KEEP){
+                mBean.getCtl().setBackgroundRunToStrategy("keep");
+            }else{
+                LogUtil.e(TAG, "UpdateRunable: is error!!!!!!!!!! getProcessInfo mPackageName="+mBean.getPackageName()+", mCommandIDBackground=" + mCommandIDBackground+", backgroundValue="+backgroundValue);
+            }
+             */
+
+//            for(int i=0;i<appsList.size();i++){
+//                AppsBean bean = appsList.get(i);
+//                int startValue = mInterfaceKeepalive.getProcessInfo(bean.getPackageName(),mCommandIDStart);
+//                int backgroundValue = mInterfaceKeepalive.getProcessInfo(bean.getPackageName(),mCommandIDBackground);
+//                LogUtil.i(TAG, "UpdateRunable: getProcessInfo mPackageName="+bean.getPackageName()+", startValue=" + startValue+", backgroundValue="+backgroundValue);
+//                if(startValue == PROCESS_CMD_AUTO_START_ALLOW){
+//                    bean.getCtl().setIsAutoStartToAllow(true);
+//                }else if(startValue == PROCESS_CMD_AUTO_START_NOT_ALLOW){
+//                    bean.getCtl().setIsAutoStartToAllow(false);
+//                }else{
+//                    LogUtil.e(TAG, "UpdateRunable: is error!!!!!!!!!! getProcessInfo mPackageName="+bean.getPackageName()+", mCommandIDStart=" + mCommandIDStart+", startValue="+startValue);
+//                }
+//                if(backgroundValue == PROCESS_CMD_BACKGROUND_SMART){
+//                    bean.getCtl().setBackgroundRunToStrategy("smart");
+//                }else if(backgroundValue == PROCESS_CMD_BACKGROUND_LIMIT){
+//                    bean.getCtl().setBackgroundRunToStrategy("limit");
+//                }else if(backgroundValue == PROCESS_CMD_BACKGROUND_KEEP){
+//                    bean.getCtl().setBackgroundRunToStrategy("keep");
+//                }else{
+//                    LogUtil.e(TAG, "UpdateRunable: is error!!!!!!!!!! getProcessInfo mPackageName="+bean.getPackageName()+", mCommandIDBackground=" + mCommandIDBackground+", backgroundValue="+backgroundValue);
+//                }
+//            }
+//
+//            ThreadManager.getInstance().uiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    updateListView();
+//                }
+//            });
+        }
+    }
+
+    private void updateData(){
+//        for(int i=0;i<appsList.size();i++){
+            ThreadManager.getInstance().ioThread(new UpdateRunable(PROCESS_CMD_AUTO_START,PROCESS_CMD_BACKGROUND));
+//        }
+    }
+
+    class SetRunable implements Runnable{
+        private String mPackageName;
+        private int mCommandIDStart;
+        private int mCommandIDBackground;
+        private boolean mIsAutoStartToAllow;
+        private String mBackgroundRunToStrategy;
+
+        public SetRunable(String packageName, int commandIDStart, int commandIDBackground,boolean isAutoStartToAllow,String backgroundRunToStrategy) {
+            mPackageName = packageName;
+            mCommandIDStart = commandIDStart;
+            mCommandIDBackground = commandIDBackground;
+            mIsAutoStartToAllow = isAutoStartToAllow;
+            mBackgroundRunToStrategy = backgroundRunToStrategy;
+        }
+
+        @Override
+        public void run() {
+//            int setValueStart = PROCESS_CMD_AUTO_START_ALLOW;
+//            if(mIsAutoStartToAllow==false){
+//                setValueStart = PROCESS_CMD_AUTO_START_NOT_ALLOW;
+//            }
+//            int startResult = mInterfaceKeepalive.setProcessInfo(mPackageName,mCommandIDStart,setValueStart);
+//            LogUtil.i(TAG, "SetRunable: setProcessInfo mPackageName="+mPackageName+", mCommandIDStart=" + mCommandIDStart+", setValueStart="+setValueStart+", startResult="+startResult);
+//
+//            int setValueBackground = PROCESS_CMD_BACKGROUND_SMART;
+//            if("limit".equals(mBackgroundRunToStrategy)){
+//                setValueBackground = PROCESS_CMD_BACKGROUND_LIMIT;
+//            }else if("keep".equals(mBackgroundRunToStrategy)){
+//                setValueBackground = PROCESS_CMD_BACKGROUND_KEEP;
+//            }
+//            int backgroundResult = mInterfaceKeepalive.setProcessInfo(mPackageName,mCommandIDBackground,setValueBackground);
+//            LogUtil.i(TAG, "SetRunable: setProcessInfo mPackageName="+mPackageName+", mCommandIDBackground=" + mCommandIDBackground+", setValueBackground="+setValueBackground+", backgroundResult="+backgroundResult);
+        }
+    }
+
+    private void setData(String packageName,boolean isAutoStartToAllow,String backgroundRunToStrategy){
+        ThreadManager.getInstance().ioThread(new SetRunable(packageName,PROCESS_CMD_AUTO_START,PROCESS_CMD_BACKGROUND,isAutoStartToAllow,backgroundRunToStrategy));
     }
 
     private void updateListView() {
@@ -206,13 +355,15 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
      * @param isBackgroundRunByUserCtl
      * @param backgroundRunToStrategy
      */
-    private void setKeepAlive(String packageName, boolean isAutoStartByUserCtl, boolean isAutoStartToAllow, boolean isBackgroundRunByUserCtl, String backgroundRunToStrategy) {
+    private void setKeepAlive(String packageName, boolean isAutoStartByUserCtl, int isAutoStartToAllow, boolean isBackgroundRunByUserCtl, int backgroundRunToStrategy) {
         LogUtil.i(TAG, "setKeepAlive: packageName=" + packageName +
                 ", isAutoStartByUserCtl=" + isAutoStartByUserCtl +
                 ", isAutoStartToAllow=" + isAutoStartToAllow +
                 ", isBackgroundRunByUserCtl=" + isBackgroundRunByUserCtl +
                 ", backgroundRunToStrategy=" + backgroundRunToStrategy);
-//        mSkyMonitorHelper.updateApp(new SkyProcAliveBean(packageName,isAutoStartByUserCtl,isAutoStartToAllow,isBackgroundRunByUserCtl,backgroundRunToStrategy));
+        LogUtil.i(TAG,"setKeepAlive: [interface: setProcessInfo]");
+        mInterfaceKeepaliveSystem.setProcessInfo(packageName,0,isAutoStartToAllow);
+        mInterfaceKeepaliveSystem.setProcessInfo(packageName,1,backgroundRunToStrategy);
     }
 
 
@@ -253,7 +404,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
      * 获取带launcher属性的应用列表
      *
      * @param context
-     * @return
+     * @return: 返回应用列表
      */
     private List<AppsBean> getLauncherApps(Context context) {
         if (context == null) {
@@ -285,11 +436,11 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
                     ctl.setIsAutoStartByUserCtl(true);
                     ctl.setIsBackgroundRunByUserCtl(true);
                     if (isSystem) {
-                        ctl.setIsAutoStartToAllow(true);
-                        ctl.setBackgroundRunToStrategy("smart");
+                        ctl.setIsAutoStartToAllow(1);
+                        ctl.setBackgroundRunToStrategy(0);
                     } else {
-                        ctl.setIsAutoStartToAllow(false);
-                        ctl.setBackgroundRunToStrategy("smart");
+                        ctl.setIsAutoStartToAllow(0);
+                        ctl.setBackgroundRunToStrategy(0);
                     }
                     bean.setCtl(ctl);
                     if(!appBeanList.contains(bean)){
@@ -342,6 +493,13 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
 
     private int mCpuThreshold = -1;
     private int mMemThreshold = -1;
+
+    /**
+     * 读取系统配置表
+     * @param platform: 区分平台: 超低端/低端/中端/高端
+     * @param configName: 配置表路径  如：/data/system/process_manager_default.xml
+     * @return: 返回配置的应用列表
+     */
     private List<AppsBean> readDefaultConfig(String platform, String configName) {
         long startTime = System.currentTimeMillis();
 
@@ -410,9 +568,9 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
                                     ctl.setIsAutoStartByUserCtl(false);
                                 }
                                 if ("true".equals(isAllow)) {
-                                    ctl.setIsAutoStartToAllow(true);
+                                    ctl.setIsAutoStartToAllow(1);
                                 } else {
-                                    ctl.setIsAutoStartToAllow(false);
+                                    ctl.setIsAutoStartToAllow(0);
                                 }
                             }
                         } else if ("BackgroundRun".equals(tagName)) {
@@ -428,7 +586,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
                                 } else {
                                     ctl.setIsBackgroundRunByUserCtl(false);
                                 }
-                                ctl.setBackgroundRunToStrategy(strategy);
+                                ctl.setBackgroundRunToStrategy(0);
                             }
                         }
                         break;

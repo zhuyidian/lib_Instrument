@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.dunn.instrument.function.keepalive.KeepAliveActivity;
+import com.dunn.instrument.function.resourcesimulate.ResourceSimulateActivity;
 import com.dunn.instrument.service.DeviceInfoService;
 import com.dunn.instrument.service.SpecifyProcessService;
 import com.dunn.instrument.service.TopProcessService;
@@ -89,13 +90,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Intent intent1 = new Intent(MainActivity.this, KeepAliveActivity.class);
                 startActivity(intent1);
                 break;
-            case R.id.btn5:
-                if(flag5){
-
-                }else{
-
-                }
-                flag5 = !flag5;
+            case R.id.btn5:   //ResourceSimulate
+                Intent intent2 = new Intent(MainActivity.this, ResourceSimulateActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.btn6:
                 if(flag6){

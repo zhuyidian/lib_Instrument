@@ -117,10 +117,14 @@ public class DelayShowDialog extends Dialog implements View.OnClickListener , Vi
         if(mCtl.getIsAutoStartByUserCtl()){
             tv_delay_hide1.setText("允许/不允许");
             tv_delay_hide1.setTextColor(mContext.getResources().getColor(R.color.tc_99));
-            if(mCtl.getIsAutoStartToAllow()){
+            if(mCtl.getIsAutoStartToAllow()==1){
                 tv_delay_checkbox1.setChecked(true);
+            }else if(mCtl.getIsAutoStartToAllow()==0){
+                tv_delay_checkbox1.setChecked(false);
             }else{
                 tv_delay_checkbox1.setChecked(false);
+                tv_delay_hide1.setText("未知");
+                tv_delay_hide1.setTextColor(mContext.getResources().getColor(R.color.red));
             }
         }else{
             tv_delay_hide1.setText("错误");
@@ -130,15 +134,15 @@ public class DelayShowDialog extends Dialog implements View.OnClickListener , Vi
         if(mCtl.getIsBackgroundRunByUserCtl()){
             tv_delay_hide2.setText("智能调控/保持后台运行/限制后台运行");
             tv_delay_hide2.setTextColor(mContext.getResources().getColor(R.color.tc_99));
-            if("smart".equals(mCtl.getBackgroundRunToStrategy())){
+            if(mCtl.getBackgroundRunToStrategy()==0){
                 tv_delay_checkbox3.setChecked(true);
                 tv_delay_checkbox4.setChecked(false);
                 tv_delay_checkbox5.setChecked(false);
-            }else if("keep".equals(mCtl.getBackgroundRunToStrategy())){
+            }else if(mCtl.getBackgroundRunToStrategy()==2){
                 tv_delay_checkbox4.setChecked(true);
                 tv_delay_checkbox3.setChecked(false);
                 tv_delay_checkbox5.setChecked(false);
-            }else if("limit".equals(mCtl.getBackgroundRunToStrategy())){
+            }else if(mCtl.getBackgroundRunToStrategy()==1){
                 tv_delay_checkbox5.setChecked(true);
                 tv_delay_checkbox3.setChecked(false);
                 tv_delay_checkbox4.setChecked(false);
@@ -146,7 +150,7 @@ public class DelayShowDialog extends Dialog implements View.OnClickListener , Vi
                 tv_delay_checkbox3.setChecked(false);
                 tv_delay_checkbox4.setChecked(false);
                 tv_delay_checkbox5.setChecked(false);
-                tv_delay_hide2.setText(mCtl.getBackgroundRunToStrategy());
+                tv_delay_hide2.setText("未知");
                 tv_delay_hide2.setTextColor(mContext.getResources().getColor(R.color.red));
             }
         }else{
@@ -166,12 +170,11 @@ public class DelayShowDialog extends Dialog implements View.OnClickListener , Vi
         if (onFinishListenner == null) return;
         switch (view.getId()) {
             case R.id.tv_delay_item1:
-                mCtl.setIsAutoStartToAllow(!mCtl.getIsAutoStartToAllow());
-                if(mCtl.getIsAutoStartToAllow()){
-                    //tv_delay_time2_item.setBackgroundColor(mContext.getResources().getColor(R.color.color_black));
+                if(mCtl.getIsAutoStartToAllow()==0) mCtl.setIsAutoStartToAllow(1);
+                if(mCtl.getIsAutoStartToAllow()==1) mCtl.setIsAutoStartToAllow(0);
+                if(mCtl.getIsAutoStartToAllow()==1){
                     tv_delay_checkbox1.setChecked(true);
                 }else{
-                    //tv_delay_time2_item.setBackgroundColor(mContext.getResources().getColor(R.color.white));
                     tv_delay_checkbox1.setChecked(false);
                 }
                 break;
@@ -179,38 +182,20 @@ public class DelayShowDialog extends Dialog implements View.OnClickListener , Vi
                 tv_delay_checkbox3.setChecked(true);
                 tv_delay_checkbox4.setChecked(false);
                 tv_delay_checkbox5.setChecked(false);
-                mCtl.setBackgroundRunToStrategy("smart");
-//                mCtl.setIsRelevanceStart(!mCtl.getIsRelevanceStart());
-//                if(mCtl.getIsRelevanceStart()){
-//                    //tv_delay_time3_item.setBackgroundColor(mContext.getResources().getColor(R.color.color_black));
-//                    tv_delay_time3_checkbox.setChecked(true);
-//                }else{
-//                    //tv_delay_time3_item.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-//                    tv_delay_time3_checkbox.setChecked(false);
-//                }
+                mCtl.setBackgroundRunToStrategy(0);
                 break;
             case R.id.tv_delay_item4:
                 tv_delay_checkbox4.setChecked(true);
                 tv_delay_checkbox3.setChecked(false);
                 tv_delay_checkbox5.setChecked(false);
-                mCtl.setBackgroundRunToStrategy("keep");
+                mCtl.setBackgroundRunToStrategy(2);
                 break;
             case R.id.tv_delay_item5:
                 tv_delay_checkbox5.setChecked(true);
                 tv_delay_checkbox3.setChecked(false);
                 tv_delay_checkbox4.setChecked(false);
-                mCtl.setBackgroundRunToStrategy("limit");
+                mCtl.setBackgroundRunToStrategy(1);
                 break;
-//            case R.id.tv_delay_time4_item:
-//                mCtl.setIsBackgroundActive(!mCtl.getIsBackgroundActive());
-//                if(mCtl.getIsBackgroundActive()){
-//                    //tv_delay_time4_item.setBackgroundColor(mContext.getResources().getColor(R.color.color_black));
-//                    tv_delay_time4_checkbox.setChecked(true);
-//                }else{
-//                    //tv_delay_time4_item.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-//                    tv_delay_time4_checkbox.setChecked(false);
-//                }
-//                break;
             case R.id.tv_ok_item:
                 retrueDelayTime("ok");
                 cancelDialog();

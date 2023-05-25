@@ -11,20 +11,20 @@ public class AppStateCtl {
     private boolean mIsAutoStartByUserCtl;
     /*
 	是否允许自启动:
-	true:允许
-	false:不允许
+	0(不允许启动)
+	1(允许启动)
 	*/
-    private boolean mIsAutoStartToAllow;
+    private int mIsAutoStartToAllow;
 
     //是否用户控制后台运行
     private boolean mIsBackgroundRunByUserCtl;
     /*
     后台运行策略:
-    smart: 智能调控
-    keep: 保持后台运行
-    limit: 限制后台运行
+    0(智能调控)
+    1(限制运行)
+    2(保持运行)
     */
-    private String mBackgroundRunToStrategy = "smart";
+    private int mBackgroundRunToStrategy;
 
     //排序使用
     private int mScore = 0;
@@ -41,11 +41,11 @@ public class AppStateCtl {
         this.mIsAutoStartByUserCtl = isAutoStartByUserCtl;
     }
 
-    public boolean getIsAutoStartToAllow() {
+    public int getIsAutoStartToAllow() {
         return mIsAutoStartToAllow;
     }
 
-    public void setIsAutoStartToAllow(boolean isAutoStartToAllow) {
+    public void setIsAutoStartToAllow(int isAutoStartToAllow) {
         mIsAutoStartToAllow = isAutoStartToAllow;
         culScore();
     }
@@ -58,11 +58,11 @@ public class AppStateCtl {
         mIsBackgroundRunByUserCtl = isBackgroundRunByUserCtl;
     }
 
-    public String getBackgroundRunToStrategy() {
+    public int getBackgroundRunToStrategy() {
         return mBackgroundRunToStrategy;
     }
 
-    public void setBackgroundRunToStrategy(String backgroundRunToStrategy) {
+    public void setBackgroundRunToStrategy(int backgroundRunToStrategy) {
         mBackgroundRunToStrategy = backgroundRunToStrategy;
         culScore();
     }
@@ -77,16 +77,16 @@ public class AppStateCtl {
 
     private void culScore(){
         int val = 0;
-        if(mIsAutoStartToAllow){
+        if(mIsAutoStartToAllow==1){
             val+=2;
         }else{
             val+=1;
         }
-        if("smart".equals(mBackgroundRunToStrategy)){
+        if(mBackgroundRunToStrategy==0){
             val+=5;
-        }else if("keep".equals(mBackgroundRunToStrategy)){
+        }else if(mBackgroundRunToStrategy==2){
             val+=4;
-        }else if("limit".equals(mBackgroundRunToStrategy)){
+        }else if(mBackgroundRunToStrategy==1){
             val+=3;
         }
         mScore = val;

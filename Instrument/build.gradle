@@ -41,6 +41,12 @@ allprojects {
     }
 }
 
+//allprojects {
+//    tasks.withType(JavaCompile) {
+//        options.compilerArgs.add('-Xbootclasspath/p:libs/classes.jar')
+//    }
+//}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

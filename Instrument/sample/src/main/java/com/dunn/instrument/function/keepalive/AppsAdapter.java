@@ -29,6 +29,13 @@ public class AppsAdapter extends BaseAdapter {
         this.mListData = mListData;
     }
 
+    public void setList(ArrayList<AppsBean> list) {
+        if (list != null) {
+            mListData = (ArrayList<AppsBean>) list.clone();
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public int getCount() {
         return mListData == null ? 0 : mListData.size();
@@ -87,7 +94,7 @@ public class AppsAdapter extends BaseAdapter {
         String stateTip;
         String tip1="",tip2="";
         if(user.getCtl().getIsAutoStartByUserCtl()){
-            if(user.getCtl().getIsAutoStartToAllow()){
+            if(user.getCtl().getIsAutoStartToAllow()==1){
                 tip1="[允许自启动]";
             }else{
                 tip1="[不允许自启动]";
@@ -96,11 +103,11 @@ public class AppsAdapter extends BaseAdapter {
             tip1="[错误]";
         }
         if(user.getCtl().getIsBackgroundRunByUserCtl()){
-            if("smart".equals(user.getCtl().getBackgroundRunToStrategy())){
+            if(user.getCtl().getBackgroundRunToStrategy()==0){
                 tip2="[智能调控]";
-            }else if("keep".equals(user.getCtl().getBackgroundRunToStrategy())){
+            }else if(user.getCtl().getBackgroundRunToStrategy()==2){
                 tip2="[保持后台运行]";
-            }else if("limit".equals(user.getCtl().getBackgroundRunToStrategy())){
+            }else if(user.getCtl().getBackgroundRunToStrategy()==1){
                 tip2="[限制后台运行]";
             }else{
                 tip2="[未知]";
