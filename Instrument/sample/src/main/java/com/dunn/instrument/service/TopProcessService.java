@@ -2,9 +2,14 @@ package com.dunn.instrument.service;
 
 import static com.dunn.instrument.service.DeviceInfoService.KEY_CPURATE;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -99,6 +104,7 @@ public class TopProcessService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //todo 直接命令行启动，这里设置监控包名会不成功，连接还没有开始回调
         LogUtil.i(TAG, "onStartCommand: intent=" + intent);
+        startForegroundService(startId);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -170,6 +176,22 @@ public class TopProcessService extends Service {
         }
     }
 
+    private void startForegroundService(int startId) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String CHANNEL_ID = "TOP-PROCESS";
+            String CHANNEL_NAME = "TOP-PROCESS";
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+            Intent intent = new Intent();
+            intent.setAction("notification.receiver.action.deviceinfo");
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            Notification notification = new Notification.Builder(this, CHANNEL_ID).setSmallIcon(R.drawable.ic_launcher_background).setContentIntent(pendingIntent).build();
+            startForeground(startId, notification);
+        }
+    }
+
     private void showFloatWindow() {
         View view = LayoutInflater.from(this).inflate(R.layout.float_window_top_process, null);
         mPkg = view.findViewById(R.id.pkg);
@@ -179,7 +201,7 @@ public class TopProcessService extends Service {
         mProcNum = view.findViewById(R.id.procNum);
         mThreadNum = view.findViewById(R.id.threadNum);
         mProcTotalPss = view.findViewById(R.id.procTotalPss);
-        mBean = FloatWindowManager.getInstance().createAndShowFloatWindow();
+        mBean = FloatWindowManager.getInstance().createAndShowFloatWindow("top-process");
         if (mBean != null && mBean.getContentView() != null) {
             RelativeLayout mWindowContent = mBean.getContentView();
             if (mWindowContent != null) {

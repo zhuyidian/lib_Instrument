@@ -1,9 +1,14 @@
 package com.dunn.instrument.function.keepalive;
 
 import android.content.Context;
+import android.os.Process;
+import android.os.RemoteException;
 import android.skyworth.skymonitor.AppCustom;
+import android.skyworth.skymonitor.ISkyResourceCallback;
+import android.skyworth.skymonitor.ResourceMsg;
 import android.skyworth.skymonitor.SkyMonitorHelper;
 
+import com.dunn.instrument.service.FrameworkInfoService;
 import com.dunn.instrument.tools.log.LogUtil;
 
 import java.lang.reflect.Method;
@@ -30,11 +35,40 @@ public class InterfaceKeepaliveSystem {
     public static final int PROCESS_CMD_BACKGROUND_KEEP = 2; //保持后台运行
     //返回错误
     public static final int PROCESS_CMD_RESULT_ERROR = -1;
-
     public SkyMonitorHelper mSkyMonitorHelper;
+    public SkyResourceCallback mSkyResourceCallback;
+    public FrameworkInfoService.MsgCallback mMsgCallback;
 
     public InterfaceKeepaliveSystem(Context context) {
         mSkyMonitorHelper = new SkyMonitorHelper(context);
+        mSkyResourceCallback = new SkyResourceCallback();
+    }
+
+    public void registerCallback(FrameworkInfoService.MsgCallback bc){
+        try{
+            mMsgCallback = bc;
+            mSkyMonitorHelper.register(mSkyResourceCallback, Process.myPid());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void unRegisterCallback(){
+        try{
+            mSkyMonitorHelper.unregister(mSkyResourceCallback);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    class SkyResourceCallback extends ISkyResourceCallback.Stub{
+        @Override
+        public void notifyMsg(ResourceMsg resourceMsg) throws RemoteException {
+            LogUtil.i(TAG, "notifyMsg: resourceMsg="+resourceMsg);
+            if(mMsgCallback!=null){
+                mMsgCallback.onMsg(resourceMsg);
+            }
+        }
     }
 
     public List<AppCustom> getProcessList(){

@@ -25,7 +25,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.dunn.instrument.MainActivity;
 import com.dunn.instrument.R;
+import com.dunn.instrument.service.DeviceInfoService;
+import com.dunn.instrument.service.FrameworkInfoService;
+import com.dunn.instrument.service.ResourceService;
 import com.dunn.instrument.tools.framework.pkms.PkmsUtil;
 import com.dunn.instrument.tools.log.LogUtil;
 import com.dunn.instrument.tools.thread.ThreadManager;
@@ -50,6 +54,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
     private ArrayList<AppsBean> appsList = new ArrayList<AppsBean>();
     private InterfaceKeepaliveSystem mInterfaceKeepaliveSystem;
     private Button mNativeReadTest, mNativeWriteTest;
+    private Button mCpuLowTest, mCpuMiddleTest,mCpuHighTest,mCloseCpuTest,mMemLowTest,mMemMiddleTest,mMemHighTest,mCloseMemTest;
     private TextView mOpenTest;
 
     @Override
@@ -59,6 +64,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
         mInterfaceKeepaliveSystem = new InterfaceKeepaliveSystem(KeepAliveActivity.this);
         initView();
         initData();
+        startService(new Intent(KeepAliveActivity.this, FrameworkInfoService.class));
     }
 
     private void initView() {
@@ -101,9 +107,25 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
 
         mNativeReadTest = (Button) findViewById(R.id.native_read_test);
         mNativeWriteTest = (Button) findViewById(R.id.native_write_test);
-        mOpenTest = (TextView) findViewById(R.id.open_test);
+        mCpuLowTest = (Button) findViewById(R.id.cpu_low_test);
+        mCpuMiddleTest = (Button) findViewById(R.id.cpu_middle_test);
+        mCpuHighTest = (Button) findViewById(R.id.cpu_high_test);
+        mCloseCpuTest = (Button) findViewById(R.id.close_cpu_test);
+        mMemLowTest = (Button) findViewById(R.id.mem_low_test);
+        mMemMiddleTest = (Button) findViewById(R.id.mem_middle_test);
+        mMemHighTest = (Button) findViewById(R.id.mem_high_test);
+        mCloseMemTest = (Button) findViewById(R.id.close_mem_test);
         mNativeReadTest.setOnClickListener(this);
         mNativeWriteTest.setOnClickListener(this);
+        mCpuLowTest.setOnClickListener(this);
+        mCpuMiddleTest.setOnClickListener(this);
+        mCpuHighTest.setOnClickListener(this);
+        mCloseCpuTest.setOnClickListener(this);
+        mMemLowTest.setOnClickListener(this);
+        mMemMiddleTest.setOnClickListener(this);
+        mMemHighTest.setOnClickListener(this);
+        mCloseMemTest.setOnClickListener(this);
+        mOpenTest = (TextView) findViewById(R.id.open_test);
     }
 
     @Override
@@ -115,6 +137,55 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
             case R.id.native_write_test:
 //                mSkyMonitorHelper.testSetValNative(5);
                 break;
+            case R.id.cpu_low_test:
+                Intent intent = new Intent(KeepAliveActivity.this, ResourceService.class);
+                intent.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
+                intent.putExtra("resource_command", "cpu_low");
+                startService(intent);
+                break;
+            case R.id.cpu_middle_test:
+                Intent intent1 = new Intent(KeepAliveActivity.this, ResourceService.class);
+                intent1.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
+                intent1.putExtra("resource_command", "cpu_middle");
+                startService(intent1);
+                break;
+            case R.id.cpu_high_test:
+                Intent intent2 = new Intent(KeepAliveActivity.this, ResourceService.class);
+                intent2.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
+                intent2.putExtra("resource_command", "cpu_high");
+                startService(intent2);
+                break;
+            case R.id.close_cpu_test:
+                Intent intent3 = new Intent(KeepAliveActivity.this, ResourceService.class);
+                intent3.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
+                intent3.putExtra("resource_command", "cpu_close");
+                startService(intent3);
+                break;
+            case R.id.mem_low_test:
+                Intent intent4 = new Intent(KeepAliveActivity.this, ResourceService.class);
+                intent4.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
+                intent4.putExtra("resource_command", "mem_low");
+                startService(intent4);
+                break;
+            case R.id.mem_middle_test:
+                Intent intent5 = new Intent(KeepAliveActivity.this, ResourceService.class);
+                intent5.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
+                intent5.putExtra("resource_command", "mem_middle");
+                startService(intent5);
+                break;
+            case R.id.mem_high_test:
+                Intent intent6 = new Intent(KeepAliveActivity.this, ResourceService.class);
+                intent6.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
+                intent6.putExtra("resource_command", "mem_high");
+                startService(intent6);
+                break;
+            case R.id.close_mem_test:
+                Intent intent7 = new Intent(KeepAliveActivity.this, ResourceService.class);
+                intent7.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
+                intent7.putExtra("resource_command", "mem_close");
+                startService(intent7);
+                break;
+
             default:
                 break;
         }
@@ -123,7 +194,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
     private void initData() {
         String openFlag = SystemProperties.get("skymonitor.resource", "");
         LogUtil.i(TAG,"initData: get properties openFlag="+openFlag);
-        mOpenTest.setText(openFlag);
+        mOpenTest.setText("开关状态: "+openFlag);
 
         ThreadManager.getInstance().ioThread(new Runnable() {
             @Override
@@ -222,6 +293,11 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
 //                }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     class UpdateRunable implements Runnable{

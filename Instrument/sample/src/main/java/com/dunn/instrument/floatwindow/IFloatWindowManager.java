@@ -17,7 +17,7 @@ public interface IFloatWindowManager {
 
     void destory();
 
-    WindowRecordBean createAndShowFloatWindow();
+    WindowRecordBean createAndShowFloatWindow(String name);
 
     boolean removeFloatWindow(WindowRecordBean record);
 

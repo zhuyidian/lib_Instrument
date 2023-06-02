@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".function.keepalive.KeepAliveActivity">
 
     <RelativeLayout
@@ -33,17 +34,76 @@
                 android:id="@+id/native_read_test"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="native read test"/>
+                android:text="native read"/>
             <Button
                 android:id="@+id/native_write_test"
                 android:layout_marginLeft="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="native_write_test"/>
+                android:text="native write"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/cpu_low_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cpu low"/>
+            <Button
+                android:id="@+id/cpu_middle_test"
+                android:layout_marginLeft="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cpu middle"/>
+            <Button
+                android:id="@+id/cpu_high_test"
+                android:layout_marginLeft="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cpu high"/>
+            <Button
+                android:id="@+id/close_cpu_test"
+                android:layout_marginLeft="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="close cpu"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/mem_low_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mem low"/>
+            <Button
+                android:id="@+id/mem_middle_test"
+                android:layout_marginLeft="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mem middle"/>
+            <Button
+                android:id="@+id/mem_high_test"
+                android:layout_marginLeft="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mem high"/>
+            <Button
+                android:id="@+id/close_mem_test"
+                android:layout_marginLeft="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="close mem"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/open_test"

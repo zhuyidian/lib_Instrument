@@ -75,7 +75,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
-//    implementation rootProject.ext.dependencies.annotations
     compileOnly rootProject.ext.dependencies.appcompatV7
 //    compileOnly rootProject.ext.dependencies.appcompatX
 
@@ -97,7 +96,8 @@ dependencies {
 
 //    implementation project(path: ':myaosp')
     compileOnly files('../build-libs/layoutlib.jar')
-    implementation files('./libs/skymonitor.jar')
+//    implementation files('./libs/skymonitor.jar')
+    implementation files('./libs/javalib.jar')
 }
 
 preBuild {

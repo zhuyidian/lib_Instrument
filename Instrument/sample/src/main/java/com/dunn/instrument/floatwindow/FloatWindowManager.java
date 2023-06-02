@@ -62,12 +62,13 @@ public class FloatWindowManager implements IFloatWindowManager {
     }
 
     @Override
-    public WindowRecordBean createAndShowFloatWindow() {
+    public WindowRecordBean createAndShowFloatWindow(String name) {
         if (mContext == null) {
             LogUtil.e(TAG, "createAndShowFloatWindow: is no init!!!");
             return null;
         }
 
+        String titleName = name!=null?name:"";
         //    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(this)) {
         windowManager = (WindowManager) mContext.getSystemService(mContext.WINDOW_SERVICE);
         layoutParams = new WindowManager.LayoutParams();
@@ -88,7 +89,7 @@ public class FloatWindowManager implements IFloatWindowManager {
             View view = LayoutInflater.from(mContext).inflate(R.layout.float_window_base, null);
             bean.setView(view);
             TextView title = view.findViewById(R.id.window_name);
-            title.setText(bean.getTitle());
+            title.setText(bean.getTitle()+"["+titleName+"]");
             RelativeLayout contentView = view.findViewById(R.id.window_content);
             bean.setContentView(contentView);
             //显示的位置

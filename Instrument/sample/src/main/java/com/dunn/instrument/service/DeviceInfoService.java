@@ -96,7 +96,7 @@ public class DeviceInfoService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //todo 直接命令行启动，这里设置监控包名会不成功，连接还没有开始回调
-        //startForegroundService(startId);
+        startForegroundService(startId);
         handleInnerEvent(intent);
         return super.onStartCommand(intent, flags, startId);
     }
@@ -142,7 +142,7 @@ public class DeviceInfoService extends Service {
         mSwapFree = view.findViewById(R.id.swapFree);
         mCpuRate = view.findViewById(R.id.cpuRate);
         // appMemUsageTextView.setTextColor(getResources().getColor(R.color.black));
-        mBean = FloatWindowManager.getInstance().createAndShowFloatWindow();
+        mBean = FloatWindowManager.getInstance().createAndShowFloatWindow("device-info");
         if (mBean != null && mBean.getContentView() != null) {
             RelativeLayout mWindowContent = mBean.getContentView();
             if (mWindowContent != null) {

@@ -27,9 +27,9 @@ public class MainApp extends Application {
     public void onCreate() {
         super.onCreate();
         LogUtil.i(TAG,"onCreate:");
-        mTelnet = new Telnet();
-        mTelnet.startTelnet(MainApp.this.getApplicationContext());
-        FloatWindowManager.getInstance().init(this);
+        //mTelnet = new Telnet();
+        //mTelnet.startTelnet(MainApp.this.getApplicationContext());
+        FloatWindowManager.getInstance().init(MainApp.this.getApplicationContext());
     }
 
     @Override
