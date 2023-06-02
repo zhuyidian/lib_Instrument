@@ -37,3 +37,38 @@ crash信息全面捕获。
 ```
 去掉excel模块
 ```
+
+## 启动shell运行
+* 方式一
+```
+export CLASSPATH=`pm path com.coocaa.os.perf.monitor`
+export CLASSPATH=`pm path com.dunn.instrument`
+app_process /system/bin  com.coocaa.os.perf.monitor.ShellMain
+app_process /system/bin  com.dunn.instrument.ShellMain
+app_process /system/bin  com.coocaa.os.perf.monitor.ShellMain 包名
+```
+* 方式二
+```
+在Application MainApp中启用Telnet，Telnet会执行命令运行shell
+```
+
+## 后台Service方式启动进程
+```
+WINDOW command:
+open_window
+CPU command:
+cpu_close、cpu_low、cpu_middle、cpu_high
+MEM command:
+mem_close、mem_low、mem_middle、mem_high
+
+注意：
+使用CPU或MEM前先停止，也即先执行cpu_close或mem_close。否则无效。
+
+单次启动：
+am start-foreground-service -a com.coocaa.intent.action.RESOURCE_ACTION --es resource_command open_window
+am start-foreground-service -a com.coocaa.intent.action.RESOURCE_ACTION --es resource_command cpu_low
+
+循环10启动：
+while true; do am start-foreground-service -a com.coocaa.intent.action.RESOURCE_ACTION --es resource_command cpu_low;sleep 10;done;
+```
+
