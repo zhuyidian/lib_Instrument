@@ -82,6 +82,9 @@ public class ResourceService extends Service{
         if("open_window".equals(command)) {
             Intent intentW = new Intent(ResourceService.this, FrameworkInfoService.class);
             startService(intentW);
+        }else if("close_window".equals(command)){
+            Intent intentW = new Intent(ResourceService.this, FrameworkInfoService.class);
+            stopService(intentW);
         }else if("cpu_low".equals(command)){
             cpuLowUsageTest();
         }else if("cpu_middle".equals(command)){

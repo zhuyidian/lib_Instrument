@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/totalMem"
+        android:id="@+id/msg1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -14,7 +14,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/availMem"
+        android:id="@+id/msg2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -22,7 +22,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/freeMem"
+        android:id="@+id/msg3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -30,7 +30,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/procPss"
+        android:id="@+id/msg4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -38,7 +38,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/cpuRate"
+        android:id="@+id/msg5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -46,23 +46,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/procCpuRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="10sp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/procNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="10sp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/threadNum"
+        android:id="@+id/msg6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""

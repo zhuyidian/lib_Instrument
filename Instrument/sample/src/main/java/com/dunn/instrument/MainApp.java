@@ -2,9 +2,12 @@ package com.dunn.instrument;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 
 import com.dunn.instrument.floatwindow.FloatWindowManager;
+import com.dunn.instrument.function.keepalive.KeepAliveActivity;
+import com.dunn.instrument.service.FrameworkInfoService;
 import com.dunn.instrument.shell.Telnet;
 import com.dunn.instrument.tools.log.LogUtil;
 

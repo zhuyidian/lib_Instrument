@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Process;
 import android.skyworth.skymonitor.ResourceMsg;
 import android.skyworth.skymonitor.SkyMonitorHelper;
 import android.text.TextUtils;
@@ -45,14 +46,24 @@ public class FrameworkInfoService extends Service {
     private String mPackageName;
     private InterfaceKeepaliveSystem mInterfaceKeepaliveSystem;
     private long cnt = 0;  //时间计数器
-    private int msgCount = 0;
-    private static final int WHAT_MSG = 0;
-    private static final int WHAT_CPU = 1;
-    private static final int WHAT_MEM = 2;
-    private WindowRecordBean mBean;
-    private TextView mMsg;
+    private static final int WHAT_MSG_KILL_ONCE = 0;
+    private int mMsgKillOnceCount = 0;
+    private static final int WHAT_MSG_KILL_FREQUENTLY = 1;
+    private int mMsgKillFrequentlyCount = 0;
+    private static final int WHAT_MSG_REPORT_CPU = 2;
+    private int mMsgReportCpuCount = 0;
+    private static final int WHAT_MSG_REPORT_MEM = 3;
+    private int mMsgReportMemCount = 0;
+    private static final int WHAT_MSG_REPORT_IO = 4;
+    private int mMsgReportIoCount = 0;
+    private static final int WHAT_MSG_REPORT_KILL = 5;
+    private int mMsgReportKillCount = 0;
+    private static final int WHAT_CPU = 6;
+    private static final int WHAT_MEM = 7;
+    private WindowRecordBean mBeanResource,mBeanMsg;
     private TextView mTotalMem,mAvailMem,mFreeMem,mProcPss;
     private TextView mCpuRate,mProcCpuRate,mProcNum,mThreadNum;
+    private TextView mMsg1,mMsg2,mMsg3,mMsg4,mMsg5,mMsg6;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -60,10 +71,35 @@ public class FrameworkInfoService extends Service {
             super.handleMessage(msg);
             int what = msg.what;
             switch (what) {
-                case WHAT_MSG:
-                    msgCount++;
+                case WHAT_MSG_KILL_ONCE:
+                    mMsgKillOnceCount++;
                     if (!TextUtils.isEmpty(msg.getData().getString("content")))
-                        mMsg.setText("msg:" + msg.getData().getString("content") + ", 消息次数:"+msgCount);
+                        mMsg1.setText("msg1: " + msg.getData().getString("content") + ", 次数:"+mMsgKillOnceCount);
+                    break;
+                case WHAT_MSG_KILL_FREQUENTLY:
+                    mMsgKillFrequentlyCount++;
+                    if (!TextUtils.isEmpty(msg.getData().getString("content")))
+                        mMsg2.setText("msg2: " + msg.getData().getString("content") + ", 次数:"+mMsgKillFrequentlyCount);
+                    break;
+                case WHAT_MSG_REPORT_CPU:
+                    mMsgReportCpuCount++;
+                    if (!TextUtils.isEmpty(msg.getData().getString("content")))
+                        mMsg3.setText("msg3: " + msg.getData().getString("content") + ", 次数:"+mMsgReportCpuCount);
+                    break;
+                case WHAT_MSG_REPORT_MEM:
+                    mMsgReportMemCount++;
+                    if (!TextUtils.isEmpty(msg.getData().getString("content")))
+                        mMsg4.setText("msg4: " + msg.getData().getString("content") + ", 次数:"+mMsgReportMemCount);
+                    break;
+                case WHAT_MSG_REPORT_IO:
+                    mMsgReportIoCount++;
+                    if (!TextUtils.isEmpty(msg.getData().getString("content")))
+                        mMsg5.setText("msg5: " + msg.getData().getString("content") + ", 次数:"+mMsgReportIoCount);
+                    break;
+                case WHAT_MSG_REPORT_KILL:
+                    mMsgReportKillCount++;
+                    if (!TextUtils.isEmpty(msg.getData().getString("content")))
+                        mMsg6.setText("msg6: " + msg.getData().getString("content") + ", 次数:"+mMsgReportKillCount);
                     break;
                 case WHAT_CPU:
                     if (!TextUtils.isEmpty(msg.getData().getString("cpuRate")))
@@ -106,7 +142,7 @@ public class FrameworkInfoService extends Service {
         mMonitor = new PerfMonitor(FrameworkInfoService.this.getApplicationContext(), new PerfListenter());
         mPackageName = FrameworkInfoService.this.getPackageName();
         if(mInterfaceKeepaliveSystem!=null) {
-            mInterfaceKeepaliveSystem.registerCallback(new MsgCallback());
+            mInterfaceKeepaliveSystem.registerCallback(new MsgCallback(),FrameworkInfoService.this.getPackageName(), Process.myPid());
         }
         showFloatWindow();
         startThread();
@@ -136,7 +172,7 @@ public class FrameworkInfoService extends Service {
             mMonitor = null;
         }
         if(mInterfaceKeepaliveSystem!=null){
-            mInterfaceKeepaliveSystem.unRegisterCallback();
+            mInterfaceKeepaliveSystem.unRegisterCallback(FrameworkInfoService.this.getPackageName());
         }
         stopThread();
     }
@@ -179,14 +215,47 @@ public class FrameworkInfoService extends Service {
     public class MsgCallback implements Callback{
         @Override
         public void onMsg(ResourceMsg msg) {
-            String content = "Msg:";
-            if(msg!=null){
-                Bundle bundle = msg.peekData();
-                content = bundle.getString("content");
-            }
+            String content = "";
             Message message = mHandler.obtainMessage();
-            message.what = WHAT_MSG;
             Bundle bundle = new Bundle();
+            if(msg.what == ResourceMsg.MSG_APP_KILL){
+                String processName = "";
+                Bundle bb = msg.peekData();
+                if(bb!=null) processName = bb.getString("process");
+                String reourceType = "";
+                if(msg.arg1 == ResourceMsg.MSG_APP_KILL_ARG1_CPU){
+                    reourceType = "cpu";
+                }else{
+                    reourceType = "mem";
+                }
+                if(msg.arg2 == ResourceMsg.MSG_APP_KILL_ARG2_ONCE){
+                    message.what = WHAT_MSG_KILL_ONCE;
+                    content = "系统" + reourceType + "资源紧张," + processName + "被杀";
+                }else{
+                    message.what = WHAT_MSG_KILL_FREQUENTLY;
+                    content = processName + "频繁被杀,已被忽略";
+                }
+            }else if(msg.what == ResourceMsg.MSG_RESOURCE_REPORT){
+                String filepath = "";
+                Bundle bb = msg.peekData();
+                if(bb!=null) {
+                    filepath = bb.getString("filepath");
+                    filepath = filepath.substring(filepath.lastIndexOf("/"));
+                }
+                if(msg.arg1 == ResourceMsg.MSG_RESOURCE_REPORT_ARG1_CPU){
+                    message.what = WHAT_MSG_REPORT_CPU;
+                    content = "cpu资源上报"+filepath;
+                }else if(msg.arg1 == ResourceMsg.MSG_RESOURCE_REPORT_ARG1_MEM){
+                    message.what = WHAT_MSG_REPORT_MEM;
+                    content = "mem资源上报"+filepath;
+                }else if(msg.arg1 == ResourceMsg.MSG_RESOURCE_REPORT_ARG1_IO){
+                    message.what = WHAT_MSG_REPORT_IO;
+                    content = "io资源上报"+filepath;
+                }else{
+                    message.what = WHAT_MSG_REPORT_KILL;
+                    content = "kill上报"+filepath;
+                }
+            }
             bundle.putString("content",content);
             message.setData(bundle);
             mHandler.sendMessage(message);
@@ -300,17 +369,32 @@ public class FrameworkInfoService extends Service {
         mProcCpuRate = view.findViewById(R.id.procCpuRate);
         mProcNum = view.findViewById(R.id.procNum);
         mThreadNum = view.findViewById(R.id.threadNum);
-        mMsg = view.findViewById(R.id.msg);
-        mBean = FloatWindowManager.getInstance().createAndShowFloatWindow("framework-msg");
-        if (mBean != null && mBean.getContentView() != null) {
-            RelativeLayout mWindowContent = mBean.getContentView();
+        mBeanResource = FloatWindowManager.getInstance().createAndShowFloatWindow("resource-info");
+        if (mBeanResource != null && mBeanResource.getContentView() != null) {
+            RelativeLayout mWindowContent = mBeanResource.getContentView();
             if (mWindowContent != null) {
                 mWindowContent.addView(view);
+            }
+        }
+
+        View view1 = LayoutInflater.from(this).inflate(R.layout.float_window_framework_info1, null);
+        mMsg1 = view1.findViewById(R.id.msg1);
+        mMsg2 = view1.findViewById(R.id.msg2);
+        mMsg3 = view1.findViewById(R.id.msg3);
+        mMsg4 = view1.findViewById(R.id.msg4);
+        mMsg5 = view1.findViewById(R.id.msg5);
+        mMsg6 = view1.findViewById(R.id.msg6);
+        mBeanMsg = FloatWindowManager.getInstance().createAndShowFloatWindow("framework-msg");
+        if (mBeanMsg != null && mBeanMsg.getContentView() != null) {
+            RelativeLayout mWindowContent = mBeanMsg.getContentView();
+            if (mWindowContent != null) {
+                mWindowContent.addView(view1);
             }
         }
     }
 
     private void hideFloatWindow() {
-        FloatWindowManager.getInstance().removeFloatWindow(mBean);
+        FloatWindowManager.getInstance().removeFloatWindow(mBeanResource);
+        FloatWindowManager.getInstance().removeFloatWindow(mBeanMsg);
     }
 }

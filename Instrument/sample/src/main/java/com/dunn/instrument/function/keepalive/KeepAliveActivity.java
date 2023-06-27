@@ -27,8 +27,6 @@ import android.widget.TextView;
 
 import com.dunn.instrument.MainActivity;
 import com.dunn.instrument.R;
-import com.dunn.instrument.service.DeviceInfoService;
-import com.dunn.instrument.service.FrameworkInfoService;
 import com.dunn.instrument.service.ResourceService;
 import com.dunn.instrument.tools.framework.pkms.PkmsUtil;
 import com.dunn.instrument.tools.log.LogUtil;
@@ -64,7 +62,6 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
         mInterfaceKeepaliveSystem = new InterfaceKeepaliveSystem(KeepAliveActivity.this);
         initView();
         initData();
-        startService(new Intent(KeepAliveActivity.this, FrameworkInfoService.class));
     }
 
     private void initView() {
@@ -192,7 +189,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
     }
 
     private void initData() {
-        String openFlag = SystemProperties.get("skymonitor.resource", "");
+        String openFlag = SystemProperties.get("third.get.skymonitor.resource", "");
         LogUtil.i(TAG,"initData: get properties openFlag="+openFlag);
         mOpenTest.setText("开关状态: "+openFlag);
 

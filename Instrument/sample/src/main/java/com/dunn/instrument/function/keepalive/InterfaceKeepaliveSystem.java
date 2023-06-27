@@ -44,18 +44,18 @@ public class InterfaceKeepaliveSystem {
         mSkyResourceCallback = new SkyResourceCallback();
     }
 
-    public void registerCallback(FrameworkInfoService.MsgCallback bc){
+    public void registerCallback(FrameworkInfoService.MsgCallback bc,String pkgname,int pid){
         try{
             mMsgCallback = bc;
-            mSkyMonitorHelper.register(mSkyResourceCallback, Process.myPid());
+            mSkyMonitorHelper.register(mSkyResourceCallback,pkgname,pid);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    public void unRegisterCallback(){
+    public void unRegisterCallback(String pkgname){
         try{
-            mSkyMonitorHelper.unregister(mSkyResourceCallback);
+            mSkyMonitorHelper.unregister(mSkyResourceCallback,pkgname);
         }catch (Exception e){
             e.printStackTrace();
         }
