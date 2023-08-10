@@ -86,7 +86,7 @@ dependencies {
 //    implementation 'com.github.zhuyidian.lib_Instrument_Thread:threadhooksrc:V1.1.5'
 //    implementation 'com.github.zhuyidian.lib_Instrument_Thread:thread:V1.1.5'
 //    implementation 'com.github.zhuyidian:lib_Instrument_IoMonitor:V1.0.1'
-//    implementation 'com.github.zhuyidian:lib_Instrument_Excel:V1.0.4'
+    implementation 'com.github.zhuyidian:lib_Instrument_Excel:V1.0.6'
 //    implementation 'com.github.zhuyidian:lib_Instrument_Anr:V1.0.0'
 //    implementation 'com.github.zhuyidian:lib_Instrument_MethodMonitor:V1.0.0'
 //    implementation 'com.github.zhuyidian:lib_Instrument_Alarms:V1.0.0'

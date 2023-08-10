@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 
+import com.dunn.instrument.api.ApiExcel;
 import com.dunn.instrument.floatwindow.FloatWindowManager;
 import com.dunn.instrument.function.keepalive.KeepAliveActivity;
 import com.dunn.instrument.service.FrameworkInfoService;
@@ -33,6 +34,10 @@ public class MainApp extends Application {
         //mTelnet = new Telnet();
         //mTelnet.startTelnet(MainApp.this.getApplicationContext());
         FloatWindowManager.getInstance().init(MainApp.this.getApplicationContext());
+
+        //excel
+        ApiExcel.excelInit(getApplicationContext());
+        ApiExcel.setFunctionRowName();
     }
 
     @Override

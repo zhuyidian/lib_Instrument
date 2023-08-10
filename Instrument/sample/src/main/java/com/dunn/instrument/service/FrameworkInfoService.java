@@ -28,7 +28,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.dunn.instrument.R;
+import com.dunn.instrument.api.ApiExcel;
 import com.dunn.instrument.bean.PkgClsBean;
+import com.dunn.instrument.excel.ExcelDeal;
 import com.dunn.instrument.floatwindow.FloatWindowManager;
 import com.dunn.instrument.floatwindow.WindowRecordBean;
 import com.dunn.instrument.function.keepalive.InterfaceKeepaliveSystem;
@@ -75,6 +77,59 @@ public class FrameworkInfoService extends Service {
                     mMsgKillOnceCount++;
                     if (!TextUtils.isEmpty(msg.getData().getString("content")))
                         mMsg1.setText("msg1: " + msg.getData().getString("content") + ", 次数:"+mMsgKillOnceCount);
+
+                    //excel
+                    ApiExcel.getInfo().clearFunction1Value();
+                    Bundle bb = msg.getData();
+                    if(bb.containsKey("pkg")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION1_COL,bb.getString("pkg"));
+                    }
+                    if(bb.containsKey("process")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION2_COL,bb.getString("process"));
+                    }
+                    if(bb.containsKey("pid")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION3_COL,bb.getInt("pid")+"");
+                    }
+                    if(bb.containsKey("adj")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION4_COL,bb.getInt("adj")+"");
+                    }
+                    if(bb.containsKey("currentPid")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION5_COL,bb.getInt("currentPid")+"");
+                    }
+                    if(bb.containsKey("currentPkgName")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION6_COL,bb.getString("currentPkgName"));
+                    }
+                    if(bb.containsKey("cpu")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION7_COL,bb.getFloat("cpu")+"");
+                    }
+                    if(bb.containsKey("psskb")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION8_COL,bb.getFloat("psskb")+"");
+                    }
+                    if(bb.containsKey("totalMemkb")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION9_COL,bb.getFloat("totalMemkb")+"");
+                    }
+                    if(bb.containsKey("cpuscore")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION10_COL,bb.getFloat("cpuscore")+"");
+                    }
+                    if(bb.containsKey("memscore")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION11_COL,bb.getFloat("memscore")+"");
+                    }
+                    if(bb.containsKey("adjscore")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION12_COL,bb.getFloat("adjscore")+"");
+                    }
+                    if(bb.containsKey("switchscore")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION13_COL,bb.getFloat("switchscore")+"");
+                    }
+                    if(bb.containsKey("resultscore")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION14_COL,bb.getFloat("resultscore")+"");
+                    }
+                    if(bb.containsKey("sysCpuIdle")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION15_COL,bb.getFloat("sysCpuIdle")+"");
+                    }
+                    if(bb.containsKey("sysMemAvailable")){
+                        ApiExcel.getInfo().setFunction1Value(ExcelDeal.FUNCTION16_COL,bb.getFloat("sysMemAvailable")+"");
+                    }
+                    ApiExcel.excelSubmit();
                     break;
                 case WHAT_MSG_KILL_FREQUENTLY:
                     mMsgKillFrequentlyCount++;
@@ -144,6 +199,7 @@ public class FrameworkInfoService extends Service {
         if(mInterfaceKeepaliveSystem!=null) {
             mInterfaceKeepaliveSystem.registerCallback(new MsgCallback(),FrameworkInfoService.this.getPackageName(), Process.myPid());
         }
+
         showFloatWindow();
         startThread();
     }
@@ -231,6 +287,28 @@ public class FrameworkInfoService extends Service {
                 if(msg.arg2 == ResourceMsg.MSG_APP_KILL_ARG2_ONCE){
                     message.what = WHAT_MSG_KILL_ONCE;
                     content = "系统" + reourceType + "资源紧张," + processName + "被杀";
+
+                    bundle.putString("pkg",bb.getString("pkg"));
+                    bundle.putString("process",processName);
+                    bundle.putInt("pid",bb.getInt("pid"));
+                    bundle.putInt("adj",bb.getInt("adj"));
+                    bundle.putInt("currentPid",bb.getInt("currentPid"));
+                    bundle.putString("currentPkgName",bb.getString("currentPkgName"));
+                    if("cpu".equals(reourceType)){
+                        bundle.putFloat("cpu",bb.getFloat("cpu"));
+                        bundle.putFloat("cpuscore",bb.getFloat("cpuscore"));
+                        bundle.putFloat("adjscore",bb.getFloat("adjscore"));
+                        bundle.putFloat("resultscore",bb.getFloat("resultscore"));
+                        bundle.putFloat("sysCpuIdle",bb.getFloat("sysCpuIdle"));
+                    }else if("mem".equals(reourceType)){
+                        bundle.putFloat("psskb",bb.getFloat("psskb"));
+                        bundle.putFloat("totalMemkb",bb.getFloat("totalMemkb"));
+                        bundle.putFloat("memscore",bb.getFloat("memscore"));
+                        bundle.putFloat("switchscore",bb.getFloat("switchscore"));
+                        bundle.putFloat("adjscore",bb.getFloat("adjscore"));
+                        bundle.putFloat("resultscore",bb.getFloat("resultscore"));
+                        bundle.putFloat("sysMemAvailable",bb.getFloat("sysMemAvailable"));
+                    }
                 }else{
                     message.what = WHAT_MSG_KILL_FREQUENTLY;
                     content = processName + "频繁被杀,已被忽略";
