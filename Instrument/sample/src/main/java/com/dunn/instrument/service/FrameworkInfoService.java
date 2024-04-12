@@ -46,7 +46,7 @@ public class FrameworkInfoService extends Service {
     private PerfMonitor mMonitor;
     private ProcessThread mProcessThread;
     private String mPackageName;
-    private InterfaceKeepaliveSystem mInterfaceKeepaliveSystem;
+//    private InterfaceKeepaliveSystem mInterfaceKeepaliveSystem;
     private long cnt = 0;  //时间计数器
     private static final int WHAT_MSG_KILL_ONCE = 0;
     private int mMsgKillOnceCount = 0;
@@ -193,12 +193,12 @@ public class FrameworkInfoService extends Service {
     public void onCreate() {
         super.onCreate();
         LogUtil.i(TAG, "onCreate: ");
-        mInterfaceKeepaliveSystem = new InterfaceKeepaliveSystem(FrameworkInfoService.this);
+//        mInterfaceKeepaliveSystem = new InterfaceKeepaliveSystem(FrameworkInfoService.this);
         mMonitor = new PerfMonitor(FrameworkInfoService.this.getApplicationContext(), new PerfListenter());
         mPackageName = FrameworkInfoService.this.getPackageName();
-        if(mInterfaceKeepaliveSystem!=null) {
-            mInterfaceKeepaliveSystem.registerCallback(new MsgCallback(),FrameworkInfoService.this.getPackageName(), Process.myPid());
-        }
+//        if(mInterfaceKeepaliveSystem!=null) {
+//            mInterfaceKeepaliveSystem.registerCallback(new MsgCallback(),FrameworkInfoService.this.getPackageName(), Process.myPid());
+//        }
 
         showFloatWindow();
         startThread();
@@ -227,9 +227,9 @@ public class FrameworkInfoService extends Service {
             mMonitor.destory();
             mMonitor = null;
         }
-        if(mInterfaceKeepaliveSystem!=null){
-            mInterfaceKeepaliveSystem.unRegisterCallback(FrameworkInfoService.this.getPackageName());
-        }
+//        if(mInterfaceKeepaliveSystem!=null){
+//            mInterfaceKeepaliveSystem.unRegisterCallback(FrameworkInfoService.this.getPackageName());
+//        }
         stopThread();
     }
 
