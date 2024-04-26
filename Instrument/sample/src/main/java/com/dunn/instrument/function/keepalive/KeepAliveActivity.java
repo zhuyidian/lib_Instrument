@@ -50,7 +50,6 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
     private ListView mAppListView;
     private AppsAdapter mAppsAdapter;
     private ArrayList<AppsBean> appsList = new ArrayList<AppsBean>();
-    private InterfaceKeepaliveSystem mInterfaceKeepaliveSystem;
     private Button mNativeReadTest, mNativeWriteTest;
     private Button mCpuLowTest, mCpuMiddleTest,mCpuHighTest,mCloseCpuTest,mMemLowTest,mMemMiddleTest,mMemHighTest,mCloseMemTest;
     private TextView mOpenTest;
@@ -59,7 +58,6 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keepalive);
-        mInterfaceKeepaliveSystem = new InterfaceKeepaliveSystem(KeepAliveActivity.this);
         initView();
         initData();
     }
@@ -79,13 +77,13 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
                     @Override
                     public void call(String s, String s2) {
                         LogUtil.i(TAG, "onItemSelected: ctl=" + appsList.get(i).getCtl());
-                        setKeepAlive(appsList.get(i).getPackageName(),
-                                appsList.get(i).getCtl().getIsAutoStartByUserCtl(),
-                                appsList.get(i).getCtl().getIsAutoStartToAllow(),
-                                appsList.get(i).getCtl().getIsBackgroundRunByUserCtl(),
-                                appsList.get(i).getCtl().getBackgroundRunToStrategy());
+//                        setKeepAlive(appsList.get(i).getPackageName(),
+//                                appsList.get(i).getCtl().getIsAutoStartByUserCtl(),
+//                                appsList.get(i).getCtl().getIsAutoStartToAllow(),
+//                                appsList.get(i).getCtl().getIsBackgroundRunByUserCtl(),
+//                                appsList.get(i).getCtl().getBackgroundRunToStrategy());
 //                        setData(appsList.get(i).getPackageName(),appsList.get(i).getCtl().getIsAutoStartToAllow(),appsList.get(i).getCtl().getBackgroundRunToStrategy());
-                        updateListView();
+//                        updateListView();
                     }
                 });
             }
@@ -198,6 +196,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
             public void run() {
 
                 LogUtil.i(TAG,"initData: [interface: getProcessList]");
+                /*
                 final List<AppCustom> appList = mInterfaceKeepaliveSystem.getProcessList();
 
                 if(appList==null) {
@@ -210,6 +209,7 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
                             ", autoallow="+appList.get(i).autoallow+", backuser="+appList.get(i).backuser+
                             ", backstrate="+appList.get(i).backstrate);
                 }
+                 */
 
 //                ThreadManager.getInstance().uiThread(new Runnable() {
 //                    @Override
@@ -217,33 +217,33 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
 //                        updateListView();
 //                    }
 //                });
-                KeepAliveActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        appsList.clear();
-                        for(int i=0;i<appList.size();i++){
-                            AppCustom custom = appList.get(i);
-                            AppsBean appBean = new AppsBean();
-                            appBean.setLabel(PkmsUtil.getAppNameByPkg(KeepAliveActivity.this,custom.pkgname));
-                            appBean.setPackageName(custom.pkgname);
-                            appBean.setIcon(PkmsUtil.getAppIcon(KeepAliveActivity.this,custom.pkgname));
-                            AppStateCtl ctl = new AppStateCtl();
-                            ctl.setIsAutoStartByUserCtl(custom.autoUser);
-                            ctl.setIsAutoStartToAllow(custom.autoallow);
-                            ctl.setIsBackgroundRunByUserCtl(custom.backuser);
-                            ctl.setBackgroundRunToStrategy(custom.backstrate);
-                            appBean.setCtl(ctl);
-                            appsList.add(appBean);
-                        }
-                        LogUtil.i(TAG,"initData: update Adapter");
-                        updateListView();
-                    }
-                });
+//                KeepAliveActivity.this.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        appsList.clear();
+//                        for(int i=0;i<appList.size();i++){
+//                            AppCustom custom = appList.get(i);
+//                            AppsBean appBean = new AppsBean();
+//                            appBean.setLabel(PkmsUtil.getAppNameByPkg(KeepAliveActivity.this,custom.pkgname));
+//                            appBean.setPackageName(custom.pkgname);
+//                            appBean.setIcon(PkmsUtil.getAppIcon(KeepAliveActivity.this,custom.pkgname));
+//                            AppStateCtl ctl = new AppStateCtl();
+//                            ctl.setIsAutoStartByUserCtl(custom.autoUser);
+//                            ctl.setIsAutoStartToAllow(custom.autoallow);
+//                            ctl.setIsBackgroundRunByUserCtl(custom.backuser);
+//                            ctl.setBackgroundRunToStrategy(custom.backstrate);
+//                            appBean.setCtl(ctl);
+//                            appsList.add(appBean);
+//                        }
+//                        LogUtil.i(TAG,"initData: update Adapter");
+//                        updateListView();
+//                    }
+//                });
 
-//                //第一步: 拿到全部安装应用列表
-//                ArrayList<AppsBean> installList = (ArrayList<AppsBean>) getLauncherApps(KeepAliveActivity.this);
-//                LogUtil.i(TAG, "initData: start installList size=" + installList.size());
-//
+                //第一步: 拿到全部安装应用列表
+                ArrayList<AppsBean> installList = (ArrayList<AppsBean>) getLauncherApps(KeepAliveActivity.this);
+                LogUtil.i(TAG, "initData: start installList size=" + installList.size());
+
 //                ArrayList<AppsBean> configList = (ArrayList<AppsBean>) readDefaultConfig("Low","/data/system/process_manager_default.xml");
 //                if(configList!=null) {
 //                    for (AppsBean bean : configList) {
@@ -280,14 +280,20 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
 //                        }
 //                    }
 //                }
-//
-//                if (installList != null) {
-//                    LogUtil.i(TAG, "initData: end installList size=" + installList.size());
-//                    appsList.clear();
-//                    appsList.addAll(installList);
-//
-//                    updateData();
-//                }
+
+                if (installList != null) {
+                    LogUtil.i(TAG, "initData: end installList size=" + installList.size());
+                    appsList.clear();
+                    appsList.addAll(installList);
+
+                    //updateData();
+                    ThreadManager.getInstance().uiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateListView();
+                        }
+                    });
+                }
             }
         });
     }
@@ -435,8 +441,6 @@ public class KeepAliveActivity extends Activity implements View.OnClickListener 
                 ", isBackgroundRunByUserCtl=" + isBackgroundRunByUserCtl +
                 ", backgroundRunToStrategy=" + backgroundRunToStrategy);
         LogUtil.i(TAG,"setKeepAlive: [interface: setProcessInfo]");
-        mInterfaceKeepaliveSystem.setProcessInfo(packageName,0,isAutoStartToAllow);
-        mInterfaceKeepaliveSystem.setProcessInfo(packageName,1,backgroundRunToStrategy);
     }
 
 

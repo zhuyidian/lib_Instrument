@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.dunn.instrument.function.keepalive.KeepAliveActivity;
+import com.dunn.instrument.service.CheckInfoService;
 import com.dunn.instrument.service.DeviceInfoService;
+import com.dunn.instrument.service.FrameworkInfoService;
 import com.dunn.instrument.service.ResourceService;
 import com.dunn.instrument.service.SpecifyProcessService;
 import com.dunn.instrument.service.TopProcessService;
@@ -80,6 +82,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }else{
                     //再次检查是否固定监控某个进程
                     String property = SystemProperties.get("third.perf.monitor.pkg", "");
+                    if(property==null || property.isEmpty()){
+                        property = MainActivity.this.getPackageName();
+                    }
                     Intent intent = new Intent(MainActivity.this, SpecifyProcessService.class);
                     intent.putExtra(KEY_PKG,property);
                     startService(intent);
@@ -94,18 +99,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if(flag4){
                     stopService(new Intent(MainActivity.this, ResourceService.class));
                 }else{
-                    Intent intent = new Intent(MainActivity.this, ResourceService.class);
-                    intent.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
-                    intent.putExtra("resource_command", 100);
-                    startService(intent);
+                    Intent intentW = new Intent(MainActivity.this, ResourceService.class);
+                    intentW.setAction("com.coocaa.intent.action.RESOURCE_ACTION");
+                    intentW.putExtra("resource_command", "open_window");
+                    startService(intentW);
                 }
                 flag4 = !flag4;
                 break;
-            case R.id.btn6:
+            case R.id.btn6:  //check info
                 if(flag6){
-
+                    stopService(new Intent(MainActivity.this, CheckInfoService.class));
                 }else{
-
+                    startService(new Intent(MainActivity.this, CheckInfoService.class));
                 }
                 flag6 = !flag6;
                 break;

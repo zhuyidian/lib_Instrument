@@ -97,7 +97,7 @@ dependencies {
 //    implementation project(path: ':myaosp')
     compileOnly files('../build-libs/layoutlib.jar')
 //    implementation files('./libs/skymonitor.jar')
-    implementation files('./libs/javalib.jar')
+//    implementation files('./libs/javalib.jar')
 }
 
 preBuild {

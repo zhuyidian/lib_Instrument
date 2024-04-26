@@ -60,9 +60,9 @@ public class MainApp extends Application {
         super.attachBaseContext(base);
         LogUtil.i(TAG,"attachBaseContext:");
 
-        mHandler.sendEmptyMessageDelayed(0,1);
-        mHandler.sendEmptyMessageDelayed(1,2);
-        mHandler.sendEmptyMessageDelayed(2,3);
+//        mHandler.sendEmptyMessageDelayed(0,1);
+//        mHandler.sendEmptyMessageDelayed(1,2);
+//        mHandler.sendEmptyMessageDelayed(2,3);
     }
 
     @Override
@@ -74,8 +74,8 @@ public class MainApp extends Application {
         FloatWindowManager.getInstance().init(MainApp.this.getApplicationContext());
 
         //excel
-        ApiExcel.excelInit(getApplicationContext());
-        ApiExcel.setFunctionRowName();
+//        ApiExcel.excelInit(getApplicationContext());
+//        ApiExcel.setFunctionRowName();
     }
 
     @Override

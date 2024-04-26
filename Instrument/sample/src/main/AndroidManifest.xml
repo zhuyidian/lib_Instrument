@@ -84,6 +84,7 @@
         <service android:name=".service.TopProcessService"/>
         <service android:name=".service.SpecifyProcessService"/>
         <service android:name=".service.FrameworkInfoService"/>
+        <service android:name=".service.CheckInfoService"/>
         <service
             android:name=".service.ResourceService"
             android:exported="true">

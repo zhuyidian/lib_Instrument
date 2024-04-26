@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/packagename"
+        android:id="@+id/property1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -14,7 +15,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/totalMem"
+        android:id="@+id/process_run"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -38,7 +39,15 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/procPss"
+        android:id="@+id/swapTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="10sp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/swapFree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -47,30 +56,6 @@
 
     <TextView
         android:id="@+id/cpuRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="10sp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/procCpuRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="10sp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/procNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="10sp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/threadNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
