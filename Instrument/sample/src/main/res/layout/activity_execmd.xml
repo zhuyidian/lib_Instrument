@@ -35,18 +35,33 @@
         android:layout_above="@+id/btn_1"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/btn_tt_xx"
+            android:id="@+id/btn_send_cmd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="KeepAlive" />
+            android:text="send cmd" />
         <Button
-            android:id="@+id/btn_dd_xx"
+            android:id="@+id/btn_send_cmds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ExeCmd" />
+            android:text="send cmds" />
+        <Button
+            android:id="@+id/btn_send_cmd_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="send cmd" />
+        <Button
+            android:id="@+id/btn_send_cmds_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="send cmds" />
+        <Button
+            android:id="@+id/btn_stop_cmd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stop cmd" />
     </LinearLayout>
 
     <LinearLayout

@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.coocaa.promotion.RunProcessHelper;
 import com.dunn.instrument.MainApp;
 import com.dunn.instrument.R;
 import com.dunn.instrument.function.keepalive.AppStateCtl;
@@ -94,6 +95,8 @@ public class ExeCmdActivity extends Activity implements View.OnClickListener {
     private InputStream mInputStream;
     private ScrollView mCmdScrollView;
     private TextView mCmdWindow;
+    //btn2
+    private Button mBtnSendCmd,mBtnSendCmds,mBtnStopCmd,mBtnSendCmdContinue,mBtnSendCmdsContinue;
     //btn1
     private Button mBtn1Start,
             mBtn1Close,
@@ -127,6 +130,18 @@ public class ExeCmdActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        //btn2
+        mBtnSendCmd = (Button) findViewById(R.id.btn_send_cmd);
+        mBtnSendCmds = (Button) findViewById(R.id.btn_send_cmds);
+        mBtnSendCmdContinue = (Button) findViewById(R.id.btn_send_cmd_continue);
+        mBtnSendCmdsContinue = (Button) findViewById(R.id.btn_send_cmds_continue);
+        mBtnStopCmd = (Button) findViewById(R.id.btn_stop_cmd);
+        mBtnSendCmd.setOnClickListener(this);
+        mBtnSendCmds.setOnClickListener(this);
+        mBtnSendCmdContinue.setOnClickListener(this);
+        mBtnSendCmdsContinue.setOnClickListener(this);
+        mBtnStopCmd.setOnClickListener(this);
+
         //btn1
         mBtn1Start = (Button) findViewById(R.id.btn_1_start);
         mBtn1Close = (Button) findViewById(R.id.btn_1_close);
@@ -141,6 +156,37 @@ public class ExeCmdActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            //btn2
+            case R.id.btn_send_cmd:
+                ArrayList<com.coocaa.promotion.influence.CmdBean> mCmdList = new ArrayList<com.coocaa.promotion.influence.CmdBean>();
+                //mCmdList.add(new com.coocaa.promotion.influence.CmdBean("ls /system/ccos", false, true));
+                mCmdList.add(new com.coocaa.promotion.influence.CmdBean("dumpsys meminfo", false, true));
+                RunProcessHelper.getInstance().sendCmds(mCmdList);
+                break;
+            case R.id.btn_send_cmds:
+                ArrayList<com.coocaa.promotion.influence.CmdBean> mCmdList1 = new ArrayList<com.coocaa.promotion.influence.CmdBean>();
+                mCmdList1.add(new com.coocaa.promotion.influence.CmdBean("rm -rf /data/test1.log", false, false));
+                mCmdList1.add(new com.coocaa.promotion.influence.CmdBean("rm -rf /data/test2.log", false, false));
+                mCmdList1.add(new com.coocaa.promotion.influence.CmdBean("rm -rf /data/test3.log", false, true));
+                RunProcessHelper.getInstance().sendCmds(mCmdList1);
+                break;
+            case R.id.btn_send_cmd_continue:
+                ArrayList<com.coocaa.promotion.influence.CmdBean> mCmdList2 = new ArrayList<com.coocaa.promotion.influence.CmdBean>();
+                //mCmdList.add(new com.coocaa.promotion.influence.CmdBean("ls /system/ccos", false, true));
+                mCmdList2.add(new com.coocaa.promotion.influence.CmdBean("ls /system/ccos", false, false));
+                RunProcessHelper.getInstance().sendCmds(mCmdList2);
+                break;
+            case R.id.btn_send_cmds_continue:
+                ArrayList<com.coocaa.promotion.influence.CmdBean> mCmdList3 = new ArrayList<com.coocaa.promotion.influence.CmdBean>();
+                mCmdList3.add(new com.coocaa.promotion.influence.CmdBean("rm -rf /data/test1.log", false, false));
+                mCmdList3.add(new com.coocaa.promotion.influence.CmdBean("rm -rf /data/test2.log", false, false));
+                mCmdList3.add(new com.coocaa.promotion.influence.CmdBean("rm -rf /data/test3.log", false, false));
+                RunProcessHelper.getInstance().sendCmds(mCmdList3);
+                break;
+            case R.id.btn_stop_cmd:
+                RunProcessHelper.getInstance().stopCmd();
+                break;
+
             //btn1
             case R.id.btn_1_start:
                 mSb.setLength(0);
@@ -187,9 +233,13 @@ public class ExeCmdActivity extends Activity implements View.OnClickListener {
         mHeartWorkHandler = new Handler(mHeartWorkThread.getLooper());
         mHeartWorkHandler.postDelayed(new HeartWork(),TIME_5_SECOND);
         */
+
+        /*
         Intent intentW = new Intent(MainApp.mContext, SocketService.class);
         startService(intentW);
+         */
 
+        /*
         mRunCmdImpl = new RunCmdImpl(new RunCmdImpl.CmdCallback(){
             @Override
             public void onExe(String text) {
@@ -226,6 +276,7 @@ public class ExeCmdActivity extends Activity implements View.OnClickListener {
                 }
             }
         });
+         */
     }
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()) {

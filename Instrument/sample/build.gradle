@@ -98,6 +98,7 @@ dependencies {
     compileOnly files('../build-libs/layoutlib.jar')
     implementation files('./libs/skymonitor.jar')
     implementation files('./libs/skymonitor.jar')
+    implementation project(":LibPromotion")
 }
 
 preBuild {
