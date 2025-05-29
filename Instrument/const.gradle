@@ -12,7 +12,7 @@ ext {
             minSdkVersion          : 17,//21, //19  //17
             targetSdkVersion       : 28,
             versionCode            : 1,
-            versionName            : '1.0.0',
+            versionName            : '1.0.1',
             kotlinVersion          : "1.3.21",
             constraintLayoutVersion: "1.13",
             butterknifeSdkVersion  : "8.8.1",

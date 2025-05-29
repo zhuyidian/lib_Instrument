@@ -7,86 +7,83 @@
     android:background="@color/color_dark_gray"
     tools:context=".MainActivity">
 
+    <RelativeLayout
+        android:layout_width="800dp"
+        android:layout_height="400dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_centerVertical="true">
+        <ScrollView
+            android:id="@+id/cmd_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:background="@color/color_black"
+            android:scrollbarThumbVertical="@drawable/scrollbar_vertical">
+            <TextView
+                android:id="@+id/cmd_window"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="#:"/>
+        </ScrollView>
+    </RelativeLayout>
+
     <LinearLayout
-        android:id="@+id/activity_1"
+        android:id="@+id/btn_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/windows_1"
+        android:layout_above="@+id/btn_1"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
+        android:visibility="gone"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="Activity1: "/>
         <Button
-            android:id="@+id/activity_1_keepalive"
+            android:id="@+id/btn_tt_xx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="KeepAlive" />
         <Button
-            android:id="@+id/activity_1_execmd"
+            android:id="@+id/btn_dd_xx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ExeCmd" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/windows_1"
+        android:id="@+id/btn_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="Windows1: "/>
-
         <Button
-            android:id="@+id/windows_1_deviceinfo"
+            android:id="@+id/btn_1_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DeviceInfo"
+            android:text="start"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/windows_1_topprocess"
+            android:id="@+id/btn_1_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TopProcess"
+            android:text="close"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/windows_1_specifyprocess"
+            android:id="@+id/btn_1_pwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SpecifyProcess"
+            android:text="pwd"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/windows_1_resourcesimulate"
+            android:id="@+id/btn_1_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ResourceSimulate"
+            android:text="ll"
             android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/windows_1_checkinfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CheckInfo" />
-
-        <Button
-            android:id="@+id/windows_1_monitor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Monitor" />
     </LinearLayout>
 
 </RelativeLayout>

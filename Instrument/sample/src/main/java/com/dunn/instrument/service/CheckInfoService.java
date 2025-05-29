@@ -77,8 +77,6 @@ public class CheckInfoService extends Service {
         LogUtil.i(TAG, "onCreate: ");
         showFloatWindow();
         startThread();
-//        getVersion();
-//        MemManager.getInstance().init(CheckInfoService.this.getApplicationContext());
         initReceivers();
 
         //test
@@ -217,48 +215,6 @@ public class CheckInfoService extends Service {
         bundle.putBoolean("isrun", isRun);
         message.setData(bundle);
         mHandler.sendMessage(message);
-    }
-
-    private void getMeminfo() {
-        int memoryUnit = 1024;
-        MemTools.MemInfo memInfo = MemTools.getSystemMemInfo();
-        long totalMem = memInfo.memTotal / memoryUnit;
-        long availMem = memInfo.memAvailable / memoryUnit;
-        long freeMem = memInfo.memFree / memoryUnit;
-        long buffers = memInfo.buffers / memoryUnit;
-        long cachedMem = memInfo.cached / memoryUnit;
-        long swapTotal = memInfo.swapTotal / memoryUnit;
-        long swapFree = memInfo.swapFree / memoryUnit;
-        if (availMem == 0) {
-            ActivityManager.MemoryInfo info = MemManager.getInstance().getMemoryInfo();
-            availMem = info.availMem / memoryUnit / memoryUnit;
-        }
-
-        Message message = mHandler.obtainMessage();
-        message.what = MSG_MEMINFO;
-        Bundle bundle = new Bundle();
-        bundle.putString("totalMem", totalMem + " MB");
-        bundle.putString("freeMem", freeMem + " MB");
-        bundle.putString("availMem", availMem + " MB");
-        bundle.putString("swapTotal", swapTotal + " MB");
-        bundle.putString("swapFree", swapFree + " MB");
-        message.setData(bundle);
-        mHandler.sendMessage(message);
-    }
-
-    private void getVersion() {
-        ThreadManager.getInstance().ioThread(new Runnable() {
-            @Override
-            public void run() {
-                String version = SystemUtil.getSystemVersions();
-                Message message = mHandler.obtainMessage();
-                message.what = MSG_VERSION;
-                Bundle bundle = new Bundle();
-                bundle.putString("version", version);
-                message.setData(bundle);
-                mHandler.sendMessage(message);
-            }
-        });
     }
 
     private boolean isApplicationRunning(String packageName) {

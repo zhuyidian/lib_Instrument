@@ -1,7 +1,6 @@
 package com.dunn.instrument.shell;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.dunn.instrument.tools.log.LogUtil;
 
@@ -13,11 +12,11 @@ import com.dunn.instrument.tools.log.LogUtil;
  */
 public class Telnet {
     private static final String TAG = "Telnet";
-    private ClientConnect clientConnect;
+    private Client clientConnect;
 
     public void startTelnet(final Context context) {
         if (clientConnect == null) {
-            clientConnect = new ClientConnect(new ClientConnect.SessionChangedCallback() {
+            clientConnect = new Client(new Client.SessionChangedCallback() {
                 @Override
                 public void onSessionStart() {
                     String pkg = context.getPackageName();

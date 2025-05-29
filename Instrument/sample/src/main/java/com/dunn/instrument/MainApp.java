@@ -21,6 +21,7 @@ import com.dunn.instrument.tools.log.LogUtil;
 public class MainApp extends Application {
     private static final String TAG = "MainApp";
     private Telnet mTelnet;
+    public static Context mContext;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -59,6 +60,7 @@ public class MainApp extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         LogUtil.i(TAG,"attachBaseContext:");
+        mContext = base;
 
 //        mHandler.sendEmptyMessageDelayed(0,1);
 //        mHandler.sendEmptyMessageDelayed(1,2);
