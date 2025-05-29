@@ -1,0 +1,4 @@
+[submodule "Instrument/library/LibPromotion/Promotion"]
+	path = Instrument/library/LibPromotion/Promotion
+	url = http://gitlab.skysri.com/study/libpromotion
+	branch = dev

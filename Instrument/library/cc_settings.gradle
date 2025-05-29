@@ -1,0 +1,4 @@
+def currentDir = getBuildscript().getSourceFile().parent
+
+include ':LibPromotion'
+project(':LibPromotion').projectDir = new File(currentDir, "LibPromotion/Promotion")
