@@ -1,6 +1,5 @@
 package com.dunn.instrument.service;
 
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,7 +7,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -24,11 +22,7 @@ import androidx.annotation.NonNull;
 import com.dunn.instrument.R;
 import com.dunn.instrument.floatwindow.FloatWindowManager;
 import com.dunn.instrument.floatwindow.WindowRecordBean;
-import com.dunn.instrument.tools.framework.ram.MemManager;
-import com.dunn.instrument.tools.framework.ram.MemTools;
-import com.dunn.instrument.tools.framework.system.SystemUtil;
 import com.dunn.instrument.tools.log.LogUtil;
-import com.dunn.instrument.tools.thread.ThreadManager;
 
 public class DeviceInfoService extends Service {
     private static final String TAG = "DeviceInfoService";
@@ -44,7 +38,6 @@ public class DeviceInfoService extends Service {
     private TextView mSwapTotal;
     private TextView mSwapFree;
     private TextView mCpuRate;
-    private MemThread mMemThread;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -89,8 +82,6 @@ public class DeviceInfoService extends Service {
         LogUtil.i(TAG, "onCreate: ");
         showFloatWindow();
         startThread();
-        getVersion();
-        MemManager.getInstance().init(DeviceInfoService.this.getApplicationContext());
     }
 
     @Override
@@ -103,16 +94,16 @@ public class DeviceInfoService extends Service {
 
     private void handleInnerEvent(Intent intent) {
         if (intent == null) return;
-        String cpuRate = intent.getStringExtra(KEY_CPURATE);
-        if (cpuRate == null) {
-            return;
-        }
-        Message message = mHandler.obtainMessage();
-        message.what = MSG_CPUINFO;
-        Bundle bundle = new Bundle();
-        bundle.putString("cpuRate", cpuRate);
-        message.setData(bundle);
-        mHandler.sendMessage(message);
+//        String cpuRate = intent.getStringExtra(KEY_CPURATE);
+//        if (cpuRate == null) {
+//            return;
+//        }
+//        Message message = mHandler.obtainMessage();
+//        message.what = MSG_CPUINFO;
+//        Bundle bundle = new Bundle();
+//        bundle.putString("cpuRate", cpuRate);
+//        message.setData(bundle);
+//        mHandler.sendMessage(message);
     }
 
     @Override
@@ -172,84 +163,10 @@ public class DeviceInfoService extends Service {
     }
 
     private void startThread() {
-        stopThread();
-        mMemThread = new MemThread();
-        mMemThread.start();
+
     }
 
     private void stopThread() {
-        if (mMemThread != null) {
-            mMemThread.exit();
-            mMemThread = null;
-        }
+
     }
-
-    private class MemThread extends Thread {
-        private boolean isStart = false;
-
-        @Override
-        public synchronized void start() {
-            super.start();
-            isStart = true;
-        }
-
-        public synchronized void exit() {
-            isStart = false;
-        }
-
-        @Override
-        public void run() {
-            while (isStart) {
-                try {
-                    Thread.sleep(5000);
-                    getMeminfo();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    private void getMeminfo() {
-        int memoryUnit = 1024;
-        MemTools.MemInfo memInfo = MemTools.getSystemMemInfo();
-        long totalMem = memInfo.memTotal / memoryUnit;
-        long availMem = memInfo.memAvailable / memoryUnit;
-        long freeMem = memInfo.memFree / memoryUnit;
-        long buffers = memInfo.buffers / memoryUnit;
-        long cachedMem = memInfo.cached / memoryUnit;
-        long swapTotal = memInfo.swapTotal / memoryUnit;
-        long swapFree = memInfo.swapFree / memoryUnit;
-        if (availMem == 0) {
-            ActivityManager.MemoryInfo info = MemManager.getInstance().getMemoryInfo();
-            availMem = info.availMem / memoryUnit / memoryUnit;
-        }
-
-        Message message = mHandler.obtainMessage();
-        message.what = MSG_MEMINFO;
-        Bundle bundle = new Bundle();
-        bundle.putString("totalMem", totalMem + " MB");
-        bundle.putString("freeMem", freeMem + " MB");
-        bundle.putString("availMem", availMem + " MB");
-        bundle.putString("swapTotal", swapTotal + " MB");
-        bundle.putString("swapFree", swapFree + " MB");
-        message.setData(bundle);
-        mHandler.sendMessage(message);
-    }
-
-    private void getVersion() {
-        ThreadManager.getInstance().ioThread(new Runnable() {
-            @Override
-            public void run() {
-                String version = SystemUtil.getSystemVersions();
-                Message message = mHandler.obtainMessage();
-                message.what = MSG_VERSION;
-                Bundle bundle = new Bundle();
-                bundle.putString("version", version);
-                message.setData(bundle);
-                mHandler.sendMessage(message);
-            }
-        });
-    }
-
 }

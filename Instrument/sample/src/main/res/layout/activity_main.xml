@@ -8,10 +8,10 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:id="@+id/activity_1"
+        android:id="@+id/Activity_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/windows_1"
+        android:layout_above="@+id/service_1"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:orientation="horizontal">
@@ -20,21 +20,21 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:text="Activity1: "/>
+            android:text="Activity_1: "/>
         <Button
-            android:id="@+id/activity_1_keepalive"
+            android:id="@+id/activity_test1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="KeepAlive" />
+            android:text="Test1" />
         <Button
-            android:id="@+id/activity_1_execmd"
+            android:id="@+id/activity_test2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ExeCmd" />
+            android:text="Test2" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/windows_1"
+        android:id="@+id/service_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -46,47 +46,28 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:text="Windows1: "/>
+            android:text="Service_1: "/>
 
         <Button
-            android:id="@+id/windows_1_deviceinfo"
+            android:id="@+id/service_deviceinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DeviceInfo"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/windows_1_topprocess"
+            android:id="@+id/service_test1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TopProcess"
+            android:text="Test1"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/windows_1_specifyprocess"
+            android:id="@+id/service_test2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SpecifyProcess"
+            android:text="Test2"
             android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/windows_1_resourcesimulate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ResourceSimulate"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/windows_1_checkinfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CheckInfo" />
-
-        <Button
-            android:id="@+id/windows_1_monitor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Monitor" />
     </LinearLayout>
 
 </RelativeLayout>

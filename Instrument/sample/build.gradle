@@ -1,40 +1,28 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'android-aspectjx'
 
 android {
-//    compileSdkVersion rootProject.ext.android.compileSdkVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
-    compileSdkVersion 32
+    compileSdkVersion rootProject.ext.android.compileSdkVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
     buildToolsVersion rootProject.ext.android.buildToolsVersion   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
 
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
         minSdkVersion rootProject.ext.android.minSdkVersion
-//        targetSdkVersion rootProject.ext.android.targetSdkVersion  //29   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
-        targetSdkVersion 32
+        targetSdkVersion rootProject.ext.android.targetSdkVersion  //29   //Android10（API 29）getExternalStorageDirectory没权限，暂时使用28
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 //        multiDexEnabled rootProject.ext.android.multiDexEnabled  //开启之后在电视上起不来
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        //thread
-//        ndk{
-//            abiFilters "armeabi-v7a"
-//        }
     }
 
     signingConfigs {
-        release {
-            storeFile file('../sign/platform.keystore')
+        platformCoocaa {
+            storeFile file('../sign/platform_y41air.keystore')
             keyAlias 'skyworth'
             storePassword 'android'
             keyPassword 'android'
         }
-        debug {
-//            storeFile file('../sign/debug.keystore')
-//            keyAlias 'androiddebugkey'
-//            storePassword 'android'
-//            keyPassword 'android'
-            storeFile file('../sign/platform.keystore')
+        platformNormal {
+            storeFile file('../sign/platform_y41.keystore')
             keyAlias 'skyworth'
             storePassword 'android'
             keyPassword 'android'
@@ -44,31 +32,38 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
-            signingConfig signingConfigs.release
+            shrinkResources false
+            debuggable true
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
-
-    //lib_matrix
-//    packagingOptions {
-//        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
-//        pickFirst 'lib/arm64-v8a/libc++_shared.so'
-//        pickFirst 'lib/armeabi-v7a/libwechatbacktrace.so'
-//        pickFirst 'lib/arm64-v8a/libwechatbacktrace.so'
-//    }
-
-//    packagingOptions {
-//        exclude 'META-INF/proguard/androidx-annotations.pro'
-//    }
 
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
             outputFileName = "${variant.name}_${variant.versionName}_${variant.buildType.name}.apk"
+        }
+    }
+
+    flavorDimensions "APP", "PLATFORM"
+    productFlavors {
+        "${project.name}" {
+            dimension "APP"
+            matchingFallbacks = ['Common']
+        }
+        y41air {
+            dimension "PLATFORM"
+            signingConfig signingConfigs.platformCoocaa
+        }
+        y41 {
+            dimension "PLATFORM"
+            signingConfig signingConfigs.platformNormal
         }
     }
 }
@@ -76,71 +71,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     compileOnly rootProject.ext.dependencies.appcompatV7
-//    compileOnly rootProject.ext.dependencies.appcompatX
-
-//    implementation 'com.github.zhuyidian:lib_Instrument_Oom:V1.0.0'
     implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.1.0'
-
-//    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crash:V1.0.7'
-//    implementation 'com.github.zhuyidian.lib_Instrument_Crash:crashlocal:V1.0.7'
-//    implementation 'com.github.zhuyidian.lib_Instrument_Thread:threadhooksrc:V1.1.5'
-//    implementation 'com.github.zhuyidian.lib_Instrument_Thread:thread:V1.1.5'
-//    implementation 'com.github.zhuyidian:lib_Instrument_IoMonitor:V1.0.1'
-//    implementation 'com.github.zhuyidian:lib_Instrument_Excel:V1.0.6'
-//    implementation 'com.github.zhuyidian:lib_Instrument_Anr:V1.0.0'
-//    implementation 'com.github.zhuyidian:lib_Instrument_MethodMonitor:V1.0.0'
-//    implementation 'com.github.zhuyidian:lib_Instrument_Alarms:V1.0.0'
-//    implementation 'com.github.zhuyidian:lib_Instrument_Logger:V1.0.0'
-
-//    implementation 'com.github.zhuyidian:lib_Matrix:V1.0.0'
-
-//    implementation project(path: ':myaosp')
-    compileOnly files('../build-libs/layoutlib.jar')
-    implementation files('./libs/skymonitor.jar')
-    implementation files('./libs/skymonitor.jar')
     implementation project(":LibPromotion")
 }
-
-preBuild {
-    doLast {
-        def imlFile = file(project.name + ".iml")
-        println('Change ' + project.name + '.iml order')
-        try {
-            def parsedXml = (new XmlParser()).parse(imlFile)
-            def jdkNode = parsedXml.component[1].orderEntry.find { it.'@type' == 'jdk' }
-            parsedXml.component[1].remove(jdkNode)
-            def sdkString = "Android API " + android.compileSdkVersion.substring("android-".length()) + " Platform"
-            new Node(parsedXml.component[1], 'orderEntry', ['type': 'jdk', 'jdkName': sdkString, 'jdkType': 'Android SDK'])
-            groovy.xml.XmlUtil.serialize(parsedXml, new FileOutputStream(imlFile))
-        } catch (FileNotFoundException e) {
-            // nop, iml not found
-            println "no iml found"
-        }
-    }
-}
-
-//gradle.projectsEvaluated {
-//    tasks.withType(JavaCompile) {
-//        Set<File> fileSet = options.bootstrapClasspath.getFiles()
-//        List<File> newFileList =  new ArrayList<>();
-//        //"../framework.jar" 为相对位置，需要参照着修改，或者用绝对位置
-//        newFileList.add(new File("libs/classes.jar"))
-//        newFileList.addAll(fileSet)
-//        options.bootstrapClasspath = files(newFileList.toArray())
-//    }
-//}
-
-// 配置参数
-//tinkerPatch {
-//    oldApk = "oldApk"
-//}
-
-//lib_matrix
-//apply plugin: 'com.tencent.matrix-plugin'
-//matrix {
-//    trace {
-//        enable = true	//if you don't want to use trace canary, set false
-//        baseMethodMapFile = "${project.buildDir}/matrix_output/Debug.methodmap"
-//        blackListFile = "${project.projectDir}/matrixTrace/blackMethodList.txt"
-//    }
-//}

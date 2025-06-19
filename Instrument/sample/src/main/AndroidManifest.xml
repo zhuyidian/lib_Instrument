@@ -84,17 +84,11 @@
         </receiver>
 
         <service android:name=".service.DeviceInfoService" />
-        <service android:name=".service.TopProcessService" />
-        <service android:name=".service.SpecifyProcessService" />
-        <service android:name=".service.FrameworkInfoService" />
-        <service android:name=".service.CheckInfoService" />
-        <service android:name=".service.SocketService" />
-        <service android:name=".service.MonitorService" />
         <service
-            android:name=".service.ResourceService"
+            android:name=".service.CmdService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.coocaa.intent.action.RESOURCE_ACTION" />
+                <action android:name="com.coocaa.intent.action.CMD_ACTION" />
             </intent-filter>
         </service>
     </application>
