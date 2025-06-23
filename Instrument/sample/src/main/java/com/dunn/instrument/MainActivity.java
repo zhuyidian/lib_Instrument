@@ -6,10 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import com.dunn.instrument.service.DeviceInfoService;
 import com.dunn.instrument.tools.log.LogUtil;
+import com.dunn.instrument.utils.CommonUtil;
+import com.dunn.instrument.utils.StorageUtil;
 
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    public static String TAG = "MainActivity";
+    public static String TAG = "MainActivity-Test";
     //service1
     private Button mServiceDeviceinfo,
             mServiceTest1,
@@ -42,6 +44,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         LogUtil.i(TAG,"onResume: ");
+        CommonUtil.getBatteryLevel(MainActivity.this);
+        String status = CommonUtil.getBatteryStatus(MainActivity.this);
+        LogUtil.i(TAG,"onResume: status="+status);
     }
 
     @Override

@@ -1,4 +1,8 @@
 [submodule "Instrument/library/LibPromotion/Promotion"]
 	path = Instrument/library/LibPromotion/Promotion
-	url = http://gitlab.skysri.com/study/libpromotion
-	branch = dev
+	url = https://github.com/zhuyidian/lib_Instrument_Promotion
+	branch = main
+[submodule "Instrument/library/LibFrameworks/Frameworks"]
+	path = Instrument/library/LibFrameworks/Frameworks
+	url = https://github.com/zhuyidian/lib_Instrument_Frameworks
+	branch = main

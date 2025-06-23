@@ -1,10 +1,15 @@
 package com.dunn.instrument.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.BatteryManager;
 import android.os.SystemProperties;
+import android.util.Log;
 
 public class CommonUtil {
+    private static String TAG = "CommonUtil";
 
     public static String getSkyMid(){
         return SystemProperties.get("ro.build.skymid", "");
@@ -57,5 +62,46 @@ public class CommonUtil {
         SharedPreferences sharedPreferences = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
         String value = sharedPreferences.getString(key, "");
         return value;
+    }
+
+    public static int getBatteryLevel(Context context) {
+        try {
+            BatteryManager batteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+            if (batteryManager == null) {
+                Log.e(TAG,"getBatteryLevel: batteryManager is null battery=50");
+                return 50;
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                int battery = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+                Log.d(TAG,"getBatteryLevel: battery="+battery);
+            }else{
+                Log.d(TAG,"getBatteryLevel: battery=50, android.os.Build.VERSION.SDK_INT="+android.os.Build.VERSION.SDK_INT);
+                return 50;
+            }
+        }catch (Exception e){
+            Log.e(TAG, "getBatteryLevel: e="+e);
+        }
+        return 50;
+    }
+
+    public static String getBatteryStatus(Context context) {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = context.registerReceiver(null, filter);
+
+        if (batteryStatus == null) return "未知";
+
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        switch (status) {
+            case BatteryManager.BATTERY_STATUS_CHARGING:
+                return "充电中";
+            case BatteryManager.BATTERY_STATUS_DISCHARGING:
+                return "放电中";
+            case BatteryManager.BATTERY_STATUS_FULL:
+                return "已充满";
+            case BatteryManager.BATTERY_STATUS_NOT_CHARGING:
+                return "未充电";
+            default:
+                return "未知";
+        }
     }
 }

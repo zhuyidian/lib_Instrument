@@ -2,3 +2,5 @@ def currentDir = getBuildscript().getSourceFile().parent
 
 include ':LibPromotion'
 project(':LibPromotion').projectDir = new File(currentDir, "LibPromotion/Promotion")
+include ':LibFrameworks'
+project(':LibFrameworks').projectDir = new File(currentDir, "LibFrameworks/Frameworks")
