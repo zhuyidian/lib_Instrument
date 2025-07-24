@@ -1,10 +1,9 @@
-package com.dunn.instrument.utils;
+package com.dunn.demo.utils;
 
 import android.app.usage.StorageStats;
 import android.app.usage.StorageStatsManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.pm.IPackageStatsObserver;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
 import android.os.Build;
@@ -115,7 +114,7 @@ public class StorageUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             calculateAppStorageGEO(context, applications);
         } else {//8.0以下
-            calculateAppStorageLessO(context, applications);
+            //calculateAppStorageLessO(context, applications);
         }
     }
 
@@ -150,6 +149,7 @@ public class StorageUtil {
         Log.d(TAG, "calculateAppStorageGEO time=" + (System.currentTimeMillis() - start));
     }
 
+    /*
     private void calculateAppStorageLessO(Context context, List<ApplicationInfo> applications) {
         Method method = null;
         try {
@@ -194,6 +194,7 @@ public class StorageUtil {
             }
         }
     }
+     */
 
     /**
      * 获取内置总存储

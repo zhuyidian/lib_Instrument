@@ -1,4 +1,4 @@
-package com.dunn.instrument.floatwindow;
+package com.dunn.demo.floatwindow;
 
 
 import android.view.View;

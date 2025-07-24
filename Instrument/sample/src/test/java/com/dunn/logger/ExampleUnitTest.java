@@ -1,4 +1,4 @@
-package com.dunn.instrument.logger;
+package com.dunn.demo.logger;
 
 import org.junit.Test;
 

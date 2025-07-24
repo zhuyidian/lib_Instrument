@@ -1,4 +1,4 @@
-package com.dunn.instrument.utils;
+package com.dunn.demo.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;

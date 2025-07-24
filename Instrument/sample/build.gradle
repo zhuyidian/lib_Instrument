@@ -27,6 +27,12 @@ android {
             storePassword 'android'
             keyPassword 'android'
         }
+        platformDunn{
+            storeFile file('../sign/dunn.jks')
+            keyAlias 'dunn'
+            storePassword '123456'
+            keyPassword '123456'
+        }
     }
 
     buildTypes {
@@ -65,12 +71,17 @@ android {
             dimension "PLATFORM"
             signingConfig signingConfigs.platformNormal
         }
+        dunn {
+            dimension "PLATFORM"
+            signingConfig signingConfigs.platformDunn
+        }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     compileOnly rootProject.ext.dependencies.appcompatV7
-    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.1.0'
-    implementation project(":LibPromotion")
+//    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.1.0'
+//    implementation project(":LibPromotion")
+    implementation project(":LibFrameworks")
 }

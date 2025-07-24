@@ -1,4 +1,4 @@
-package com.dunn.instrument.bean;
+package com.dunn.demo.bean;
 
 /**
  * @ClassName: PkgClsBean

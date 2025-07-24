@@ -1,4 +1,4 @@
-package com.dunn.instrument.service;
+package com.dunn.demo.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -10,9 +10,10 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
-import com.dunn.instrument.R;
-import com.dunn.instrument.tools.log.LogUtil;
+import com.dunn.demo.R;
+
 
 public class CmdService extends Service{
     static final String TAG = "CmdService";
@@ -21,13 +22,13 @@ public class CmdService extends Service{
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        LogUtil.i(TAG, " attachBaseContext");
+        Log.i(TAG, " attachBaseContext");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.i(TAG, " onCreate");
+        Log.i(TAG, " onCreate");
 
         hasStarted = true;
     }
@@ -56,13 +57,13 @@ public class CmdService extends Service{
      * while true; do am start-foreground-service -a com.coocaa.intent.action.RESOURCE_ACTION --es resource_command cpu_low;sleep 10;done;
      */
     private void handleInnerEvent(Intent intent) {
-        LogUtil.d(TAG, "handleInnerEvent intent=" + intent);
+        Log.d(TAG, "handleInnerEvent intent=" + intent);
         if (intent == null) return;
         String cmd = intent.getStringExtra("cmd");
         String from = intent.getStringExtra("from");
-        LogUtil.d(TAG, "handleInnerEvent cmd = " + cmd + ",from=" + from);
+        Log.d(TAG, "handleInnerEvent cmd = " + cmd + ",from=" + from);
         if (cmd == null) {
-            LogUtil.d(TAG, "handleInnerEvent cmd return!!!!!!");
+            Log.d(TAG, "handleInnerEvent cmd return!!!!!!");
             return;
         }
 
@@ -71,6 +72,12 @@ public class CmdService extends Service{
             startService(intentW);
         }else if("stop_deviceinfo".equals(cmd)){
             Intent intentW = new Intent(CmdService.this, DeviceInfoService.class);
+            stopService(intentW);
+        }else if("start_frameworks".equals(cmd)){
+            Intent intentW = new Intent(CmdService.this, FrameworksService.class);
+            startService(intentW);
+        }else if("stop_frameworks".equals(cmd)){
+            Intent intentW = new Intent(CmdService.this, FrameworksService.class);
             stopService(intentW);
         }
     }
@@ -83,36 +90,37 @@ public class CmdService extends Service{
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        LogUtil.d(TAG, " onLowMemory!!!");
+        Log.d(TAG, " onLowMemory!!!");
     }
 
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        LogUtil.d(TAG, " onTrimMemory level=" + level);
+        Log.d(TAG, " onTrimMemory level=" + level);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LogUtil.i(TAG, " onDestroy!!!");
+        Log.i(TAG, " onDestroy!!!");
         hasStarted = false;
     }
 
     private void startForegroundService(int startId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String CHANNEL_ID = "RESOURCE";
-            String CHANNEL_NAME = "RESOURCE";
+            String CHANNEL_ID = "CMD";
+            String CHANNEL_NAME = "CMD";
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(notificationChannel);
 
             Intent intent = new Intent();
-            intent.setAction("notification.receiver.action.test");
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            intent.setAction("notification.receiver.action.cmd");
+            //PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             Notification notification = new Notification.Builder(this, CHANNEL_ID).setSmallIcon(R.drawable.icon_contorl).setContentIntent(pendingIntent).build();
             startForeground(startId, notification);
-            LogUtil.d(TAG, "startForegroundService");
+            Log.d(TAG, "startForegroundService");
         }
     }
 

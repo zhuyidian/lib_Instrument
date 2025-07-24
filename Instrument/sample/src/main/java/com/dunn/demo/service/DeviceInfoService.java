@@ -1,4 +1,4 @@
-package com.dunn.instrument.service;
+package com.dunn.demo.service;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -19,10 +20,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.dunn.instrument.R;
-import com.dunn.instrument.floatwindow.FloatWindowManager;
-import com.dunn.instrument.floatwindow.WindowRecordBean;
-import com.dunn.instrument.tools.log.LogUtil;
+import com.dunn.demo.R;
+import com.dunn.demo.floatwindow.FloatWindowManager;
+import com.dunn.demo.floatwindow.WindowRecordBean;
 
 public class DeviceInfoService extends Service {
     private static final String TAG = "DeviceInfoService";
@@ -79,7 +79,7 @@ public class DeviceInfoService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.i(TAG, "onCreate: ");
+        Log.i(TAG, "onCreate: ");
         showFloatWindow();
         startThread();
     }
@@ -109,7 +109,7 @@ public class DeviceInfoService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LogUtil.i(TAG, "onDestroy: ");
+        Log.i(TAG, "onDestroy: ");
         stopThread();
         hideFloatWindow();
     }
@@ -156,7 +156,8 @@ public class DeviceInfoService extends Service {
 
             Intent intent = new Intent();
             intent.setAction("notification.receiver.action.deviceinfo");
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            //PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             Notification notification = new Notification.Builder(this, CHANNEL_ID).setSmallIcon(R.drawable.ic_launcher_background).setContentIntent(pendingIntent).build();
             startForeground(startId, notification);
         }

@@ -1,9 +1,10 @@
-package com.dunn.instrument.floatwindow;
+package com.dunn.demo.floatwindow;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,8 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.dunn.instrument.R;
-import com.dunn.instrument.tools.framework.screen.ScreenUtils;
-import com.dunn.instrument.tools.log.LogUtil;
+import com.dunn.demo.R;
+import com.dunn.demo.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +64,7 @@ public class FloatWindowManager implements IFloatWindowManager {
     @Override
     public WindowRecordBean createAndShowFloatWindow(String name) {
         if (mContext == null) {
-            LogUtil.e(TAG, "createAndShowFloatWindow: is no init!!!");
+            Log.e(TAG, "createAndShowFloatWindow: is no init!!!");
             return null;
         }
 
@@ -109,15 +109,15 @@ public class FloatWindowManager implements IFloatWindowManager {
     @Override
     public boolean removeFloatWindow(WindowRecordBean record) {
         if (windowManager == null) {
-            LogUtil.e(TAG, "removeFloatWindow: window manager is null!!!");
+            Log.e(TAG, "removeFloatWindow: window manager is null!!!");
             return false;
         }
         if (record == null) {
-            LogUtil.e(TAG, "removeFloatWindow: revord is null!!!");
+            Log.e(TAG, "removeFloatWindow: revord is null!!!");
             return false;
         }
         if (record.getView() == null) {
-            LogUtil.e(TAG, "removeFloatWindow: view is null!!!");
+            Log.e(TAG, "removeFloatWindow: view is null!!!");
             return false;
         }
 
@@ -141,13 +141,13 @@ public class FloatWindowManager implements IFloatWindowManager {
         DisplayMetrics metrics = ScreenUtils.getDisplayMetrics(mContext);
         int screenWidth = metrics.widthPixels;  //1280
         int screenHeight = metrics.heightPixels;  //720
-        LogUtil.i(TAG, "calcScreenForWindow: screenWidth=" + screenWidth + ", screenHeight=" + screenHeight);
+        Log.i(TAG, "calcScreenForWindow: screenWidth=" + screenWidth + ", screenHeight=" + screenHeight);
         int totalRowSpace = (ROW - 1) * ROW_SPACE;
         mWindowWidth = (screenWidth - totalRowSpace) / ROW;
         int totalColumSpace = (COLUM - 1) * COLUM_SPACE;
         mWindowHeight = (screenHeight - totalColumSpace) / COLUM;
 
-        LogUtil.i(TAG, "calcScreenForWindow: mWindowWidth=" + mWindowWidth + ", mWindowHeight=" + mWindowHeight);
+        Log.i(TAG, "calcScreenForWindow: mWindowWidth=" + mWindowWidth + ", mWindowHeight=" + mWindowHeight);
 
         synchronized (mWindowMap) {
             //init window map data
@@ -162,7 +162,7 @@ public class FloatWindowManager implements IFloatWindowManager {
 
             //printf window map
             for (Map.Entry<Integer, List<WindowRecordBean>> entry : mWindowMap.entrySet()) {
-                LogUtil.i(TAG, "calcScreenForWindow: key=" + entry.getKey() + ", value=" + entry.getValue());
+                Log.i(TAG, "calcScreenForWindow: key=" + entry.getKey() + ", value=" + entry.getValue());
             }
         }
     }
@@ -182,7 +182,7 @@ public class FloatWindowManager implements IFloatWindowManager {
 
                         //printf window map
                         for (Map.Entry<Integer, List<WindowRecordBean>> entry1 : mWindowMap.entrySet()) {
-                            LogUtil.i(TAG, "findWindow: key=" + entry1.getKey() + ", value=" + entry1.getValue());
+                            Log.i(TAG, "findWindow: key=" + entry1.getKey() + ", value=" + entry1.getValue());
                         }
                         return bean;
                     }
@@ -208,7 +208,7 @@ public class FloatWindowManager implements IFloatWindowManager {
                         bean.setContentView(null);
                         //printf window map
                         for (Map.Entry<Integer, List<WindowRecordBean>> entry1 : mWindowMap.entrySet()) {
-                            LogUtil.i(TAG, "resetWindow: key=" + entry1.getKey() + ", value=" + entry1.getValue());
+                            Log.i(TAG, "resetWindow: key=" + entry1.getKey() + ", value=" + entry1.getValue());
                         }
                         return;
                     }

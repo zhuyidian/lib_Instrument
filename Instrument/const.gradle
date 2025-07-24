@@ -7,8 +7,8 @@ ext {
     android = [
             //NDK : https://blog.csdn.net/xiafangxingg/article/details/53319059?spm=1035.2023.3001.6557&utm_medium=distribute.pc_relevant_bbs_down.none-task-blog-2~default~OPENSEARCH~default-3.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task-blog-2~default~OPENSEARCH~default-3.nonecase
             compileSdkVersion      : 32,
-            buildToolsVersion      : '28.0.3',
-            applicationId          : 'com.dunn.instrument',
+            buildToolsVersion      : '30.0.3',
+            applicationId          : 'com.dunn.demo',
             minSdkVersion          : 17,//21, //19  //17
             targetSdkVersion       : 32,
             versionCode            : 1,

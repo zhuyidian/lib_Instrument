@@ -8,6 +8,32 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/Function_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Activity_1"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Function_1: "/>
+        <Button
+            android:id="@+id/function_installer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="静默安装" />
+        <Button
+            android:id="@+id/function_uninstaller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="静默卸载" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/Activity_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.dunn.instrument.logger;
+package com.dunn.demo.logger;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

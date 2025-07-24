@@ -1,4 +1,4 @@
-package com.dunn.instrument.floatwindow;
+package com.dunn.demo.floatwindow;
 
 import android.content.Context;
 import android.graphics.Bitmap;
