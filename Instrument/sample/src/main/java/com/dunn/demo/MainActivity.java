@@ -41,7 +41,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button mFuntionInstaller, mFunctionUninstaller, mFunctionPlatformInterface, mFunctionSystemInstaller, mFunctionSystemUninstaller,
             mFunctionUninstallerSystem, mFunctionRestoreInstallerSystem;
     //function2
-    private Button mFunctionDefaultLauncher,mFunctionSystemInstaller2,mFunctionSystemUninstaller2;
+    private Button mFunctionDefaultLauncher,mFunctionClearLauncher,mFunctionSystemInstaller2,mFunctionSystemUninstaller2,
+            mFunctionCameraPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +78,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mFunctionRestoreInstallerSystem.setOnClickListener(this);
         //function2
         mFunctionDefaultLauncher = (Button) findViewById(R.id.function_defaultlauncher);
+        mFunctionClearLauncher = (Button) findViewById(R.id.function_clearlauncher);
         mFunctionSystemInstaller2 = (Button) findViewById(R.id.function_systeminstallertwo);
         mFunctionSystemUninstaller2 = (Button) findViewById(R.id.function_systemuninstallertwo);
+        mFunctionCameraPreview = (Button) findViewById(R.id.function_camerapreview);
         mFunctionDefaultLauncher.setOnClickListener(this);
+        mFunctionClearLauncher.setOnClickListener(this);
         mFunctionSystemInstaller2.setOnClickListener(this);
         mFunctionSystemUninstaller2.setOnClickListener(this);
+        mFunctionCameraPreview.setOnClickListener(this);
 
 
         Log.i(TAG,"onCreate end");
@@ -131,13 +136,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
             //function2
             case R.id.function_defaultlauncher:
 //                setDefaultLauncher("com.coocaa.cucclauncher");
-                setDefaultLauncher("com.coocaa.study.jxw");
+//                setDefaultLauncher("com.coocaa.study.jxw");
+                setDefaultLauncher("com.coocaa.launcherdemo");
+                break;
+            case R.id.function_clearlauncher:
+                setClearLauncher("com.coocaa.launcherdemo");
                 break;
             case R.id.function_systeminstallertwo:
                 systemInstallApk2();
                 break;
             case R.id.function_systemuninstallertwo:
                 systemUninstallApk2("com.happyelements.AndroidAnimal");
+                break;
+            case R.id.function_camerapreview:
+
                 break;
             default:
                 break;
@@ -356,6 +368,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }catch (Exception e){
             Log.e(TAG,"setDefaultLauncher: e="+e);
             Log.e(TAG, "setDefaultLauncher: e.getCause()=" + e.getCause());
+        }
+    }
+
+    private void setClearLauncher(String pkg){
+        try {
+            Log.d(TAG, "setClearLauncher: pkg="+pkg);
+            LauncherTools.clearDefaultLauncher(MainActivity.this, pkg);
+        }catch (Exception e){
+            Log.e(TAG,"setClearLauncher: e="+e);
+            Log.e(TAG, "setClearLauncher: e.getCause()=" + e.getCause());
         }
     }
 

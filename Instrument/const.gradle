@@ -14,6 +14,8 @@ ext {
             versionCode            : 1,
             versionName            : '1.0.1',
             kotlinVersion          : "1.3.21",
+            koltinVer              : "1.7.20",
+            kotlinx_coroutines     : "1.6.0",
             constraintLayoutVersion: "1.13",
             butterknifeSdkVersion  : "8.8.1",
             rxlifecycleSdkVersion  : "1.0",
@@ -52,7 +54,7 @@ ext {
             pickerview            : "3.2.5",
             photoview             : "1.2.3",
             nineoldandroids       : "2.4.0",
-            haha                  : "2.1"
+            haha                  : "2.1",
     ]
 
     dependencies = [
@@ -77,6 +79,11 @@ ext {
             "cardview-v7"               : "com.android.support:cardview-v7:${version["androidSupportSdkVersion"]}",
             "annotations"               : "com.android.support:support-annotations:${version["annotations"]}",
             "kotlin"                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${android["kotlinVersion"]}",
+            "kotlin_plugin"             : "org.jetbrains.kotlin:kotlin-gradle-plugin:${android["koltinVer"]}",
+            "android_extensions"        : "org.jetbrains.kotlin:kotlin-android-extensions:${android["koltinVer"]}",
+            "kotlin_reflect"            : "org.jetbrains.kotlin:kotlin-reflect:${android["koltinVer"]}",
+            "kotlinx_coroutines"        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines"]}",
+            "coroutines_rx3"            : "org.jetbrains.kotlinx:kotlinx-coroutines-rx3:${android["kotlinx_coroutines"]}",
 
             //network
             "retrofit"                  : "com.squareup.retrofit2:retrofit:${version["retrofitSdkVersion"]}",

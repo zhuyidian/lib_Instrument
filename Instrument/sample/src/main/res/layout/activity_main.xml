@@ -81,6 +81,12 @@
             android:layout_height="wrap_content"
             android:text="设置默认主页\n平台签名应用" />
         <Button
+            android:id="@+id/function_clearlauncher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除默认主页\n平台签名应用"
+            android:textColor="@color/red"/>
+        <Button
             android:id="@+id/function_systeminstallertwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,6 +96,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="静默卸载\n平台签名应用" />
+        <Button
+            android:id="@+id/function_camerapreview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test1" />
     </LinearLayout>
 
 
