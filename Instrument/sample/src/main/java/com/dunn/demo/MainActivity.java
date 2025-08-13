@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.coocaa.platform.cloudcomputer.CloudComputerAgentBackup;
 import com.coocaa.platform.cloudcomputer.PackageManagerBackup;
+import com.dunn.demo.activity.CameraPreviewActivity;
 import com.dunn.demo.service.DeviceInfoService;
 import com.dunn.frameworks.installer.commonapp1.AppCoreInstaller;
 import com.dunn.frameworks.installer.commonapp1.SilentInstaller;
@@ -34,15 +35,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
             mServiceTest1,
             mServiceTest2;
     //activity1
-    private Button mActivityTest1,
+    private Button mActivityCamerapreview,
             mActivityTest2;
     private boolean mServiceDeviceInfoFlag;
     //function1
     private Button mFuntionInstaller, mFunctionUninstaller, mFunctionPlatformInterface, mFunctionSystemInstaller, mFunctionSystemUninstaller,
             mFunctionUninstallerSystem, mFunctionRestoreInstallerSystem;
     //function2
-    private Button mFunctionDefaultLauncher,mFunctionClearLauncher,mFunctionSystemInstaller2,mFunctionSystemUninstaller2,
-            mFunctionCameraPreview;
+    private Button mFunctionDefaultLauncher,mFunctionClearLauncher,mFunctionSystemInstaller2,mFunctionSystemUninstaller2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mServiceDeviceinfo.setOnClickListener(this);
 
         //activity1
-        mActivityTest1 = (Button) findViewById(R.id.activity_test1);
+        mActivityCamerapreview = (Button) findViewById(R.id.activity_camerapreview);
         mActivityTest2 = (Button) findViewById(R.id.activity_test2);
+        mActivityCamerapreview.setOnClickListener(this);
 
         //function1
         mFuntionInstaller = (Button) findViewById(R.id.function_installer);
@@ -81,12 +82,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mFunctionClearLauncher = (Button) findViewById(R.id.function_clearlauncher);
         mFunctionSystemInstaller2 = (Button) findViewById(R.id.function_systeminstallertwo);
         mFunctionSystemUninstaller2 = (Button) findViewById(R.id.function_systemuninstallertwo);
-        mFunctionCameraPreview = (Button) findViewById(R.id.function_camerapreview);
         mFunctionDefaultLauncher.setOnClickListener(this);
         mFunctionClearLauncher.setOnClickListener(this);
         mFunctionSystemInstaller2.setOnClickListener(this);
         mFunctionSystemUninstaller2.setOnClickListener(this);
-        mFunctionCameraPreview.setOnClickListener(this);
 
 
         Log.i(TAG,"onCreate end");
@@ -102,6 +101,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            //activity1
+            case R.id.activity_camerapreview:
+                startActivity(new Intent(MainActivity.this, CameraPreviewActivity.class));
+                break;
             //service1
             case R.id.service_deviceinfo:
                 if(mServiceDeviceInfoFlag){
@@ -147,9 +150,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.function_systemuninstallertwo:
                 systemUninstallApk2("com.happyelements.AndroidAnimal");
-                break;
-            case R.id.function_camerapreview:
-
                 break;
             default:
                 break;

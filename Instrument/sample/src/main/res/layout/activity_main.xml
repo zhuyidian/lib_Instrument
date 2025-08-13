@@ -97,12 +97,11 @@
             android:layout_height="wrap_content"
             android:text="静默卸载\n平台签名应用" />
         <Button
-            android:id="@+id/function_camerapreview"
+            android:id="@+id/function_test1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Test1" />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/Activity_1"
@@ -119,10 +118,10 @@
             android:textStyle="bold"
             android:text="Activity_1: "/>
         <Button
-            android:id="@+id/activity_test1"
+            android:id="@+id/activity_camerapreview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test1" />
+            android:text="摄像头预览" />
         <Button
             android:id="@+id/activity_test2"
             android:layout_width="wrap_content"
