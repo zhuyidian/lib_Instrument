@@ -4,3 +4,5 @@ include ':LibPromotion'
 project(':LibPromotion').projectDir = new File(currentDir, "LibPromotion/Promotion")
 include ':LibFrameworks'
 project(':LibFrameworks').projectDir = new File(currentDir, "LibFrameworks/Frameworks")
+include ':LibWebview'
+project(':LibWebview').projectDir = new File(currentDir, "LibWebview/Webview")

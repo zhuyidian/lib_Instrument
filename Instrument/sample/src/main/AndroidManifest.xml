@@ -91,6 +91,16 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.Webview1Activity"
+            android:configChanges="orientation|keyboard|locale|mnc|keyboardHidden|fontScale"
+            android:exported="true"
+            android:launchMode="standard">
+            <intent-filter>
+                <action android:name="com.dunn.demo.webview1" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name=".broadcast.BootReceiver"
             android:exported="true">

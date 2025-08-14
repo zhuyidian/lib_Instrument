@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.coocaa.platform.cloudcomputer.CloudComputerAgentBackup;
 import com.coocaa.platform.cloudcomputer.PackageManagerBackup;
 import com.dunn.demo.activity.CameraPreviewActivity;
+import com.dunn.demo.activity.Webview1Activity;
 import com.dunn.demo.service.DeviceInfoService;
 import com.dunn.frameworks.installer.commonapp1.AppCoreInstaller;
 import com.dunn.frameworks.installer.commonapp1.SilentInstaller;
@@ -35,8 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             mServiceTest1,
             mServiceTest2;
     //activity1
-    private Button mActivityCamerapreview,
-            mActivityTest2;
+    private Button mActivityCamerapreview, mActivityTest2, mActivityWebview1;
     private boolean mServiceDeviceInfoFlag;
     //function1
     private Button mFuntionInstaller, mFunctionUninstaller, mFunctionPlatformInterface, mFunctionSystemInstaller, mFunctionSystemUninstaller,
@@ -60,7 +60,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         //activity1
         mActivityCamerapreview = (Button) findViewById(R.id.activity_camerapreview);
         mActivityTest2 = (Button) findViewById(R.id.activity_test2);
+        mActivityWebview1 = (Button) findViewById(R.id.activity_webview1);
         mActivityCamerapreview.setOnClickListener(this);
+        mActivityWebview1.setOnClickListener(this);
 
         //function1
         mFuntionInstaller = (Button) findViewById(R.id.function_installer);
@@ -104,6 +106,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             //activity1
             case R.id.activity_camerapreview:
                 startActivity(new Intent(MainActivity.this, CameraPreviewActivity.class));
+                break;
+            case R.id.activity_webview1:
+                startActivity(new Intent(MainActivity.this, Webview1Activity.class));
                 break;
             //service1
             case R.id.service_deviceinfo:

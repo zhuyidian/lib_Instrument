@@ -17,8 +17,9 @@ submodules=(
 #    "http://gitlab.skysri.com/cooui/core_cache core/CoreCache/Cache cooui-v1.1"
 #    "http://gitlab.skysri.com/cooui/core_http core/CoreHttp/Http cooui-dev"
 #    "http://gitlab.skysri.com/CCSDK/AppDownload library/LibApkDownload/AppDownload cooui-v1.8"
-    "https://github.com/zhuyidian/lib_Instrument_Promotion Instrument/library/LibPromotion/Promotion main"
+#    "https://github.com/zhuyidian/lib_Instrument_Promotion Instrument/library/LibPromotion/Promotion main"
 #	"https://github.com/zhuyidian/lib_Instrument_Frameworks Instrument/library/LibFrameworks/Frameworks main"
+	"https://github.com/zhuyidian/lib_Instrument_Webview Instrument/library/LibWebview/Webview main"
 )
 
 function addSubmodule(){

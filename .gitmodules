@@ -6,3 +6,7 @@
 	path = Instrument/library/LibFrameworks/Frameworks
 	url = https://github.com/zhuyidian/lib_Instrument_Frameworks
 	branch = main
+[submodule "Instrument/library/LibWebview/Webview"]
+	path = Instrument/library/LibWebview/Webview
+	url = https://github.com/zhuyidian/lib_Instrument_Webview
+	branch = main

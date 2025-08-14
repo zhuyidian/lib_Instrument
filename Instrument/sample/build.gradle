@@ -44,7 +44,7 @@ android {
         }
         debug {
             minifyEnabled false
-            shrinkResources false
+//            shrinkResources false
             debuggable true
 //            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -85,10 +85,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
-//    implementation 'androidx.core:core-ktx:1.16.0'
-    compileOnly rootProject.ext.dependencies.appcompatV7
+    implementation 'androidx.core:core-ktx:1.8.0'
     compileOnly rootProject.ext.dependencies.constraintlayoutx
-//    implementation 'com.github.zhuyidian:lib_Instrument_Tools:V1.1.0'
+    implementation rootProject.ext.dependencies.appcompatX
 //    implementation project(":LibPromotion")
     implementation project(":LibFrameworks")
+    implementation project(":LibWebview")
 }

@@ -6,10 +6,10 @@ ext {
 
     android = [
             //NDK : https://blog.csdn.net/xiafangxingg/article/details/53319059?spm=1035.2023.3001.6557&utm_medium=distribute.pc_relevant_bbs_down.none-task-blog-2~default~OPENSEARCH~default-3.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task-blog-2~default~OPENSEARCH~default-3.nonecase
-            compileSdkVersion      : 32,
+            compileSdkVersion      : 34,
             buildToolsVersion      : '30.0.3',
             applicationId          : 'com.dunn.demo',
-            minSdkVersion          : 17,//21, //19  //17
+            minSdkVersion          : 21,//21, //19  //17
             targetSdkVersion       : 32,
             versionCode            : 1,
             versionName            : '1.0.1',
@@ -17,7 +17,7 @@ ext {
             koltinVer              : "1.7.20",
             kotlinx_coroutines     : "1.6.0",
             constraintLayoutVer    : "1.13",
-            constraintLayoutXVer   : "2.1.4",
+            constraintLayoutXVer   : "2.0.1",
             butterknifeSdkVersion  : "8.8.1",
             rxlifecycleSdkVersion  : "1.0",
             rxlifecycle2SdkVersion : "2.2.1",
@@ -31,7 +31,7 @@ ext {
             junit                 : '4.12',
             junitNew              : '4.+',
             junitNewX             : '1.1.3',
-            appcompatX            : '1.3.1',
+            appcompatX            : '1.4.0',
             appcompat             : '+',
             appcompatRC           : '28.0.0-rc01',
             appcompatAndroidX     : '1.0.0',
@@ -151,8 +151,10 @@ ext {
             "dagger2-android-processor" : "com.google.dagger:dagger-android-processor:${version["dagger2SdkVersion"]}",
             "androideventbus"           : "org.simple:androideventbus:1.0.5.1",
             "otto"                      : "com.squareup:otto:1.3.8",
+            "gson"                      : "com.google.code.gson:gson:2.3.1",
             "gson8"                     : "com.google.code.gson:gson:2.8.5",
             "gson7"                     : "com.google.code.gson:gson:2.7",
+            "fastjson"                  : "com.alibaba:fastjson:1.2.32",
             "multidex"                  : "com.android.support:multidex:1.0.1",
             "javax.annotation"          : "javax.annotation:jsr250-api:1.0",
             "arouter"                   : "com.alibaba:arouter-api:1.3.1",

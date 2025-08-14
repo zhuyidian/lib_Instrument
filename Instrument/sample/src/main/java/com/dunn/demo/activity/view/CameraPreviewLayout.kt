@@ -12,8 +12,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.coocaa.custom.webview.data.CameraVideoWindowData
 import com.dunn.demo.R
-import com.dunn.demo.activity.data.CameraVideoWindowData
 import com.dunn.demo.utils.parentId
 import com.dunn.demo.utils.updateLayoutParams
 import com.dunn.frameworks.camera.Camera2Helper
