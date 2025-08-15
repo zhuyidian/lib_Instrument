@@ -10,3 +10,7 @@
 	path = Instrument/library/LibWebview/Webview
 	url = https://github.com/zhuyidian/lib_Instrument_Webview
 	branch = main
+[submodule "Instrument/library/LibWebviewSenior/WebviewSenior"]
+	path = Instrument/library/LibWebviewSenior/WebviewSenior
+	url = https://github.com/zhuyidian/lib_Instrument_WebviewSenior
+	branch = main
